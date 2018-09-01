@@ -30,7 +30,7 @@ def index(request):
             return redirect('administration/')
 
         elif is_superuser(request.user):
-            return redirect('/admin')
+            return redirect('admin/')
         else:
             return render(request, 'authentication/index.html', None)
     else:

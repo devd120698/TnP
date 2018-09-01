@@ -6,3 +6,7 @@ from django.contrib.auth.models import User
 # Views
 def index(request):
     return
+
+def add_company(request):
+    if request.method == 'POST':
+        return
