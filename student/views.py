@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from __future__ import unicode_literals
+from django.contrib.auth import authenticate,login,logout
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.models import User
 
-# Create your views here.
+# Views
+def index(request):
+    return
