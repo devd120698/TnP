@@ -19,7 +19,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="landingpage.html">
+				<a class="navbar-brand" href="{% url 'authentication:index' %}">
 					<div>Training and Placement</div>
 				</a>
 			</div>
@@ -27,12 +27,12 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="landingpage.html">Home <span class="sr-only">(current)</span></a></li>
-					<li><a href="about.html">About</a></li>
-					<li><a href="getstart.html">Contact</a></li>
+					<li class="active"><a href="{% url 'authentication:index' %}">Home <span class="sr-only">(current)</span></a></li>
+					<li><a href="{% url 'authentication:about_us' %}">About</a></li>
+					<li><a href="{% url 'authentication:contact_us' %}">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="sign_up.html">Sign Up  <i class="fa fa-user-plus"></i></a></li>
+					<li><a href="{% url 'authentication:sign_up' %}">Sign Up  <i class="fa fa-user-plus"></i></a></li>
 					<li><a href="{% url 'authentication:log_in' %}">Login  <i class="fa fa-user"></i></a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->

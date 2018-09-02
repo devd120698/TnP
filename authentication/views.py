@@ -71,3 +71,12 @@ def sign_out(request):
 
 def log_in(request):
     return render(request, 'authentication/log_in.html', {})
+
+def about_us(request):
+    return render(request, 'authentication/about.html', {})
+
+def contact_us(request):
+    return render(request, 'authentication/contact.html', {})
+
+def sign_up(request):
+    return render(request, 'authentication/sign_up.html', {})
