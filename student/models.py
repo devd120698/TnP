@@ -7,19 +7,20 @@ from administrator.models import Branch
 from django.utils import timezone
 
 class Student(models.Model):
+<<<<<<< HEAD
     
     name = models.CharField(max_length = 120,null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,)
+=======
+    user = models.ForeignKey(User,on_delete=models.CASCADE,)
+    name = models.CharField(max_length=200,null = True)
+>>>>>>> master
     admissionNumber = models.IntegerField(primary_key=True)
-
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
-
     yearOfGraduation = models.IntegerField(null=False)
-
     rollNumber = models.IntegerField(null=False)
-
     CGPA = models.FloatField(null=False)
-
+    
     BTECH = 'BT'
     MTECH = 'MT'
     MCA = 'MC'

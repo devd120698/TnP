@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url,include
+from django.conf import settings
+
 
 urlpatterns = [
     url(r'^', include('authentication.urls', namespace="authentication")),
@@ -24,4 +26,9 @@ urlpatterns = [
     url(r'^administrator/', include('administrator.urls', namespace="administrator")),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
+<<<<<<< HEAD
     ]
+=======
+]
+
+>>>>>>> master

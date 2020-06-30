@@ -2,7 +2,16 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 from .forms import StudentRegisterForm
+=======
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from student.models import Student
+>>>>>>> master
 
 #Group checking functions
 def is_student(user):
@@ -27,6 +36,7 @@ def index(request):
 		elif is_coordinator(request.user):
 			return redirect('coordinator/')
 
+<<<<<<< HEAD
 		elif is_administrator(request.user):
 			return redirect('administration/')
 
@@ -74,6 +84,15 @@ def sign_in(request):
 # def log_in(request):
 # 	return render(request, 'authentication/log_in.html', {})
 
+=======
+        elif is_superuser(request.user):
+            return redirect('admin/')
+        else:
+            return render(request, 'authentication/index.html', None)
+    else:
+        return render(request, 'authentication/index.html', None)
+
+>>>>>>> master
 def about_us(request):
 	return render(request, 'authentication/about.html', {})
 
@@ -83,6 +102,7 @@ def contact_us(request):
 # def sign_up(request):
 # 	return render(request, 'authentication/sign_up.html', {})
 
+<<<<<<< HEAD
 def sign_up(request):
 	if request.method == 'POST':
 		form = StudentRegisterForm(request.POST)
@@ -93,3 +113,6 @@ def sign_up(request):
 	else :
 		form = StudentRegisterForm()
 	return render(request,'authentication/sign_up.html',{'form':form})
+=======
+
+>>>>>>> master
