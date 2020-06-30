@@ -4,5 +4,6 @@ from . import views
 app_name='coordinator'
 
 urlpatterns = [
-    url(r'^$',views.index,name='index'),
+    url(r'^registerCoordinator',views.registerCoordinator,name='registerCoordinator'),
+    url(r'^coordinatorDashboard',views.coordinatorDashboard,name='coordinatorDashboard'),
  ]
