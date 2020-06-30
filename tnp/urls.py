@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^coordinator/', include('coordinator.urls', namespace="coordinator")),
     url(r'^administrator/', include('administrator.urls', namespace="administrator")),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('allauth.urls')),
     ]

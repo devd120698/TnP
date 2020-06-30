@@ -1,58 +1,16 @@
 {% extends 'authentication/template.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
 		<div class="jumbotron">
 			
 			<div class="row text-center">
-				<form method="POST" action="{% url 'authentication:about_us' %}">
+				<form method="POST" >
 					{% csrf_token %}
 					<h1>Sign Up</h1>
-					
-				<form class="form-inline">
-					<p>
-						<div class="col-md-3"><label>Name:</label></div>
-					</p>
-					<p>
-						<div class="col-md-9"><input type="text" name="name" placeholder=" name" required></div>
-					</p>
-					<p>
-						<div class="col-md-3"><label>CGPA:</label></div>
-					</p>
-					<p>
-						<div class="col-md-9"><input type="text" name="cgpa" placeholder=" 0.0" required></div>
-					</p>
-					<p>
-						<div class="col-md-3"><label>Admission No. : </label></div>
-					</p>
-					<p>
-						<div class="col-md-9"><input type="text" name="adm" placeholder=" 123456" required></div>
-					</p>
-					<p>
-						<div class="col-md-3"><label>Roll No. : </label></div>
-					</p>
-					<div class="col-md-9"><input type="text" name="roll" required></div>
-					<div class="col-md-3"><label>Branch :</label></div>
-					<div class="col-md-9"><input type="text" name="branch" required></div>
-					<div class="col-md-3"><label>Resume :</label></div>
-					<div class="col-md-9"><input type="url" name="resume" placeholder="https:\\" required></div>
-					<div class="col-md-3"><label>Year of Passing :</label></div>
-					<div class="col-md-9"><input type="text" name="yearofpass" required></div>
-					<div class="col-md-3"><label>Course :</label></div>
-					<div class="col-md-9">
-						<select placeholder ="course">
-							<option value="BT"> B.Tech </option>
-							<option value="MT"> M.Tech</option>
-							<option value="MC"> MCA</option>
-							<option value="MS"> M.Sc</option>
-							<option value="MB"> MBA</option>
-						</select>
-					</div>
-					
-					<div>
-						<button class="btn btn-primary" id="button">Submit</button>
-					</div>
-				
+					{{form|crispy}}
+					<input type="submit" value="submit-form" class="btn btn-primary">
 				</form>
 			</div>
 

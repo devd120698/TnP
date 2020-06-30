@@ -47,4 +47,6 @@ class Branch(models.Model):
         default=ComputerScienceEngineering,
     )
 
+    def __str__(self):
+        return self.branch
 

@@ -7,8 +7,9 @@ from administrator.models import Branch
 from django.utils import timezone
 
 class Student(models.Model):
-    user = models.OneToOneField(User, related_name='student', null=False, on_delete=models.CASCADE)
-
+    
+    name = models.CharField(max_length = 120,null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,)
     admissionNumber = models.IntegerField(primary_key=True)
 
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
@@ -40,7 +41,7 @@ class Student(models.Model):
     )
 
     def __str__(self) :
-        return str(self.user.first_name + self.user.last_name)
+        return str(self.admissionNumber)
 
     class Meta:
         db_table = 'student_user'
