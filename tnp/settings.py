@@ -31,16 +31,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'student',
-    'coordinator',
-    'administrator',
+    'student.apps.StudentConfig',
+    'coordinator.apps.CoordinatorConfig',
+    'administrator.apps.AdministratorConfig',
     'django_extensions',
+    'authentication.apps.AuthenticationConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'sitestatic')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+CRISPY_TEMPLATE_PACK = 'uni_form'

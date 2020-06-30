@@ -37,6 +37,8 @@ hr{
 .jumbotron{
 	margin-top: 5%;
 	background-color: rgba(238,238,238,.6); 
+	width: 60%;
+	font-size: 18px;
 }
 #about_h{
 	font-size: 36px;
@@ -80,4 +82,7 @@ hr{
   color: white;
   font-size: 10px;
   padding: 1px 2px;
+}
+.container{
+	width: 600px !important;
 }
