@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from administrator.models import Branch
 from django.utils import timezone
 from django.core.validators import validate_comma_separated_integer_list
+from student.models import Student
 class Coordinator(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
@@ -55,4 +56,8 @@ class Companies(models.Model):
     CGPA = models.FloatField(null=False, default = 7.0)
     def __str__(self) :
         return str(self.name)
+
+class PlacedStudents(models.Model):
+    admissionNumber = models.ForeignKey(Student, on_delete=models.CASCADE)
+    company = models.ForeignKey(Companies, on_delete = models.CASCADE)
 
