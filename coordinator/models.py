@@ -61,3 +61,6 @@ class PlacedStudents(models.Model):
     admissionNumber = models.ForeignKey(Student, on_delete=models.CASCADE)
     company = models.ForeignKey(Companies, on_delete = models.CASCADE)
 
+    def __str__(self) :
+        return str(self.admissionNumber)
+
