@@ -48,9 +48,22 @@ def ensure_profile_exists(sender, **kwargs):
         my_group.user_set.add(coordinator.user)
 
 class Companies(models.Model):
+    WAITING = 'W'
+    DENIED = 'D'
+    ACCEPTED = 'A'
+    COMPANY_STATUS = (
+        (WAITING, 'waiting'),
+        (DENIED, 'denied'),
+        (ACCEPTED, 'accepted'),
+    )
     name = models.CharField(max_length = 120, primary_key=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,)
-    dateOfVisit = models.DateField(null = False)
+    dateOfVisit = models.DateField(null = True)
+    status = models.CharField(
+        max_length=8,
+        choices=COMPANY_STATUS,
+        default=WAITING,
+    )
     CTC = models.FloatField(null=False)
     branchesAllowed = models.CharField(validators=[validate_comma_separated_integer_list],max_length=200, blank=True, null=True,default='')
     CGPA = models.FloatField(null=False, default = 7.0)
@@ -64,3 +77,6 @@ class PlacedStudents(models.Model):
     def __str__(self) :
         return str(self.admissionNumber)
 
+class Announcements(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length = 100000)

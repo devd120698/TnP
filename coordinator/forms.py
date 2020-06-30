@@ -23,6 +23,11 @@ class CompaniesForm(forms.ModelForm):
             'name',
             'dateOfVisit',
             'CTC',
+            'status',
             'branchesAllowed',
             'CGPA',
         ]
+    def __init__(self,*args,**kwargs):
+        super(CompaniesForm,self).__init__(*args,**kwargs)
+        self.fields['dateOfVisit'].required=False
+		
