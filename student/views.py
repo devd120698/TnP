@@ -5,11 +5,14 @@ from django.contrib.auth.models import User
 from .forms import RegisterForm
 from .models import Student
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Views
+@login_required
 def studentDashboard(request):
     return HttpResponse("here in dashboard")
 
+@login_required
 def registerStudent(request):
 
     user = request.user

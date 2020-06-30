@@ -3,27 +3,24 @@ from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .forms import RegisterForm
-from .models import Coordinator
+from django.contrib.auth.models import User, Group
+from student.models import Student
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Views
 def coordinatorDashboard(request):
     return HttpResponse("here in dashboard")
 
+@login_required
 def registerCoordinator(request):
-
     user = request.user
-    if Coordinator.objects.filter(user = user).exists() :
+    listOfCoordinators = User.objects.filter(groups__name = 'Coordinator')
+    emails = User.objects.filter(is_active=True).values_list('email', flat=True).filter(groups__name = 'Coordinator')
+    if emails.filter(email = request.user.email).exists() :
         return HttpResponseRedirect('/coordinator/coordinatorDashboard')
 
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        appl = form.save(commit = False)
-        appl.user = request.user
-        appl.save()
-        return HttpResponseRedirect('/coordinator/coordinatorDashboard')
-    
-    context = {'form' : form}
-    template = 'authentication/sign_up.html'
-    return render(request,template,context)
+    else:
+        return HttpResponse("unauthorized")
 
