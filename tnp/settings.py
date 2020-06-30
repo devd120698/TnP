@@ -35,12 +35,14 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'student',
     'crispy_forms',
     #-->all auth---copied from installation all auth django ---form authenticiation---
@@ -50,7 +52,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'coordinator',
     'administrator',
+=======
+    'student.apps.StudentConfig',
+    'coordinator.apps.CoordinatorConfig',
+    'administrator.apps.AdministratorConfig',
+>>>>>>> bf0f52351f83cd852828a8709cc0807f0f742bc0
     'django_extensions',
+    'authentication.apps.AuthenticationConfig',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +152,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'sitestatic')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+<<<<<<< HEAD
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #-------> allauth
@@ -177,3 +186,6 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False #hidden when user enters value...
 ACCOUNT_PASSWORD_MIN_LENGTH = 6
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True 
+=======
+CRISPY_TEMPLATE_PACK = 'uni_form'
+>>>>>>> bf0f52351f83cd852828a8709cc0807f0f742bc0

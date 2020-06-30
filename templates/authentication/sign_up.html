@@ -1,7 +1,8 @@
 {% extends 'authentication/template.html' %}
 {% block content %}
+{% load crispy_forms_tags %}
 
-<div class="container">
+<!-- <div class="container">
 		<div class="jumbotron">
 			
 			<div class="row text-center">
@@ -29,6 +30,34 @@
 					</div>
 				
 				</form>
+				</form>
 			</div>
+		</div>
+	</div> -->
+
+<div class="container">
+	<div class="jumbotron">
+		<div>
+			<h1>Register Form</h1>
+		</div>
+		
+		<div class="content-section">
+			<form method="POST">
+				{% csrf_token %}
+				{{ form |crispy}}
+				<div class="submit">
+					<button type="submit" class="btn btn-info">
+						Sign Up
+					</button>
+					
+				</div>
+			</form>
+
+			<div>
+				Already have an account ? <a href="{% url 'authentication:sign_in' %}">  Login In </a>
+			</div>
+		</div>
+	</div>
+</div>
 
 {% endblock %}
