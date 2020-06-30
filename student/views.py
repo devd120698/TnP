@@ -21,7 +21,7 @@ def registerStudent(request):
         appl = form.save(commit = False)
         appl.user = request.user
         appl.save()
-        return HttpResponseRedirect('/studentDashboard')
+        return HttpResponseRedirect('/student/studentDashboard')
     
     context = {'form' : form}
     template = 'authentication/sign_up.html'

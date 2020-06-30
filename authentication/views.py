@@ -38,34 +38,33 @@ def index(request):
 		return render(request, 'authentication/index.html', None)
 
 
-<<<<<<< HEAD
-=======
 def sign_in(request):
-	if request.method == "POST":
-		username = request.POST['username']
-		password = request.POST['password']
-		user = authenticate(username=username, password=password)
-		if user is None:
-			return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
-		else:
-			try:
-				login(request, user)
-				if is_student(request.user):
-					return redirect('student/')
-
-				elif is_coordinator(request.user):
-					return redirect('coordinator/')
-
-				elif is_administrator(request.user):
-					return redirect('administrator/')
-
-				elif is_superuser(request.user):
-					return redirect('/admin')
-
-			except:
-				return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
-	else:
-		return index(request)
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
+        else:
+            try:
+                login(request, user)
+                if is_student(request.user):
+                    return redirect('student/')
+                
+                elif is_coordinator(request.user):
+                    return redirect('coordinator/')
+                    
+                elif is_administrator(request.user):
+                    return redirect('administrator/')
+                    
+                elif is_superuser(request.user):
+                    return redirect('/admin')
+                    
+            except:
+                return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
+                
+    else:
+        return index(request)
 
 
 # def sign_out(request):
@@ -75,14 +74,10 @@ def sign_in(request):
 # def log_in(request):
 # 	return render(request, 'authentication/log_in.html', {})
 
->>>>>>> bf0f52351f83cd852828a8709cc0807f0f742bc0
 def about_us(request):
 	return render(request, 'authentication/about.html', {})
 
 def contact_us(request):
-<<<<<<< HEAD
-    return render(request, 'authentication/contact.html', {})
-=======
 	return render(request, 'authentication/contact.html', {})
 
 # def sign_up(request):
@@ -93,9 +88,8 @@ def sign_up(request):
 		form = StudentRegisterForm(request.POST)
 		if form.is_valid():
 			form.save()
-			messages.success(request, f' Your account has been created !')
+			print(request, f' Your account has been created !')
 			return redirect('student-login')
 	else :
 		form = StudentRegisterForm()
 	return render(request,'authentication/sign_up.html',{'form':form})
->>>>>>> bf0f52351f83cd852828a8709cc0807f0f742bc0
