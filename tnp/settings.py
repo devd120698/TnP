@@ -44,16 +44,11 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.sites',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     #-->all auth---copied from installation all auth django ---form authenticiation---
     'django.contrib.sites',
     'allauth',
@@ -62,13 +57,6 @@ INSTALLED_APPS = [
     'student.apps.StudentConfig',
     'coordinator.apps.CoordinatorConfig',
     'administrator.apps.AdministratorConfig',
-=======
-    'student',
-    'coordinator',
-    'administrator',
-    'authentication',
-    'crispy_forms',
->>>>>>> master
     'django_extensions',
     'authentication.apps.AuthenticationConfig',
 ]
@@ -173,10 +161,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-<<<<<<< HEAD
 CRISPY_TEMPLATE_PACK = 'uni_form'
-=======
->>>>>>> master
 #-------> allauth
 SITE_ID = 1
 
@@ -208,9 +193,3 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False #hidden when user enters value...
 ACCOUNT_PASSWORD_MIN_LENGTH = 6
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> master

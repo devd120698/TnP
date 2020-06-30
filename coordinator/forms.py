@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Coordinator
+from .models import Coordinator, Companies
 
 
 class RegisterForm(forms.ModelForm):
@@ -14,4 +14,15 @@ class RegisterForm(forms.ModelForm):
             'yearOfGraduation',
             'rollNumber',
             'course',
+        ]
+
+class CompaniesForm(forms.ModelForm):
+    class Meta:
+        model = Companies
+        fields=[
+            'name',
+            'dateOfVisit',
+            'CTC',
+            'branchesAllowed',
+            'CGPA',
         ]

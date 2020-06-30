@@ -23,36 +23,30 @@ def ensure_profile_exists(sender, **kwargs):
         my_group.user_set.add(administrator[0].user)
 
 class Branch(models.Model):
-    ComputerScienceEngineering = 'CSE'
-    ElectronicsCommunicationEngineering = 'ECE'
-    ElectricalElectronicsEngineering = 'ECE'
-    MechanicalEngineering = 'ME'
-    ChemicalEngineering = 'CHE'
-    CivilEngineering = 'CE'
-    MetallurgicalMaterialsEngineering = 'MME'
-    Biotechnology = 'BIO'
-    BRANCH_CHOICES = (
-        (ComputerScienceEngineering, 'Computer Science & Engineering'),
-        (ElectronicsCommunicationEngineering, 'Electronics & Communication Engineering'),
-        (ElectricalElectronicsEngineering, 'Electrical & Electronics Engineering'),
-        (MechanicalEngineering, 'Mechanical Engineering'),
-        (ChemicalEngineering, 'Chemical Engineering'),
-        (CivilEngineering, 'Civil Engineering'),
-        (MetallurgicalMaterialsEngineering, 'Metallurgical & Materials Engineering'),
-        (Biotechnology, 'Biotechnology'),
+
+    branch = models.CharField(max_length=50,null=False, default = "CSE")
+
+    BTECH = 'BT'
+    MTECH = 'MT'
+    MCA = 'MC'
+    MSC = 'MS'
+    MBA = 'MB'
+
+    COURSE_CHOICES = (
+        (BTECH, 'B. Tech'),
+        (MTECH, 'M. Tech'),
+        (MCA, 'MCA'),
+        (MSC, 'M. Sc'),
+        (MBA, 'MBA')
     )
-    
-    branch = models.CharField(
-        max_length=3,
-        choices=BRANCH_CHOICES,
-        default=ComputerScienceEngineering,
+
+    course = models.CharField(
+        max_length=2,
+        choices=COURSE_CHOICES,
+        default=BTECH,
     )
+    branchCode = models.IntegerField(null=False, default = 1)
 
     def __str__(self):
         return self.branch
-<<<<<<< HEAD
-=======
-
-
->>>>>>> master
 
