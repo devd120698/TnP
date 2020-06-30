@@ -23,21 +23,28 @@
 		</div>	
 	</div> -->
 {% load crispy_forms_tags %}
-
-<div class="content-section">
-	<form method="POST">
-		{% csrf_token %}
-		{{ form|crispy }}
-		<div class="submit">
-			<button type="submit" class="btn btn-info">
-				Sign In 
-			</button>
-
+<div class="container">
+	<div class="jumbotron">
+		<div class="header">
+			<h2> <u> Login Page </u></h2>
 		</div>
-	</form>
-	<div>
-		Don't have an account ?  <a href="{% url 'authentication:sign_up' %}"> Register </a>
+		<br>
+		<div class="content-section">
+			<form method="POST">
+				{% csrf_token %}
+				{{ form|crispy }}
+				<div class="submit">
+					<button type="submit" class="btn btn-info">
+						Sign In 
+					</button>
 
+				</div>
+			</form>
+			<div>
+				Don't have an account ?  <a href="{% url 'authentication:sign_up' %}"> Register </a>
+
+			</div>
+		</div>
 	</div>
 </div>
 

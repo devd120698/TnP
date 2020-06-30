@@ -38,32 +38,32 @@ def index(request):
 		return render(request, 'authentication/index.html', None)
 
 
-# def sign_in(request):
-# 	if request.method == "POST":
-# 		username = request.POST['username']
-# 		password = request.POST['password']
-# 		user = authenticate(username=username, password=password)
-# 		if user is None:
-# 			return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
-# 		else:
-# 			try:
-# 				login(request, user)
-# 				if is_student(request.user):
-# 					return redirect('student/')
+def sign_in(request):
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is None:
+			return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
+		else:
+			try:
+				login(request, user)
+				if is_student(request.user):
+					return redirect('student/')
 
-# 				elif is_coordinator(request.user):
-# 					return redirect('coordinator/')
+				elif is_coordinator(request.user):
+					return redirect('coordinator/')
 
-# 				elif is_administrator(request.user):
-# 					return redirect('administrator/')
+				elif is_administrator(request.user):
+					return redirect('administrator/')
 
-# 				elif is_superuser(request.user):
-# 					return redirect('/admin')
+				elif is_superuser(request.user):
+					return redirect('/admin')
 
-# 			except:
-# 				return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
-# 	else:
-# 		return index(request)
+			except:
+				return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
+	else:
+		return index(request)
 
 
 # def sign_out(request):
