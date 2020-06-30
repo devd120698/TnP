@@ -2,6 +2,12 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from student.models import Student
 
 #Group checking functions
 def is_student(user):
@@ -26,9 +32,6 @@ def index(request):
         elif is_coordinator(request.user):
             return redirect('coordinator/')
 
-        elif is_administrator(request.user):
-            return redirect('administration/')
-
         elif is_superuser(request.user):
             return redirect('admin/')
         else:
@@ -36,47 +39,10 @@ def index(request):
     else:
         return render(request, 'authentication/index.html', None)
 
-
-def sign_in(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is None:
-            return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
-        else:
-            try:
-                login(request, user)
-                if is_student(request.user):
-                    return redirect('student/')
-
-                elif is_coordinator(request.user):
-                    return redirect('coordinator/')
-
-                elif is_administrator(request.user):
-                    return redirect('administrator/')
-
-                elif is_superuser(request.user):
-                    return redirect('/admin')
-
-            except:
-                return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
-    else:
-        return index(request)
-
-
-def sign_out(request):
-    logout(request)
-    return redirect('/')
-
-def log_in(request):
-    return render(request, 'authentication/log_in.html', {})
-
 def about_us(request):
     return render(request, 'authentication/about.html', {})
 
 def contact_us(request):
     return render(request, 'authentication/contact.html', {})
 
-def sign_up(request):
-    return render(request, 'authentication/sign_up.html', {})
+

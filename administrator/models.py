@@ -41,10 +41,15 @@ class Branch(models.Model):
         (MetallurgicalMaterialsEngineering, 'Metallurgical & Materials Engineering'),
         (Biotechnology, 'Biotechnology'),
     )
+    
     branch = models.CharField(
         max_length=3,
         choices=BRANCH_CHOICES,
         default=ComputerScienceEngineering,
     )
+
+    def __str__(self):
+        return self.branch
+
 
 
