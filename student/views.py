@@ -14,7 +14,7 @@ def registerStudent(request):
 
     user = request.user
     if Student.objects.filter(user = user).exists() :
-        return HttpResponseRedirect('/studentDashboard')
+        return HttpResponseRedirect('/student/studentDashboard')
 
     form = RegisterForm(request.POST or None)
     if form.is_valid():

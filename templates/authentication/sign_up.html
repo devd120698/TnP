@@ -1,16 +1,33 @@
 {% extends 'authentication/template.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
 		<div class="jumbotron">
 			
 			<div class="row text-center">
-				<form method="POST" >
+				<form method="POST">
 					{% csrf_token %}
 					<h1>Sign Up</h1>
-					{{form|crispy}}
-					<input type="submit" value="submit-form" class="btn btn-primary">
+					
+				<form class="form-inline" method = "post">
+					{% csrf_token %}
+					{% for field in form %}
+					<p><div class="col-md-3">{{ field.label_tag }}</div></p>
+					<p><div class="col-md-3">{{ field }}</div></p><br/>
+					<p>	
+						{% if field.help_text %}
+						<small style="color: grey">{{ field.help_text }}</small>
+						{% endif %}
+						{% for error in field.errors %}
+						<p style="color: red">{{ error }}</p>
+						{% endfor %}
+					</p>
+					{% endfor %}
+					
+					<div>
+						<button class="btn btn-primary" id="button">Submit</button>
+					</div>
+				
 				</form>
 			</div>
 
