@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^updateCompanyStatus',views.updateCompanyStatus,name='updateCompanyStatus'),
     url(r'^getCompanyStatus',views.getCompanyStatus,name='getCompanyStatus'),
     url(r'^sendCompanyDetails',views.sendCompanyDetails,name='sendCompanyDetails'),
+    url(r'^checkApplicantsOfCompany',views.checkApplicantsOfCompany,name='checkApplicantsOfCompany'),
+    url(r'^placedStudents',views.placedStudents,name='placedStudents'),
  ]

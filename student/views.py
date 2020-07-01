@@ -6,10 +6,12 @@ from .forms import RegisterForm
 from .models import Student
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from .models import CompanyApplicants
 
 # Views
 @login_required
 def studentDashboard(request):
+    print(CompanyApplicants.objects.all())
     return HttpResponse("here in dashboard")
 
 @login_required
@@ -29,4 +31,6 @@ def registerStudent(request):
     context = {'form' : form}
     template = 'authentication/sign_up.html'
     return render(request,template,context)
+
+
 

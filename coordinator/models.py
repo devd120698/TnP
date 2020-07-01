@@ -69,13 +69,6 @@ class Companies(models.Model):
     def __str__(self) :
         return str(self.name)
 
-# class PlacedStudents(models.Model):
-#     admissionNumber = models.ForeignKey(Student, on_delete=models.CASCADE)
-#     company = models.ForeignKey(Companies, on_delete = models.CASCADE)
-
-#     def __str__(self) :
-#         return str(self.admissionNumber)
-
 class Announcements(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length = 100000)

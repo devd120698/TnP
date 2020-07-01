@@ -8,9 +8,10 @@ from student.models import Student
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import CompaniesForm, SearchCompany
+from .forms import CompaniesForm, SearchCompany, UpdatePlacementStatsForm
 from .models import Companies
 from administrator.models import Branch
+from student.models import CompanyApplicants
 
 # Views
 flagDeleted = 0
@@ -111,6 +112,11 @@ def sendCompanyDetails(request):
                 allowedByBranches = Student.objects.filter(branch = branchName).values_list('admissionNumber', flat=True)
                 if allowedByBranches.exists():
                     allowedByCGPA = allowedByBranches.filter(CGPA__gte = cgpaAllowed) #cgpa greater than allowed
+                    for allowedStudent in allowedByCGPA:
+                        student = Student.objects.get(admissionNumber = allowedStudent)
+                        company = Companies.objects.get(name = companyName)
+                        newApplicant = CompanyApplicants(company = company, student = student)
+                        newApplicant.save()
                     print(allowedByCGPA)
         else :
             HttpResponse("The company was not added before!")
@@ -118,3 +124,52 @@ def sendCompanyDetails(request):
     context = {'form' : form}
     template = 'authentication/form.html'
     return render(request,template,context)
+
+@login_required
+def checkApplicantsOfCompany(request):
+    form = SearchCompany(request.POST or None)
+    if form.is_valid():
+        companyName = form.cleaned_data.get('name')
+        if Companies.objects.filter(name = companyName).exists():
+            companyDetails = Companies.objects.get(name = companyName)
+            listOfApplicants = CompanyApplicants.objects.filter(placementStatus = 'A').filter(company = companyDetails)
+            print(listOfApplicants)
+        else :
+            HttpResponse("The company was not added before!")
+        
+    context = {'form' : form}
+    template = 'authentication/form.html'
+    return render(request,template,context)
+
+@login_required
+def placedStudents(request):
+    form = SearchCompany(request.POST or None)
+    if form.is_valid():
+        companyName = form.cleaned_data.get('name')
+        if Companies.objects.filter(name = companyName).exists():
+            companyDetails = Companies.objects.get(name = companyName)
+            listOfPlaced = CompanyApplicants.objects.filter(placementStatus = 'P').filter(company = companyDetails)
+            print(listOfPlaced)
+        else :
+            HttpResponse("The company was not added before!")
+        
+    context = {'form' : form}
+    template = 'authentication/form.html'
+    return render(request,template,context)
+
+@login_required
+def updateStudents(request):
+    form = UpdatePlacementStatsForm(request.POST or None)
+    if form.is_valid():
+        companyName = form.cleaned_data.get('company')
+        if Companies.objects.filter(name = companyName).exists():
+            companyDetails = Companies.objects.get(name = companyName)
+            listOfPlaced = CompanyApplicants.objects.filter(placementStatus = 'P').filter(company = companyDetails)
+            print(listOfPlaced)
+        else :
+            HttpResponse("The company was not added before!")
+        
+    context = {'form' : form}
+    template = 'authentication/form.html'
+    return render(request,template,context)
+

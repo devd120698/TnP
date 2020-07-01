@@ -80,24 +80,24 @@ class CompanyApplicants(models.Model):
     company = models.ForeignKey(Companies, on_delete=models.CASCADE)
     APPLIED = 'A'
     INTERVIEW = 'I'
-    REJECTED = 'R'
+    NOTAPPLIED = 'N'
     PLACED = 'P'
 
     APPLICATION_STATUS = (
         (APPLIED, 'Applied'),
         (INTERVIEW, 'Qualified for Interview'),
-        (REJECTED, 'Rejected from Interview'),
+        (NOTAPPLIED, 'Not applied'),
         (PLACED, 'Placed')
     )
 
     placementStatus = models.CharField(
         max_length=2,
         choices=APPLICATION_STATUS,
-        default=APPLIED,
+        default=NOTAPPLIED,
     )
 
     def __str__(self):
-        return self.company
+        return str(self.student.admissionNumber) + " " +self.student.name + " " + self.student.user.email
 
     
     
