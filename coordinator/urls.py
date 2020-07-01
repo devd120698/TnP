@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^sendCompanyDetails',views.sendCompanyDetails,name='sendCompanyDetails'),
     url(r'^checkApplicantsOfCompany',views.checkApplicantsOfCompany,name='checkApplicantsOfCompany'),
     url(r'^placedStudents',views.placedStudents,name='placedStudents'),
+    url(r'^updateStudents',views.updateStudents,name='updateStudents'),
  ]
