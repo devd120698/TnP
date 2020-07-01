@@ -5,6 +5,12 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from administrator.models import Branch
 from django.utils import timezone
+from coordinator.models import Companies
+from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
+# As model field:
+from django_currentuser.db.models import CurrentUserField
+
+
 
 class Student(models.Model):
     
@@ -53,23 +59,47 @@ def ensure_profile_exists(sender, **kwargs):
         student = Student.objects.get(user=kwargs.get('instance').user)
         my_group.user_set.add(student.user)
 
-
-class Company(models.Model):
-    name = models.CharField(max_length=30, blank=False)
-    coordinators = models.ManyToManyField(Student)
-    branches = models.ManyToManyField(Branch)
-    
-    def __str__(self):
-        return str(self.name)
-
 class Event(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Companies, on_delete=models.CASCADE)
     venue = models.CharField(max_length=100)
     time = models.DateTimeField()
     text = models.CharField(max_length=500)
     datePublished = models.DateTimeField(default=timezone.now)
 
-class Announcement(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    text = models.CharField(max_length=500)
-    datePublished = models.DateTimeField(default=timezone.now)
+
+class Application(models.Model):
+    user = CurrentUserField()
+    company = models.ForeignKey(Companies, on_delete=models.CASCADE)
+    def __str__(self) :
+        student = Student.objects.get(user=self.user)
+        return str(student)
+
+
+class CompanyApplicants(models.Model):
+    student = models.ForeignKey(Student, on_delete = models.CASCADE, null = True)
+    company = models.ForeignKey(Companies, on_delete=models.CASCADE)
+    APPLIED = 'A'
+    INTERVIEW = 'I'
+    REJECTED = 'R'
+    PLACED = 'P'
+
+    APPLICATION_STATUS = (
+        (APPLIED, 'Applied'),
+        (INTERVIEW, 'Qualified for Interview'),
+        (REJECTED, 'Rejected from Interview'),
+        (PLACED, 'Placed')
+    )
+
+    placementStatus = models.CharField(
+        max_length=2,
+        choices=APPLICATION_STATUS,
+        default=APPLIED,
+    )
+
+    def __str__(self):
+        return self.company
+
+    
+    
+
+

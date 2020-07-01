@@ -6,7 +6,6 @@ from django.db.models.signals import post_save
 from administrator.models import Branch
 from django.utils import timezone
 from django.core.validators import validate_comma_separated_integer_list
-from student.models import Student
 class Coordinator(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
@@ -48,9 +47,9 @@ def ensure_profile_exists(sender, **kwargs):
         my_group.user_set.add(coordinator.user)
 
 class Companies(models.Model):
-    WAITING = 'W'
-    DENIED = 'D'
-    ACCEPTED = 'A'
+    WAITING = 'Waiting'
+    DENIED = 'Denied'
+    ACCEPTED = 'Accepted'
     COMPANY_STATUS = (
         (WAITING, 'waiting'),
         (DENIED, 'denied'),
@@ -70,13 +69,16 @@ class Companies(models.Model):
     def __str__(self) :
         return str(self.name)
 
-class PlacedStudents(models.Model):
-    admissionNumber = models.ForeignKey(Student, on_delete=models.CASCADE)
-    company = models.ForeignKey(Companies, on_delete = models.CASCADE)
+# class PlacedStudents(models.Model):
+#     admissionNumber = models.ForeignKey(Student, on_delete=models.CASCADE)
+#     company = models.ForeignKey(Companies, on_delete = models.CASCADE)
 
-    def __str__(self) :
-        return str(self.admissionNumber)
+#     def __str__(self) :
+#         return str(self.admissionNumber)
 
 class Announcements(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length = 100000)
+
+
+

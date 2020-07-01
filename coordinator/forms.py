@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Coordinator, Companies
 
-
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Coordinator
@@ -30,4 +29,7 @@ class CompaniesForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super(CompaniesForm,self).__init__(*args,**kwargs)
         self.fields['dateOfVisit'].required=False
+		
+class SearchCompany(forms.Form):
+    name = forms.CharField(max_length=100)
 		
