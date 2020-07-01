@@ -1,0 +1,83 @@
+body,html{
+	background: #d5d8ed;
+}
+
+.active-head{
+	font-size: 250%;
+	color:  #5c28a6;
+	font-weight: bold;
+	margin-top: 10%;
+	
+}
+
+.active-head,.list-head
+{
+	background: #ffffff;
+	padding: 5%;
+	margin-bottom: 2%;
+	display: flex;
+	flex-direction: column;
+}
+
+.left-pane{
+	background: #d5d8ed;
+}
+
+.companies{
+	text-align: center;
+}
+
+.cur-head{
+	background:  #5c28a6;/* #2877de;*/
+	width: 100%;
+	padding: 4% 2% 8% 2%;
+	display: flex;
+	flex-direction: row;
+}
+
+.profile-head{
+	background: #f1f1f1;
+	float: right;
+	border:none;
+	border-radius: 1em;
+	display: inline-flex;
+	padding:1%;
+}
+
+.name{
+	font-size: 150%;
+	color: #5c28a6;
+	font-weight: bold;
+}
+
+.heading{
+	text-align: center;
+	color:#5c28a6;
+	margin: 2% ;
+	text-underline-position: all; 
+}
+
+.app-status, .announcement{
+	background: #d5d8ed;
+	margin: 2% 2%;
+}
+
+.dash-sub-head{
+	font-size: 200%;
+	text-align: center;
+	margin: 1%;
+}
+
+.content{
+	width: 60%;
+	min-height: 100px;
+	background: #f1f1f1;
+	margin:1%;
+}
+.contents{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2%;
+}
