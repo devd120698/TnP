@@ -87,15 +87,8 @@ def getCompanyStatus(request):
         companyName = form.cleaned_data.get('name')
         if Companies.objects.filter(name = companyName).exists():
             companyDetails = Companies.objects.filter(name = companyName)
-            branchesAllowed = companyDetails.values_list('branchesAllowed', flat=True)[0]
-            cgpaAllowed = companyDetails.values_list('CGPA', flat=True)[0]
-            listOfBranches = branchesAllowed.split(',')
-            for branchElement in listOfBranches:
-                branchName = Branch.objects.get(branchCode = branchElement)
-                allowedByBranches = Student.objects.filter(branch = branchName).values_list('admissionNumber', flat=True)
-                if allowedByBranches.exists():
-                    allowedByCGPA = allowedByBranches.filter(CGPA__gte = cgpaAllowed) #cgpa greater than allowed
-                    print(allowedByCGPA)
+            statusOfCompany = companyDetails.values_list('status', flat=True)[0]
+            print(statusOfCompany)
         else :
             HttpResponse("The company was not added before!")
         
@@ -110,6 +103,15 @@ def sendCompanyDetails(request):
         companyName = form.cleaned_data.get('name')
         if Companies.objects.filter(name = companyName).exists():
             companyDetails = Companies.objects.filter(name = companyName)
+            branchesAllowed = companyDetails.values_list('branchesAllowed', flat=True)[0]
+            cgpaAllowed = companyDetails.values_list('CGPA', flat=True)[0]
+            listOfBranches = branchesAllowed.split(',')
+            for branchElement in listOfBranches:
+                branchName = Branch.objects.get(branchCode = branchElement)
+                allowedByBranches = Student.objects.filter(branch = branchName).values_list('admissionNumber', flat=True)
+                if allowedByBranches.exists():
+                    allowedByCGPA = allowedByBranches.filter(CGPA__gte = cgpaAllowed) #cgpa greater than allowed
+                    print(allowedByCGPA)
         else :
             HttpResponse("The company was not added before!")
         
