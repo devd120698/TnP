@@ -4,13 +4,14 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .forms import RegisterForm
 from .models import Student
-<<<<<<< HEAD
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from .models import CompanyApplicants
 
 # Views
 @login_required
 def studentDashboard(request):
+    print(CompanyApplicants.objects.all())
     return HttpResponse("here in dashboard")
 
 @login_required
@@ -30,23 +31,6 @@ def registerStudent(request):
     context = {'form' : form}
     template = 'authentication/sign_up.html'
     return render(request,template,context)
-=======
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
 
-@login_required
-def studentDashboard(request):
-    return redirect("/accounts/logout")
->>>>>>> master
 
-@login_required
-def registerStudent(request):
-    user = request.user
-    if Student.objects.filter(user = user).exists() :
-    	return redirect("/student/studentDashboard")
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        appl = form.save(commit = False)
-        appl.user = request.user
-        appl.save()
-    return render(request, 'authentication/sign_up.html', {'form': form})
+
