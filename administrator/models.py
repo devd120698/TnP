@@ -22,10 +22,17 @@ def ensure_profile_exists(sender, **kwargs):
         administrator = Administrator.objects.get_or_create(user=kwargs.get('instance').user)
         my_group.user_set.add(administrator[0].user)
 
+class Course(models.Model):
+    
+    course = models.CharField(max_length=50,null=False, default = "CSE", primary_key=True)
+
+    def __str__(self):
+        return self.course
+
 class Branch(models.Model):
 
     branch = models.CharField(max_length=50,null=False, default = "CSE")
-
+    course = models.ForeignKey(Course, on_delete = models.CASCADE)
     BTECH = 'BT'
     MTECH = 'MT'
     MCA = 'MC'

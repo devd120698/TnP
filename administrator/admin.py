@@ -5,3 +5,4 @@ from django.contrib import admin
 
 admin.site.register(Administrator)
 admin.site.register(Branch)
+admin.site.register(Course)

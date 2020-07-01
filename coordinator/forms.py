@@ -24,10 +24,12 @@ class CompaniesForm(forms.ModelForm):
             'status',
             'branchesAllowed',
             'CGPA',
+            'companyID'
         ]
     def __init__(self,*args,**kwargs):
         super(CompaniesForm,self).__init__(*args,**kwargs)
         self.fields['dateOfVisit'].required=False
+        self.fields['companyID'].required=False
 		
 class SearchCompany(forms.Form):
     name = forms.CharField(max_length=100)
