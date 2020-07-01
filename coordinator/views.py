@@ -163,9 +163,9 @@ def updateStudents(request):
     if form.is_valid():
         companyName = form.cleaned_data.get('company')
         if Companies.objects.filter(name = companyName).exists():
+            students = form.cleaned_data.get('students')
             companyDetails = Companies.objects.get(name = companyName)
-            listOfPlaced = CompanyApplicants.objects.filter(placementStatus = 'P').filter(company = companyDetails)
-            print(listOfPlaced)
+            listOfStudents = CompanyApplicants.objects.filter(placementStatus = 'I').filter(company = companyDetails)
         else :
             HttpResponse("The company was not added before!")
         

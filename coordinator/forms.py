@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Coordinator, Companies, UpdateStudents
-
+from .models import Coordinator, Companies
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Coordinator
@@ -35,5 +34,15 @@ class SearchCompany(forms.Form):
 
 class UpdatePlacementStatsForm(forms.Form):
     company = forms.CharField(max_length=100)
-    students = forms.CharField(validators=[validate_comma_separated_integer_list],max_length=20000, blank=True, null=True,default='')
+    students = forms.CharField(max_length=20000)
+    APPLIED = 'A'
+    INTERVIEW = 'I'
+    PLACED = 'P'
+    SELECTION_STATUS = (
+        (INTERVIEW, 'interview'),
+        (PLACED, 'placed'),
+        (APPLIED, 'applied'),
+    )
+    status = forms.ChoiceField(choices = SELECTION_STATUS) 
+
 		
