@@ -1,0 +1,27 @@
+{% extends 'authentication/template.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+	<div class="jumbotron">
+		<div class="header">
+			<h2> <u> Companies </u></h2>
+		</div>
+		<br>
+		<div class="content-section">
+			{% for companyName in eligibleCompanies %}
+				<p>{{companyName}}</p><br/>
+			{% endfor %}
+			<form method = "POST">
+				{% csrf_token %}
+				{{form|crispy}}
+				<div class="submit">
+					<button type="submit" class="btn btn-info">
+						Submit
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock content%}
