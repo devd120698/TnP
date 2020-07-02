@@ -42,6 +42,7 @@ def viewNewApplications(request):
     for compayApplicaton in company:
         companyName = CompanyApplicants.getCompanyName(compayApplicaton)
         listOfEligibleCompanies.append(companyName)
+    print(listOfEligibleCompanies)
     form = ViewCompaniesForm(request.POST or None)
     context = {'eligibleCompanies' : listOfEligibleCompanies, 'form':form}
     if form.is_valid():

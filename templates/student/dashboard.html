@@ -1,0 +1,14 @@
+{% extends 'authentication/template.html' %}
+{% block content %}
+
+<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div id="content">
+					<a href="{% url 'student:viewNewApplications' %}"><button class ="btn btn-primary btn-lg"> View New Applications </button></a> 
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

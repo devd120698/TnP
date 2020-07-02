@@ -4,24 +4,24 @@
 <div class="container">
 	<div class="jumbotron">
 		<div class="header">
-			<h2> <u> Companies </u></h2>
+			<h2> <u> Login Page </u></h2>
 		</div>
 		<br>
 		<div class="content-section">
 			{% for companyName in eligibleCompanies %}
-				<p>{{companyName}}</p><br/>
+				{{companyName}} <br/>
 			{% endfor %}
-			<form method = "POST">
+			<form method="POST">
 				{% csrf_token %}
-				{{form|crispy}}
+				{{ form|crispy }}
 				<div class="submit">
 					<button type="submit" class="btn btn-info">
 						Submit
 					</button>
+
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
-
-{% endblock content%}
+{% endblock content %}

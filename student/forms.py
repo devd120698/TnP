@@ -17,4 +17,4 @@ class RegisterForm(forms.ModelForm):
         ]
 
 class ViewCompaniesForm(forms.Form):
-    nameOfComany = forms.CharField(max_length=100)
+    nameOfCompany = forms.CharField(max_length=100)
