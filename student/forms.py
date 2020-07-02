@@ -14,5 +14,4 @@ class RegisterForm(forms.ModelForm):
             'yearOfGraduation',
             'rollNumber',
             'CGPA',
-            'course',
         ]

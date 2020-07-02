@@ -22,7 +22,7 @@ def coordinatorDashboard(request):
     emails = User.objects.filter(is_active=True).values_list('email', flat=True).filter(groups__name = 'Coordinator')
     if emails.filter(email = request.user.email).exists() :
         context = {}
-        template = 'coordinator/dashboard.html'
+        template = 'src/index.html'
         return render(request,template,context)
 
     else:

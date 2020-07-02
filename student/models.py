@@ -25,27 +25,7 @@ class Student(models.Model):
     rollNumber = models.IntegerField(null=False)
 
     CGPA = models.FloatField(null=False)
-
-    BTECH = 'BT'
-    MTECH = 'MT'
-    MCA = 'MC'
-    MSC = 'MS'
-    MBA = 'MB'
-
-    COURSE_CHOICES = (
-        (BTECH, 'B. Tech'),
-        (MTECH, 'M. Tech'),
-        (MCA, 'MCA'),
-        (MSC, 'M. Sc'),
-        (MBA, 'MBA')
-    )
-
-    course = models.CharField(
-        max_length=2,
-        choices=COURSE_CHOICES,
-        default=BTECH,
-    )
-
+    
     def __str__(self) :
         return str(self.admissionNumber)
 

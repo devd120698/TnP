@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'student.apps.StudentConfig',
     'coordinator.apps.CoordinatorConfig',
     'administrator.apps.AdministratorConfig',
+    'company.apps.CompanyConfig',
     'django_extensions',
     'authentication.apps.AuthenticationConfig',
 ]

@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from administrator.models import Branch
 from django.utils import timezone
 from django.core.validators import validate_comma_separated_integer_list
+from company.models import Details
 class Coordinator(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
@@ -66,6 +67,8 @@ class Companies(models.Model):
     CTC = models.FloatField(null=False)
     branchesAllowed = models.CharField(validators=[validate_comma_separated_integer_list],max_length=200, blank=True, null=True,default='')
     CGPA = models.FloatField(null=False, default = 7.0)
+    companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
+
     def __str__(self) :
         return str(self.name)
 
