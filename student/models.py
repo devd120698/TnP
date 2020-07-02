@@ -62,12 +62,14 @@ class CompanyApplicants(models.Model):
     INTERVIEW = 'I'
     NOTAPPLIED = 'N'
     PLACED = 'P'
+    REJECTED = 'R'
 
     APPLICATION_STATUS = (
         (APPLIED, 'Applied'),
         (INTERVIEW, 'Qualified for Interview'),
         (NOTAPPLIED, 'Not applied'),
-        (PLACED, 'Placed')
+        (PLACED, 'Placed'),
+        (REJECTED, 'R')
     )
 
     placementStatus = models.CharField(
@@ -78,6 +80,10 @@ class CompanyApplicants(models.Model):
 
     def __str__(self):
         return str(self.student.admissionNumber) + " " +self.student.name + " " + self.student.user.email
+
+    @staticmethod
+    def getCompanyName(self):
+        return self.company.name
 
     
     
