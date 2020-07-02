@@ -15,3 +15,6 @@ class RegisterForm(forms.ModelForm):
             'rollNumber',
             'CGPA',
         ]
+
+class ViewCompaniesForm(forms.Form):
+    nameOfCompany = forms.CharField(max_length=100)
