@@ -63,5 +63,17 @@ def viewNewApplications(request):
         return render(request,'student/showCompanies.html',context)
     return render(request,'student/showCompanies.html',context)
 
+@login_required
+def viewStatusOfApplication(request):
+    user = request.user
+    student = Student.objects.get(user = user)
+    company = CompanyApplicants.objects.filter(student = student).exclude(placementStatus = 'N').exclude(placementStatus = 'R')
+    listOfAppliedCompanies = []
+    for compayApplicaton in company:
+        companyName = CompanyApplicants.getCompanyName(compayApplicaton)
+        listOfAppliedCompanies.append(companyName + " -> " + compayApplicaton.placementStatus)
+    print(listOfAppliedCompanies)
+    return render(request,'student/showApplied.html',{'eligibleCompanies':listOfAppliedCompanies})
+
 
 

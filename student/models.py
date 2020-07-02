@@ -62,12 +62,14 @@ class CompanyApplicants(models.Model):
     INTERVIEW = 'I'
     NOTAPPLIED = 'N'
     PLACED = 'P'
+    REJECTED = 'R'
 
     APPLICATION_STATUS = (
         (APPLIED, 'Applied'),
         (INTERVIEW, 'Qualified for Interview'),
         (NOTAPPLIED, 'Not applied'),
-        (PLACED, 'Placed')
+        (PLACED, 'Placed'),
+        (REJECTED, 'R')
     )
 
     placementStatus = models.CharField(
