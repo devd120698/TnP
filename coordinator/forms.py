@@ -20,7 +20,6 @@ class CompaniesForm(forms.ModelForm):
         fields=[
             'name',
             'dateOfVisit',
-            'CTC',
             'status',
             'branchesAllowed',
             'CGPA',

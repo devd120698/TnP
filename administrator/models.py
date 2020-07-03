@@ -52,7 +52,7 @@ class Branch(models.Model):
         choices=COURSE_CHOICES,
         default=BTECH,
     )
-    branchCode = models.IntegerField(null=False, default = 1)
+    branchCode = models.CharField(max_length = 10,null=False, default = 'cse')
 
     def __str__(self):
         return self.branch
