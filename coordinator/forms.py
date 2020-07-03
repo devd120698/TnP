@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Coordinator, Companies
+from .models import Coordinator, Companies, Announcement
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Coordinator
@@ -44,6 +44,35 @@ class UpdatePlacementStatsForm(forms.Form):
         (PLACED, 'placed'),
         (APPLIED, 'applied'),
     )
-    status = forms.ChoiceField(choices = SELECTION_STATUS) 
+    status = forms.ChoiceField(choices = SELECTION_STATUS)
+
+class AnnouncementForm(forms.ModelForm):
+    class Meta:
+        model = Announcement
+        fields=[
+            'announcementid',
+            'company',
+            'text',
+            'datePublished',
+            'type_of_announcement',
+        ]
+    def __init__(self,*args,**kwargs):
+        super(AnnouncementForm,self).__init__(*args,**kwargs)
+        self.fields['datePublished'].required=False
+
+class SearchAnnouncement(forms.Form):
+    announcementid = forms.CharField(max_length=10)
+
+class UpdateAnnouncementForm(forms.Form):
+    announcementid = forms.CharField(max_length=10)
+    text = forms.CharField(max_length=20000)
+    BROADCAST_ANNOUNCEMENT = 'Broadcasting'
+    ELIGIBLE_ANNOUNCEMENT = 'Eligible'
+    TYPE_OF_ANNOUNCEMENT = (
+        (BROADCAST_ANNOUNCEMENT, 'Broadcast'),
+        (ELIGIBLE_ANNOUNCEMENT, 'Eligible_ones'),
+    )
+    type_of_announcement = forms.ChoiceField(choices = TYPE_OF_ANNOUNCEMENT) 
+ 
 
 		

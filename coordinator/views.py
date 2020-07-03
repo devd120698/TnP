@@ -12,7 +12,9 @@ from .forms import CompaniesForm, SearchCompany, UpdatePlacementStatsForm
 from .models import Companies
 from administrator.models import Branch
 from student.models import CompanyApplicants
-
+from .models import Announcement
+from .forms import AnnouncementForm, UpdateAnnouncementForm
+from company.models import Details
 # Views
 flagDeleted = 0
 @login_required
@@ -22,7 +24,7 @@ def coordinatorDashboard(request):
     emails = User.objects.filter(is_active=True).values_list('email', flat=True).filter(groups__name = 'Coordinator')
     if emails.filter(email = request.user.email).exists() :
         context = {}
-        template = 'src/index.html'
+        template = 'coordinator/dashboard.html'
         return render(request,template,context)
 
     else:
@@ -45,7 +47,7 @@ def addNewCompany(request):
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
         if Companies.objects.filter(name = companyName).exists():
-            HttPResponse("The Company name has already been added!")
+            HttpResponse("The Company name has already been added!")
         else :
             appl = form.save(commit = False)
             appl.user = request.user
@@ -182,3 +184,55 @@ def updateStudents(request):
     template = 'authentication/form.html'
     return render(request,template,context)
 
+@login_required
+def createAnnouncement(request):
+    form = AnnouncementForm(request.POST or None)
+    if form.is_valid():
+        announcement_id = form.cleaned_data.get('announcementid')
+        text = form.cleaned_data.get('text')
+        company = form.cleaned_data.get('company')
+        datePublished = form.cleaned_data.get('datePublished')
+        typeOfAnnouncement = form.cleaned_data.get('type_of_announcement')
+        companyName = form.cleaned_data.get('company')
+        company = Details.objects.get(name = companyName)
+        if Announcement.objects.filter(announcementid = announcement_id).exists():
+            HttpResponse("exists")
+        else:
+            appl = form.save(commit = False)
+            appl.user = request.user
+            appl.save()
+            # saveDetails = Announcement(announcementid = announcement_id,
+            # user = request.user,
+            # company = company,
+            # text = text,
+            # datePublished = datePublished,
+            # type_of_announcement = typeOfAnnouncement
+            # )
+            # saveDetails.save()
+        
+    context = {'form' : form}
+    template = 'authentication/form.html'
+    return render(request,template,context)
+    
+@login_required
+def updateAnnouncement(request):
+    form = UpdateAnnouncementForm(request.POST or None)
+    if form.is_valid():
+        announcement_id = form.cleaned_data.get('announcementid')
+        text = form.cleaned_data.get('text')
+        typeOfAnnouncement = form.cleaned_data.get('type_of_announcement')
+        if Announcement.objects.filter(announcementid = announcement_id).exists():
+            # saveDetails = Announcement(announcementid = announcement_id,
+            # user = request.user,
+            # text = text,
+            # type_of_announcement = typeOfAnnouncement
+            # )
+            # saveDetails.save()
+            announce = Announcement.objects.get(announcementid = announcement_id)
+            announce.text = text
+            announce.save()
+            HttpResponse("The announcement was not added before!")
+        
+    context = {'form' : form}
+    template = 'authentication/form.html'
+    return render(request,template,context)

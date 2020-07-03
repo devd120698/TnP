@@ -70,9 +70,25 @@ class Companies(models.Model):
     def __str__(self) :
         return str(self.name)
 
-class Announcements(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length = 100000)
+class Announcement(models.Model):
+    BROADCAST_ANNOUNCEMENT = 'Broadcasting'
+    ELIGIBLE_ANNOUNCEMENT = 'Eligible'
+    TYPE_OF_ANNOUNCEMENT = (
+        (BROADCAST_ANNOUNCEMENT, 'Broadcast'),
+        (ELIGIBLE_ANNOUNCEMENT, 'Eligible_ones'),
+    )
+    type_of_announcement = models.CharField(
+        max_length=20,
+        choices=TYPE_OF_ANNOUNCEMENT,
+        default=BROADCAST_ANNOUNCEMENT,
+    )
+    announcementid = models.CharField(max_length = 120, primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,)
+    datePublished = models.DateTimeField(default=timezone.now)
+    text = models.CharField(max_length=500)
+    company = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
 
+    def __str__(self) :
+        return str(self.announcementid)
 
 
