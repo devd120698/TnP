@@ -9,12 +9,12 @@ from django.core.validators import validate_comma_separated_integer_list
 
 class Details(models.Model):
     name = models.CharField(max_length = 120,primary_key = True, default = 'ABC')
-    websiteLink = models.CharField(max_length = 120, null = False)
-    hrDetails = models.CharField(max_length = 20000, null = False)
-    address = models.CharField(max_length = 20000, null = False)
-    emailId = models.EmailField(null=False)
-    phoneNumber = models.IntegerField(null=False)
-    mobileNumber = models.IntegerField(null=False) 
+    websiteLink = models.CharField(max_length = 120, null=True)
+    hrDetails = models.CharField(max_length = 20000, null=True)
+    address = models.CharField(max_length = 20000, null=True)
+    emailId = models.EmailField(null=True)
+    phoneNumber = models.CharField(max_length = 15,null=True)
+    mobileNumber = models.CharField(max_length = 15,null=True) 
     sector = models.CharField(validators=[validate_comma_separated_integer_list],max_length=2000, blank=True, null=True,default='')
     category = models.CharField(validators=[validate_comma_separated_integer_list],max_length=2000, blank=True, null=True,default='')
     
@@ -62,22 +62,23 @@ class Details(models.Model):
     #     default="DOMESTIC"
     # )
 
-    jobDesignation = models.CharField(max_length = 120, null = False)
+    jobDesignation = models.CharField(max_length = 120, null=True)
     jobType = models.CharField(validators=[validate_comma_separated_integer_list],max_length=200, blank=True, null=True,default='')
-    workLocation = models.CharField(max_length = 1000, null = False)
-    otherInfo = models.CharField(max_length = 10000, null = False)
-    tentativeDOJ = models.DateField(null =False)
+    workLocation = models.CharField(max_length = 1000, null=True)
+    # otherInfo = models.CharField(max_length = 10000, null=True)
+    tentativeDOJ = models.DateField(null =True)
     roundsDetails = models.CharField(validators=[validate_comma_separated_integer_list],max_length=20000, blank=True, null=True,default='')
-    numberOfRounds = models.IntegerField(null=False)
-    otherInfo = models.CharField(max_length = 1000, null = False)
+    numberOfRounds = models.CharField(max_length = 10,null=True)
+    otherInfo = models.CharField(max_length = 1000, null=True)
     
     salaryDetails_btech = models.CharField(max_length = 1000)
     salaryDetails_mtech = models.CharField(max_length = 1000)
     salaryDetails_otherPG = models.CharField(max_length = 1000)
     salaryDetails_PhD = models.CharField(max_length = 1000)
+    minOffers = models.CharField(max_length = 10, null=True, default = '0')
 
-    trainingPeriod = models.IntegerField(null=False, default = 0)
-    stipulatedBond = models.IntegerField(null=False, default = 0)
+    trainingPeriod = models.CharField(max_length = 10,null=True, default = '0')
+    stipulatedBond = models.CharField(max_length = 10,null=True, default = 0)
 
     stipendDetails_BTech = models.CharField(max_length = 1000)
     stipendDetails_MTech = models.CharField(max_length = 1000)

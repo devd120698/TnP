@@ -57,15 +57,13 @@ class Companies(models.Model):
         (ACCEPTED, 'accepted'),
     )
     name = models.CharField(max_length = 120, primary_key=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,)
     dateOfVisit = models.DateField(null = True)
     status = models.CharField(
         max_length=8,
         choices=COMPANY_STATUS,
         default=WAITING,
     )
-    CTC = models.FloatField(null=False)
-    branchesAllowed = models.CharField(validators=[validate_comma_separated_integer_list],max_length=200, blank=True, null=True,default='')
+    branchesAllowed = models.CharField(max_length=2000, blank=True, null=True,default='')
     CGPA = models.FloatField(null=False, default = 7.0)
     companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
 
