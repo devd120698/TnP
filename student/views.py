@@ -28,10 +28,7 @@ def registerStudent(request):
         appl.user = request.user
         appl.save()
         return render(request, 'student/dashboard.html', {})
-    
-    context = {'form' : form}
-    template = 'student/dashboard.html'
-    return render(request,template,context)
+    return render(request,'authentication/form.html',{'form' : form})
 
 @login_required
 def viewNewApplications(request):

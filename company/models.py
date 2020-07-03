@@ -87,6 +87,9 @@ class Details(models.Model):
     duration_UG = models.CharField(max_length = 1000)
     duration_PG = models.CharField(max_length = 1000)
 
+    def __str__(self):
+        return self.name
+
 
 
     
