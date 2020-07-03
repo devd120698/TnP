@@ -16,18 +16,18 @@ class Student(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,)
-    admissionNumber = models.IntegerField(primary_key=True)
+    admissionNumber = models.IntegerField()
 
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     yearOfGraduation = models.IntegerField(null=False)
 
-    rollNumber = models.IntegerField(null=False)
+    rollNumber = models.IntegerField(null=False, primary_key=True)
 
     CGPA = models.FloatField(null=False)
     
     def __str__(self) :
-        return str(self.admissionNumber)
+        return str(self.rollNumber)
 
     class Meta:
         db_table = 'student_user'

@@ -171,7 +171,7 @@ def updateStudents(request):
             
             listOfQualifiers = students.split(',')
             for qualifier in listOfQualifiers:
-                student = Student.objects.get(admissionNumber = qualifier)
+                student = Student.objects.get(rollNumber = qualifier)
 
                 applicantData = CompanyApplicants.objects.get(student = student)
                 applicantData.placementStatus = status[0]
