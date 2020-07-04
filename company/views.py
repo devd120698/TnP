@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .models import Details, LoginDetails, SelectedStudents
+from .models import *
 from coordinator.models import Companies
 from django.contrib.auth.decorators import login_required
-from .forms import LoginDetailsForm, ScheduleForm, SelectedStudentsForm
+from .forms import *
+from student.models import CompanyApplicants
 
 @login_required
 def companyForm(request):
@@ -103,7 +104,8 @@ def companyDashboard(request):
 
 @login_required
 def uploadLoginDetails(request):
-    form = LoginDetailsForm(request.POST or None ,request.FILES or None)
+    companyName = SelectedStudents.getCompanyName(request.user)
+    form = LoginDetailsForm(request.POST or None ,request.FILES or None, initial={'name': companyName})
     form.user = request.user
     if form.is_valid():
         appl = form.save(commit = False)
@@ -111,8 +113,10 @@ def uploadLoginDetails(request):
         form.save()
     return render(request,'company/uploadFiles.html',{'Title':'Student Login Details','placeholder':'upload login details for students', 'form':form})
 
+@login_required
 def uploadSchedule(request):
-    form = ScheduleForm(request.POST or None ,request.FILES or None)
+    companyName = SelectedStudents.getCompanyName(request.user)
+    form = ScheduleForm(request.POST or None ,request.FILES or None, initial={'name': companyName})
     form.user = request.user
     if form.is_valid():
         appl = form.save(commit = False)
@@ -120,8 +124,10 @@ def uploadSchedule(request):
         form.save()
     return render(request,'company/uploadFiles.html',{'Title':'Student Schedule Details','placeholder':'upload schedule details for students', 'form':form})
 
+@login_required
 def selectedStudents(request):
-    form = SelectedStudentsForm(user = request.user, data = request.POST or request.FILES)  
+    companyName = SelectedStudents.getCompanyName(request.user)
+    form = SelectedStudentsForm(user = request.user, data = request.POST or None, initial={'name': companyName})  
     if form.is_valid():
         round = form.cleaned_data.get('round')
         print(round)
@@ -129,10 +135,31 @@ def selectedStudents(request):
             user = request.user,
             round = form.cleaned_data.get('round'),
             name =  form.cleaned_data.get('name'),
-            uploadFile = request.FILES['uploadFile'])
-        print(request.FILES['uploadFile'])
+            selectedStudents = form.cleaned_data.get('selectedStudents'))
         save.save()
     return render(request,'company/uploadFiles.html',{'Title':'Student Schedule Details','placeholder':'upload schedule details for students', 'form':form})
 
+@login_required
+def linkForTest(request):
+    form = LinkForTestForm(request.POST or None ,request.FILES or None)
+    form.user = request.user
+    if form.is_valid():
+        appl = form.save(commit = False)
+        appl.user = request.user
+        form.save()
+    return render(request,'company/uploadFiles.html',{'Title':'Send Link for Test', 'form':form})
+
+@login_required
+def viewApplicants(request):
+    listOfStudents = ['dummy', 'dummy1']
+    if Details.objects.filter(user = request.user).exists():
+        getCompanyDetails = Details.objects.get(user = request.user)
+        getCurrentCompany = Companies.objects.get(companyID = getCompanyDetails)
+        getList = CompanyApplicants.objects.filter(company = getCurrentCompany)
+
+        for student in getList:
+            listOfStudents.append(CompanyApplicants.getStudentName(student))
+
+    return render(request, 'company/Applicants.html', {'listOfApplicants':listOfStudents})
 
 

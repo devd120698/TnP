@@ -85,6 +85,10 @@ class CompanyApplicants(models.Model):
     def getCompanyName(self):
         return self.company.name
 
+    @staticmethod
+    def getStudentName(self):
+        return self.student.name
+
     
     
 

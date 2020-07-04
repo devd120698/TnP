@@ -64,8 +64,8 @@ class Schedule(models.Model):
 
 class SelectedStudents(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    uploadFile = models.FileField(null = True,upload_to = 'test/Documents/Company/Schedule',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
-    name = models.CharField(max_length = 10)
+    selectedStudents = models.CharField(max_length = 20000, null = False, default = "None qualified")
+    name = models.CharField(max_length = 40)
     DUMMY = 'D'
     ROUND_CHOICE = (
         (DUMMY, 'D'),
@@ -84,10 +84,18 @@ class SelectedStudents(models.Model):
     def getRounds(user):
         if Details.objects.filter(user=user).exists():
             getCompany = Details.objects.get(user = user)
-            return getCompany.companyDetails.values_list('roundDetails', flat=True)[0]
-        return "dummy, dummy2, dummy3"
+            return getCompany.roundsDetails
+        return "dummy, dummy2"
 
-    
+    @staticmethod
+    def getCompanyName(user):
+        if Details.objects.filter(user=user).exists():
+            getCompany = Details.objects.get(user = user)
+            return getCompany.name
+        return "---Company Name---"
 
-
+class LinkForTest(models.Model):
+    url = models.URLField(max_length = 1000)
+    dateTime = models.DateTimeField(default = timezone.now)
+    otherInstructions = models.CharField(max_length = 10000)
 

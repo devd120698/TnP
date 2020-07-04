@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^uploadLoginDetails',views.uploadLoginDetails,name='uploadLoginDetails'),
     url(r'^uploadSchedule',views.uploadSchedule,name='uploadSchedule'),
     url(r'^selectedStudents',views.selectedStudents,name='selectedStudents'),
+    url(r'^linkForTest',views.linkForTest,name='linkForTest'),
+    url(r'^viewApplicants',views.viewApplicants,name='viewApplicants'),
  ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import LoginDetails, Schedule, SelectedStudents
+from .models import *
 from django.core.validators import FileExtensionValidator
 
 class LoginDetailsForm(forms.ModelForm):
@@ -22,8 +22,8 @@ class ScheduleForm(forms.ModelForm):
 
 class SelectedStudentsForm(forms.Form):
     
-    name = forms.CharField(max_length = 10)
-    uploadFile = forms.FileField()
+    name = forms.CharField(max_length = 40)
+    selectedStudents = forms.CharField(max_length = 20)
     
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -37,4 +37,18 @@ class SelectedStudentsForm(forms.Form):
         self.fields['round'] = forms.ChoiceField(
             choices=ROUND_CHOICES
         )
+
+class LinkForTestForm(forms.ModelForm):
+    
+    class Meta:
+        model = LinkForTest
+        widgets = {
+            'otherInstructions': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }
+        fields = [
+            'url',
+            'dateTime',
+            'otherInstructions'
+        ]
+    
 
