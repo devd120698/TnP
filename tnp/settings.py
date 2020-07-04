@@ -163,7 +163,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #-------> allauth
 SITE_ID = 1
 
@@ -195,3 +195,5 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False #hidden when user enters value...
 ACCOUNT_PASSWORD_MIN_LENGTH = 6
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True 
+
+MEDIA_URL = '/media/'

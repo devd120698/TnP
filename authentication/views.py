@@ -33,9 +33,9 @@ def index(request):
 		elif is_superuser(request.user):
 			return redirect('admin/')
 		else:
-			return render(request, 'authentication/index.html', None)
+			return render(request, 'Tnp_home/index.html', None)
 	else:
-		return render(request, 'authentication/index.html', None)
+		return render(request, 'Tnp_home/index.html', None)
 
 
 def sign_in(request):
@@ -44,7 +44,7 @@ def sign_in(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is None:
-            return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
+            return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
         else:
             try:
                 login(request, user)
@@ -61,7 +61,7 @@ def sign_in(request):
                     return redirect('/admin')
                     
             except:
-                return render(request, 'authentication/index.html', {'error': 'Invalid username or password'})
+                return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
                 
     else:
         return index(request)

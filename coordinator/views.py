@@ -15,6 +15,7 @@ from student.models import CompanyApplicants
 from .models import Announcement
 from .forms import AnnouncementForm, UpdateAnnouncementForm
 from company.models import Details
+
 # Views
 flagDeleted = 0
 @login_required
@@ -151,7 +152,6 @@ def placedStudents(request):
         if Companies.objects.filter(name = companyName).exists():
             companyDetails = Companies.objects.get(name = companyName)
             listOfPlaced = CompanyApplicants.objects.filter(placementStatus = 'P').filter(company = companyDetails)
-            print(listOfPlaced)
         else :
             HttpResponse("The company was not added before!")
         
