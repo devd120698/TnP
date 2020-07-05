@@ -1,12 +1,9 @@
-{% extends 'authentication/template.html' %}
+{% extends 'student/dashboard/index.html' %}}
 {% block content %}
 {% load crispy_forms_tags %}
 <div class="container">
 	<div class="jumbotron">
-		<div class="header">
-			<h2> <u> Login Page </u></h2>
-		</div>
-		<br>
+		
 		<div class="content-section">
 			{% for companyName in eligibleCompanies %}
 				{{companyName}} <br/>

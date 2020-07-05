@@ -75,7 +75,7 @@ def sign_in(request):
 # 	return render(request, 'authentication/log_in.html', {})
 
 def about_us(request):
-	return render(request, 'authentication/about.html', {})
+	return render(request, 'authentication/resume.html', {})
 
 def contact_us(request):
 	return render(request, 'authentication/contact.html', {})

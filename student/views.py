@@ -13,21 +13,21 @@ from coordinator.models import Companies
 @login_required
 def studentDashboard(request):
     print(CompanyApplicants.objects.all())
-    return HttpResponse("here in dashboard")
+    return render(request, 'student/dashboard/index.html', {})
 
 @login_required
 def registerStudent(request):
 
     user = request.user
     if Student.objects.filter(user = user).exists() :
-        return render(request, 'student/dashboard.html', {})
+        return render(request, 'student/dashboard/index.html', {})
 
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         appl = form.save(commit = False)
         appl.user = request.user
         appl.save()
-        return render(request, 'student/dashboard.html', {})
+        return render(request, 'student/dashboard/index.html', {})
     return render(request,'authentication/form.html',{'form' : form})
 
 @login_required
@@ -72,5 +72,15 @@ def viewStatusOfApplication(request):
     print(listOfAppliedCompanies)
     return render(request,'student/showApplied.html',{'eligibleCompanies':listOfAppliedCompanies})
 
+@login_required
+def viewProfile(request):
+    return render(request,'student/dashboard/pages/profile.html',{})
 
+@login_required
+def uploadResume(request):
+    return render(request,'student/dashboard/pages/resume.html',{})    
+
+@login_required
+def showCalendar(request):
+    return render(request,'student/dashboard/pages/calendar.html',{})
 

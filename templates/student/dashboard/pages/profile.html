@@ -1,0 +1,50 @@
+
+{% extends 'student/dashboard/index.html' %}
+{% load static %}
+{% block content %}
+<div class="profile-card js-profile-card">
+          <div class="profile-card__img">
+            <img src="{% static 'img/pic1.jpeg' %}" alt="profile card">
+          </div>
+          <div class="profile-card__cnt js-profile-cnt">
+            <div class="profile-card__name">Tony Stark</div>
+            <div class="profile-card__txt">
+              <p>Bachelor of Technology in <strong>Computer Science and Engineering</strong></p>
+              <p>National Institute of Technology</p>
+            </div>
+            <div class="profile-card-loc">
+              <span class="profile-card-loc__txt">
+                Telangana, India
+              </span>
+            </div>
+
+            <div class="profile-card-inf">
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Registration Number</div>
+                <div class="profile-card-inf__txt">841903</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Email</div>
+                <div class="profile-card-inf__txt">addsufiyan@gmail.com</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Contact Number</div>
+                <div class="profile-card-inf__txt">7068502705</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Address</div>
+                <div class="profile-card-inf__txt">Allahabad, Uttar Pradesh, India</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Resumed Uploaded : <i class="fa fa-check text-success"></i></div>
+                <div class="profile-card-inf__txt"></div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+{% endblock content %}
