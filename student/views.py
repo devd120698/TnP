@@ -2,11 +2,11 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
-from .forms import RegisterForm, ViewCompaniesForm
+from .forms import *
 from .models import Student
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import CompanyApplicants
+from .models import *
 from coordinator.models import Companies
 
 # Views
@@ -78,7 +78,26 @@ def viewProfile(request):
 
 @login_required
 def uploadResume(request):
-    return render(request,'student/dashboard/pages/resume.html',{})    
+    form = ResumeForm(request.POST or None)
+    if form.is_valid():
+        education = form.cleaned_data.get('educationAll')
+        projectAll = form.cleaned_data.get('projectAll')
+        acheievementsAll = form.cleaned_data.get('acheievementsAll')
+        relevantCoursesAll = form.cleaned_data.get('relevantCoursesAll')
+        skillsAll = form.cleaned_data.get('skillsAll')
+        extraCurricularAll = form.cleaned_data.get('extraCurricularAll')
+
+        saveDetails = Resume(
+            education = education,
+            projects = projectAll,
+            achievements = acheievementsAll,
+            skills = skillsAll,
+            relevantCourses = relevantCoursesAll,
+            extraCurricular = extraCurricularAll
+        )
+
+        saveDetails.save()
+    return render(request,'student/Resume.html',{'form':form})    
 
 @login_required
 def showCalendar(request):

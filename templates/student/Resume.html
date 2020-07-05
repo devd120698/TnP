@@ -1,0 +1,160 @@
+{% extends 'authentication/template.html' %}}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+	<div class="jumbotron">
+		<script type='text/javascript'
+src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" 
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" 
+        crossorigin="anonymous">
+</script>
+<script src="js/dynamic-form.js"></script>
+        
+		<div class="content-section">
+            <div class="button-group">
+                <script>
+                skillCount = 1; projectCount = 1;
+                educationCount = 1; coursesCount =  1; experienceCount = 1; 
+                
+                function addNewSkill(){
+                    var f = document.getElementById("form");
+                    var i = document.createElement("input"); //input element, text
+                    i.setAttribute('type',"text");
+                    i.setAttribute('name',"username");
+
+                    skillId = "skill_"+skillCount
+                    console.log(skillId)
+                    i.setAttribute('id',skillId)
+
+                    f.appendChild(i);
+                    skillCount++
+                }
+                
+                function addProjects(){
+                    var f = document.getElementById("form");
+                    var i = document.createElement("input"); //input element, text
+                    i.setAttribute('type',"text");
+                    i.setAttribute('name',"username");
+
+                    skillId = "project_"+skillCount
+                    console.log(skillId)
+                    i.setAttribute('id',skillId)
+
+                    f.appendChild(i);
+                    projectCount++
+                }
+                function addEducation(){
+                    var f = document.getElementById("form");
+                    var i = document.createElement("input"); //input element, text
+                    i.setAttribute('type',"text");
+                    i.setAttribute('name',"username");
+
+                    skillId = "education_"+skillCount
+                    console.log(skillId)
+                    i.setAttribute('id',skillId)
+
+                    f.appendChild(i);
+                    educationCount++
+                }
+                function addExperience(){
+                    var f = document.getElementById("form");
+                    var i = document.createElement("input"); //input element, text
+                    i.setAttribute('type',"text");
+                    i.setAttribute('name',"username");
+
+                    skillId = "experience_"+skillCount
+                    console.log(skillId)
+                    i.setAttribute('id',skillId)
+
+                    f.appendChild(i);
+                    experienceCount++
+                }
+                function addRelevantCourses(){
+                    var f = document.getElementById("form");
+                    var i = document.createElement("input"); //input element, text
+                    i.setAttribute('type',"text");
+                    i.setAttribute('name',"username");
+
+                    skillId = "courses_"+skillCount
+                    console.log(skillId)
+                    i.setAttribute('id',skillId)
+
+                    f.appendChild(i);
+                    coursesCount++
+                }
+                function formSubmitted(){
+                    console.log("hey")
+                    skills = ""
+                    project = ""
+                    courses = ""
+                    experience = ""
+                    education = ""
+                    for(i = 1;i<=skillCount;i++){
+                        skillId = "skill_"+i
+                        a = document.getElementById(skillId);
+                        if( a!= null){
+                            skills += "(" + a.value + ")"
+                        }
+                    }
+                    for(i = 1;i<=projectCount;i++){
+                        skillId = "project_"+i
+                        a = document.getElementById(skillId);
+                        if( a!= null){
+                            project += "(" + a.value + ")"
+                        }
+                    }
+                    for(i = 1;i<=educationCount;i++){
+                        skillId = "education_"+i
+                        a = document.getElementById(skillId);
+                        if( a!= null){
+                            education += "(" + a.value + ")"
+                        }
+                    }
+                    for(i = 1;i<=coursesCount;i++){
+                        skillId = "courses_"+i
+                        a = document.getElementById(skillId);
+                        if( a!= null){
+                            courses += "(" + a.value + ")"
+                        }
+                    }
+                    for(i = 1;i<=experienceCount;i++){
+                        skillId = "experience_"+i
+                        a = document.getElementById(skillId);
+                        if( a!= null){
+                            experience += "(" + a.value + ")"
+                        }
+                    }
+                    var f = document.getElementById("skillsAll");   
+                    f.value = skills
+                    var f1 = document.getElementById("educationAll");   
+                    f1.value = education
+                    var f2 = document.getElementById("projectAll");   
+                    f2.value = project
+                    var f3 = document.getElementById("relevantCoursesAll");   
+                    f3.value = courses
+                    var f4 = document.getElementById("extraCurricularAll");   
+                    f4.value = experience
+
+                    console.log(skills, experience, courses, education, project)
+                    document.getElementById("form").submit();
+                }
+                </script>
+                <form method = "post" id="form" >
+                    {% csrf_token %}
+                   {{form|crispy}} 
+                    <input type = "button" value = "Add education" onclick = "addEducation()">
+                    <input type = "button" value = "Add skill" onclick = "addNewSkill()">
+                    <input type = "button" value = "Add projects" onclick = "addProjects()">
+                    <input type = "button" value = "Add extra curricular" onclick = "addExperience()">
+                    <input type = "button" value = "Add courses" onclick = "addRelevantCourses()">
+                    <input type = "button" value = "update" onclick = "formSubmitted()">
+                    <input type = "submit" value = "submit" >
+                </form>
+                
+            </div>
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -81,10 +81,20 @@ class CompanyApplicants(models.Model):
     def getCompanyName(self):
         return self.company.name
 
-    # @staticmethod
-    # def getStudentName(self):
-    #     return self.student.name
+    @staticmethod
+    def getStudentName(self):
+        return self.student.name
 
-    
+class Resume(models.Model):
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    education = models.CharField(max_length = 20000000)
+    projects = models.CharField(max_length = 20000000)
+    achievements = models.CharField(max_length = 20000000, null = True)
+    skills = models.CharField(max_length = 20000000, null = True)
+    # fieldOfInterest = models.CharField(max_length = 20000000, null = True)
+    relevantCourses = models.CharField(max_length = 20000000, null = True)
+    extraCurricular = models.CharField(max_length = 20000000, null = True)
+
+
 
 

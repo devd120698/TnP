@@ -18,3 +18,41 @@ class RegisterForm(forms.ModelForm):
 
 class ViewCompaniesForm(forms.Form):
     nameOfCompany = forms.CharField(max_length=100)
+
+class ResumeForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    year = forms.CharField(max_length=100)
+    email_id = forms.EmailField()
+    phoneNumber = forms.CharField(max_length=10)
+    address = forms.CharField(max_length=1000)
+    
+    educationAll = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=10000)
+    
+    projectAll = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=10000)
+    
+    acheievementsAll = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=10000)
+    
+    skillsAll = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=10000)
+    
+    relevantCoursesAll = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=10000)
+    
+    extraCurricularAll = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=10000)
+    
+    fields = [
+        'name',
+        'year',
+        'email_id',
+        'phoneNumber',
+        'address',
+        'educationAll',
+        'projectAll',
+        'acheievementsAll',
+        'skillsAll'
+        'relevantCoursesAll',
+        'extraCurricularAll'
+
+    ]
+    
+
+        
+        
