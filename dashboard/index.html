@@ -1,6 +1,6 @@
-<link rel="stylesheet" type="text/css" href="style.css">
-<link rel="stylesheet" type="text/css" href="bootstrap.css">
-<link rel="stylesheet" type="text/css" href="profile.css">
+<link rel="stylesheet" type="text/css" href="pages/style.css">
+<link rel="stylesheet" type="text/css" href="pages/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="pages/profile.css">
 <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
@@ -37,7 +37,7 @@
       </div>
       <div class="sidebar-header">
         <div class="user-pic">
-          <img class="img-responsive rounded-circle" src="pic1.jpeg"  alt="User picture" style="width:50px;height: 50px">
+          <img class="img-responsive rounded-circle" src="pages/pic1.jpeg"  alt="User picture" style="width:50px;height: 50px">
         </div>
         <div class="user-info">
           <span class="user-name">Tony
@@ -57,44 +57,44 @@
             <span>General</span>
           </li>
 
-          <li>
-            <a href="index.html">
+          <li class="bg-secondary">
+            <a href="#">
               <i class="fa fa-user"></i>
-              <span>My Profile</span>
+              <span class="text-dark">My Profile</span>
             </a>
           </li>
 
           <li>
-            <a href="dashboard.html">
+            <a href="pages/dashboard.html">
               <i class="fa fa-tachometer-alt"></i>
               <span>Dashboard</span>
               <span class="badge badge-pill badge-warning">New</span>
             </a>
           </li>
 
-          <li class="bg-secondary">
-            <a href="#">
+          <li>
+            <a href="pages/status.html">
               <i class="fa fa-calendar-check"></i>
-              <span class="text-dark">Status of Application</span>
+              <span>Status of Application</span>
             </a>
           </li>
 
           <li>
-            <a href="resume.html">
+            <a href="pages/resume.html">
               <i class="far fa-file"></i>
               <span>Upload Resume</span>
             </a>
           </li>
 
           <li>
-            <a href="apply.html">
+            <a href="pages/apply.html">
               <i class="fa fa-mouse-pointer"></i>
               <span>Apply For Company</span>
             </a>
           </li>
 
           <li>
-            <a href="calendar.html">
+            <a href="pages/calendar.html">
               <i class="fa fa-calendar"></i>
               <span>Calendar</span>
             </a>
@@ -125,10 +125,56 @@
   <!-- sidebar-wrapper  -->
   <main class="page-content">
     <div class="container-fluid">
-      
-    </div>
+      <div class="wrapper">
+        <div class="profile-card js-profile-card">
+          <div class="profile-card__img">
+            <img src="pages/pic1.jpeg" alt="profile card">
+          </div>
 
-  </main>
+          <div class="profile-card__cnt js-profile-cnt">
+            <div class="profile-card__name">Tony Stark</div>
+            <div class="profile-card__txt">
+              <p>Bachelor of Technology in <strong>Computer Science and Engineering</strong></p>
+              <p>National Institute of Technology</p>
+            </div>
+            <div class="profile-card-loc">
+              <span class="profile-card-loc__txt">
+                Telangana, India
+              </span>
+            </div>
+
+            <div class="profile-card-inf">
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Registration Number</div>
+                <div class="profile-card-inf__txt">841903</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Email</div>
+                <div class="profile-card-inf__txt">addsufiyan@gmail.com</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Contact Number</div>
+                <div class="profile-card-inf__txt">7068502705</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Address</div>
+                <div class="profile-card-inf__txt">Allahabad, Uttar Pradesh, India</div>
+              </div>
+
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Resumed Uploaded : <i class="fa fa-check text-success"></i></div>
+                <div class="profile-card-inf__txt"></div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</main>
   <!-- page-content" -->
 </div>
 <!-- page-wrapper -->
@@ -139,8 +185,8 @@
         crossorigin="anonymous"></script>
     
 </body>
-<script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="bootstrap.js"></script>
+<script type="text/javascript" src="pages/script.js"></script>
+<script type="text/javascript" src="pages/bootstrap.js"></script>
 
-<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="pages/jquery.js"></script>
 </html>
