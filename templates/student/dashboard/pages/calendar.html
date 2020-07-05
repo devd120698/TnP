@@ -1,11 +1,15 @@
 {% extends 'student/dashboard/index.html' %}
 {% load static %}
 {% block content %}
-      <link rel="stylesheet" type="text/css" href="{% static 'css/mdb.css' %}">
-      <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
-
+    <style>
+    section#calendar {
+        position: fixed;
+        left: 500px;
+        top: 250px;
+    }
+    </style>
       <CENTER>
-        <section class='calendar mt-5 ml-5'>
+        <section class='calendar mt-5 ml-5' id = "calendar">
           <h1>August 2015</h1>
           <form action='#'>
             <label class='weekday'>Mo</label>

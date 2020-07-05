@@ -4,8 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/resume.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/mdb.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
-
+      <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,12 +21,12 @@
 
 </head>
 
-<body>
+<body id="dashboard">
 <div class="page-wrapper chiller-theme toggled">
   <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
     <i class="fas fa-bars"></i>
   </a>
-  <nav id="sidebar" class="sidebar-wrapper">
+  <nav id="sidebar" class="sidebar-wrapper --dark">
     <div class="sidebar-content">
       <div class="sidebar-brand">
         <a href="#">Student Portal</a>
@@ -123,9 +122,9 @@
     </div>
   </nav>
   <!-- sidebar-wrapper  -->
-  <main class="page-content">
+  <main class="page-content" id = "dashboard">
     <div class="container-fluid">
-      <div class="wrapper">
+      <div class="wrapper" id = "#wrapper">
         {% block content %}
         {% endblock content %}
       </div>

@@ -479,3 +479,17 @@ body {
 .chiller-theme .sidebar-footer>a:last-child {
     border-right: none;
 }
+
+#wrapper{
+  width: fit-content;
+  position: fixed;
+}
+
+#dashboard{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-image: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/121d52c3-440b-48ea-ab9e-8be8dd70abcd/d73k5mj-9b133ee7-cfd1-453c-8f17-b86da9060ce3.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMTIxZDUyYzMtNDQwYi00OGVhLWFiOWUtOGJlOGRkNzBhYmNkXC9kNzNrNW1qLTliMTMzZWU3LWNmZDEtNDUzYy04ZjE3LWI4NmRhOTA2MGNlMy5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.qLE7-OV2e0YCHakCeg24Z4-PiJch2D0f3QdGfrv7qEc');
+  background-repeat: no-repeat;
+  background-size: cover;
+}

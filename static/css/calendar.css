@@ -1,16 +1,15 @@
+
 section.calendar {
-  background-color: #29323f;
-  font-family: 'Dosis', sans-serif;
-  color: #fff;
-  width: 390px;
-  padding: 45px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
-  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.6);
-  border-radius: 5px;
+  margin: auto;
+    background-color: #29323f;
+    font-family: 'Dosis', sans-serif;
+    color: #fff;
+    width: 390px;
+    padding: 45px;
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
 }
 section.calendar h1 {
   text-align: center;
