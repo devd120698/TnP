@@ -1,0 +1,28 @@
+{% extends 'student/dashboard/index.html' %}
+{% block content %}
+        <center>
+          <h1>Upload Your Resume Here.</h1>
+<!--           this will be displayed if resume doesn't exist   -->
+          <p class="lead text-danger">You have not uploaded your resume yet.</p>
+        </center>
+        <!-- Upload  -->
+        <form id="file-upload-form" class="uploader">
+          <input id="file-upload" type="file" name="fileUpload"/>
+
+          <label for="file-upload" id="file-drag">
+            <img id="file-image" src="#" alt="Preview" class="hidden">
+            <div id="start">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <div>Select a file or drag here</div>
+              <div id="notimage" class="hidden">Please select an image</div>
+              <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+            </div>
+          </label>
+          <center>
+            <p>You can upload your resume any number of times.</p>
+            <p>Uploading this will overwrite the previous uploaded.</p>
+          </center>
+        </form>
+
+{% endblock content %} 
+        

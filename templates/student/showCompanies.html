@@ -1,27 +1,25 @@
-{% extends 'authentication/template.html' %}
+{% extends 'student/dashboard/index.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
-<div class="container">
-	<div class="jumbotron">
-		<div class="header">
-			<h2> <u> Login Page </u></h2>
-		</div>
-		<br>
-		<div class="content-section">
-			{% for companyName in eligibleCompanies %}
-				{{companyName}} <br/>
-			{% endfor %}
-			<form method="POST">
-				{% csrf_token %}
-				{{ form|crispy }}
-				<div class="submit">
-					<button type="submit" class="btn btn-info">
-						Submit
-					</button>
 
-				</div>
-			</form>
+<style>
+.card.text-white.bg-dark.mb-3 {
+    border-radius: 0.7rem;
+	box-shadow: 5px 4px #80808047;
+}
+</style>
+{% for company in eligibleCompanies%}
+	<form method = "POST">
+	{% csrf_token %}
+		<div class="card text-white bg-dark mb-3" style="max-width: 18rem; height: fit-content">
+		<div class="card-header">{{company.company.name}}</div>
+		<input name = "nameOfCompany" value = {{company.company.name}} hidden/>
+		
+		<div class="card-body">
+			<h5 class="card-title"> Date of visit : {{company.company.dateOfVisit}}</h5>
+			<button type="submit" class="btn btn-default">Apply</button>
 		</div>
-	</div>
-</div>
+		</div>
+	</form>
+{% endfor %}
 {% endblock content %}

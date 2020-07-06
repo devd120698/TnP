@@ -16,18 +16,16 @@ class Student(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,)
-    admissionNumber = models.IntegerField(primary_key=True)
-
+    admissionNumber = models.IntegerField()
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
-
     yearOfGraduation = models.IntegerField(null=False)
-
-    rollNumber = models.IntegerField(null=False)
-
+    rollNumber = models.IntegerField(null=False, primary_key=True)
     CGPA = models.FloatField(null=False)
+    address = models.CharField(max_length = 1000, null = True)
+    mobileNumber = models.CharField(max_length = 10, null = True)
     
     def __str__(self) :
-        return str(self.admissionNumber)
+        return str(self.rollNumber)
 
     class Meta:
         db_table = 'student_user'
@@ -85,7 +83,20 @@ class CompanyApplicants(models.Model):
     def getCompanyName(self):
         return self.company.name
 
-    
-    
+    @staticmethod
+    def getStudentName(self):
+        return self.student.name
+
+class Resume(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    education = models.CharField(max_length = 20000000)
+    projects = models.CharField(max_length = 20000000)
+    achievements = models.CharField(max_length = 20000000, null = True)
+    skills = models.CharField(max_length = 20000000, null = True)
+    # fieldOfInterest = models.CharField(max_length = 20000000, null = True)
+    relevantCourses = models.CharField(max_length = 20000000, null = True)
+    extraCurricular = models.CharField(max_length = 20000000, null = True)
+
+
 
 
