@@ -13,21 +13,21 @@ from coordinator.models import Companies
 @login_required
 def studentDashboard(request):
     print(CompanyApplicants.objects.all())
-    return render(request, 'student/dashboard/index.html', {})
+    student = Student.objects.get(user = request.user)
+    return render(request, 'student/dashboard/index.html', {'student':student})
 
 @login_required
 def registerStudent(request):
-
     user = request.user
     if Student.objects.filter(user = user).exists() :
-        return render(request, 'student/dashboard/index.html', {})
+        HttpResponseRedirect(studentDashboard)
 
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         appl = form.save(commit = False)
         appl.user = request.user
         appl.save()
-        return render(request, 'student/dashboard/index.html', {})
+        HttpResponseRedirect(studentDashboard)
     return render(request,'authentication/form.html',{'form' : form})
 
 @login_required
@@ -35,29 +35,15 @@ def viewNewApplications(request):
     user = request.user
     student = Student.objects.get(user = user)
     company = CompanyApplicants.objects.filter(student = student).filter(placementStatus = 'N')
-    listOfEligibleCompanies = []
-    for compayApplicaton in company:
-        companyName = CompanyApplicants.getCompanyName(compayApplicaton)
-        listOfEligibleCompanies.append(companyName)
-    print(listOfEligibleCompanies)
-    form = ViewCompaniesForm(request.POST or None)
-    context = {'eligibleCompanies' : listOfEligibleCompanies, 'form':form}
-    if form.is_valid():
-        companyName = form.cleaned_data.get('nameOfCompany')
-        companyName = companyName.upper()
-        for companies in listOfEligibleCompanies:
-            if companyName == companies.upper():
-                companyName = companies
-                break
-        if companyName in str(listOfEligibleCompanies):
-            companyDetails = Companies.objects.get(name = companyName)
-            applicantData = CompanyApplicants.objects.get(student = student, company = companyDetails)
-            applicantData.placementStatus = 'A'
-            applicantData.save()
-            print("Applied")
-        else :
-            print("You are not eligible for the company")
-        return render(request,'student/showCompanies.html',context)
+    context = {'eligibleCompanies' : company, 'student':student}
+    companyName = request.POST.get('nameOfCompany')
+    print(companyName, "hello")
+    if companyName != None :
+        companyDetails = Companies.objects.get(name = companyName)
+        applicantData = CompanyApplicants.objects.get(student = student, company = companyDetails)
+        applicantData.placementStatus = 'A'
+        applicantData.save()
+        
     return render(request,'student/showCompanies.html',context)
 
 @login_required
@@ -65,20 +51,20 @@ def viewStatusOfApplication(request):
     user = request.user
     student = Student.objects.get(user = user)
     company = CompanyApplicants.objects.filter(student = student).exclude(placementStatus = 'N').exclude(placementStatus = 'R')
-    listOfAppliedCompanies = []
-    for compayApplicaton in company:
-        companyName = CompanyApplicants.getCompanyName(compayApplicaton)
-        listOfAppliedCompanies.append(companyName + " -> " + compayApplicaton.placementStatus)
-    print(listOfAppliedCompanies)
-    return render(request,'student/showApplied.html',{'eligibleCompanies':listOfAppliedCompanies})
+    return render(request,'student/showApplied.html',{'eligibleCompanies':company, 'student':student})
 
 @login_required
 def viewProfile(request):
-    return render(request,'student/dashboard/pages/profile.html',{})
+    resumeUploaded = False
+    student = Student.objects.get(user = request.user)
+    if Resume.objects.filter(user = request.user).exists():
+        resumeUploaded = True
+    return render(request,'student/dashboard/pages/profile.html',{'student':student, 'resumeUploaded': resumeUploaded})
 
 @login_required
 def uploadResume(request):
     form = ResumeForm(request.POST or None)
+    student = Student.objects.get(user = request.user)
     if form.is_valid():
         education = form.cleaned_data.get('educationAll')
         projectAll = form.cleaned_data.get('projectAll')
@@ -97,9 +83,10 @@ def uploadResume(request):
         )
 
         saveDetails.save()
-    return render(request,'student/Resume.html',{'form':form})    
+    return render(request,'student/Resume.html',{'form':form, 'student':student})    
 
 @login_required
 def showCalendar(request):
-    return render(request,'student/dashboard/pages/calendar.html',{})
+    student = Student.objects.get(user = request.user)
+    return render(request,'student/dashboard/pages/calendar.html',{'student':student})
 

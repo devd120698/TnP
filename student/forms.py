@@ -14,10 +14,12 @@ class RegisterForm(forms.ModelForm):
             'yearOfGraduation',
             'rollNumber',
             'CGPA',
+            'address',
+            'mobileNumber'
         ]
 
 class ViewCompaniesForm(forms.Form):
-    nameOfCompany = forms.CharField(max_length=100)
+    nameOfCompany = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=100)
 
 class ResumeForm(forms.Form):
     name = forms.CharField(max_length=100)
@@ -54,5 +56,4 @@ class ResumeForm(forms.Form):
     ]
     
 
-        
         

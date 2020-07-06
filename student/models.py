@@ -21,6 +21,8 @@ class Student(models.Model):
     yearOfGraduation = models.IntegerField(null=False)
     rollNumber = models.IntegerField(null=False, primary_key=True)
     CGPA = models.FloatField(null=False)
+    address = models.CharField(max_length = 1000, null = True)
+    mobileNumber = models.CharField(max_length = 10, null = True)
     
     def __str__(self) :
         return str(self.rollNumber)
@@ -86,7 +88,7 @@ class CompanyApplicants(models.Model):
         return self.student.name
 
 class Resume(models.Model):
-    # student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     education = models.CharField(max_length = 20000000)
     projects = models.CharField(max_length = 20000000)
     achievements = models.CharField(max_length = 20000000, null = True)

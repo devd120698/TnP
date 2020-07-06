@@ -33,25 +33,6 @@ class Branch(models.Model):
 
     branch = models.CharField(max_length=50,null=False, default = "CSE")
     course = models.ForeignKey(Course, on_delete = models.CASCADE)
-    BTECH = 'BT'
-    MTECH = 'MT'
-    MCA = 'MC'
-    MSC = 'MS'
-    MBA = 'MB'
-
-    COURSE_CHOICES = (
-        (BTECH, 'B. Tech'),
-        (MTECH, 'M. Tech'),
-        (MCA, 'MCA'),
-        (MSC, 'M. Sc'),
-        (MBA, 'MBA')
-    )
-
-    course = models.CharField(
-        max_length=2,
-        choices=COURSE_CHOICES,
-        default=BTECH,
-    )
     branchCode = models.CharField(max_length = 10,null=False, default = 'cse')
 
     def __str__(self):

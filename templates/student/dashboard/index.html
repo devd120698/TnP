@@ -4,7 +4,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/resume.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/mdb.css' %}">
-      <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+<!-- MDBootstrap Datatables  -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +20,25 @@
         crossorigin="anonymous">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
  
+  <style>
+  #dashboard{
+      background: white;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    @media screen and (max-width: 768px)
+    .wrapper {
+        height: auto;
+        min-height: 100vh;
+    }
 
+    .wrapper {
+        width: fit-content;
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+    }
+  </style>
 </head>
 
 <body id="dashboard">
@@ -40,10 +59,10 @@
           <img class="img-responsive rounded-circle" src="{% static 'img/pic1.jpeg'%}"  alt="User picture" style="width:50px;height: 50px">
         </div>
         <div class="user-info">
-          <span class="user-name">Tony
-            <strong>Stark</strong>
+          <span class="user-name">
+            <strong>{{student.name}}</strong>
           </span>
-          <span class="user-role">B.Tech.</span>
+          <span class="user-role">{{student.branch.course}}, {{student.branch}}</span>
           <span class="user-status">
             <i class="fa fa-circle"></i>
             <span>Online</span>
@@ -141,7 +160,7 @@
         crossorigin="anonymous"></script>
     
 </body>
-
+<!-- MDBootstrap Datatables  -->
 <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 

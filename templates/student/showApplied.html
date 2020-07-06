@@ -1,17 +1,43 @@
 {% extends 'student/dashboard/index.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
-<div class="container">
-	<div class="jumbotron">
-		<div class="header">
-			<h2> <u> Login Page </u></h2>
+
+<style>
+.card.text-white.bg-dark.mb-3 {
+    border-radius: 0.7rem;
+	box-shadow: 5px 4px #80808047;
+}
+  #dashboard{
+      background: white;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    @media screen and (max-width: 768px)
+    .wrapper {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .wrapper {
+        width: fit-content;
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+    }
+</style>
+{% for company in eligibleCompanies%}
+	<div class="card text-white bg-dark mb-3" style="max-width: 18rem; height: fit-content">
+		<div class="card-header">{{company.company.name}}</div>
+		<div class="card-body">
+			<h5 class="card-title"> Date of visit : {{company.company.dateOfVisit}}</h5>
+			{% if company.placementStatus == 'A' %}
+				<button type = "button" class = "btn btn-primary" > Applied </button>
+			{% elif company.placementStatus == 'I' %}
+				<button type = "button" class = "btn btn-warning" > Inteview </button>
+			{% elif company.placementStatus == 'P' %}
+				<button type = "button" class = "btn btn-success" > Placed </button>
+			{% endif %}
 		</div>
-		<br>
-		<div class="content-section">
-			{% for companyName in eligibleCompanies %}
-				{{companyName}} <br/>
-			{% endfor %}
 		</div>
-	</div>
-</div>
+{% endfor %}
 {% endblock content %}

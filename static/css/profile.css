@@ -34,15 +34,12 @@ a, a:hover {
   width: fit-content;
   height: auto;
   min-height: 100vh;
-  padding: 50px 20px;
-  padding-top: 100px;
   display: flex;
 }
 @media screen and (max-width: 768px) {
   .wrapper {
     height: auto;
     min-height: 100vh;
-    padding-top: 100px;
   }
 }
 
