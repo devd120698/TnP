@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^viewProfile',views.viewProfile,name='viewProfile'),
     url(r'^uploadResume',views.uploadResume,name='uploadResume'),
     url(r'^showCalendar',views.showCalendar,name='showCalendar'),
+    url(r'^viewAnnouncements',views.viewAnnouncements,name='viewAnnouncements'),
  ]

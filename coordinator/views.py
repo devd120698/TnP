@@ -189,26 +189,18 @@ def createAnnouncement(request):
     form = AnnouncementForm(request.POST or None)
     if form.is_valid():
         announcement_id = form.cleaned_data.get('announcementid')
-        text = form.cleaned_data.get('text')
-        company = form.cleaned_data.get('company')
-        datePublished = form.cleaned_data.get('datePublished')
-        typeOfAnnouncement = form.cleaned_data.get('type_of_announcement')
-        companyName = form.cleaned_data.get('company')
-        company = Details.objects.get(name = companyName)
+        # text = form.cleaned_data.get('text')
+        # company = form.cleaned_data.get('company')
+        # datePublished = form.cleaned_data.get('datePublished')
+        # typeOfAnnouncement = form.cleaned_data.get('type_of_announcement')
+        # companyName = form.cleaned_data.get('company')
+        # company = Details.objects.get(name = companyName)
         if Announcement.objects.filter(announcementid = announcement_id).exists():
             HttpResponse("exists")
         else:
             appl = form.save(commit = False)
             appl.user = request.user
             appl.save()
-            # saveDetails = Announcement(announcementid = announcement_id,
-            # user = request.user,
-            # company = company,
-            # text = text,
-            # datePublished = datePublished,
-            # type_of_announcement = typeOfAnnouncement
-            # )
-            # saveDetails.save()
         
     context = {'form' : form}
     template = 'authentication/form.html'

@@ -84,11 +84,15 @@ class Announcement(models.Model):
     )
     announcementid = models.CharField(max_length = 120, primary_key=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,)
-    datePublished = models.DateTimeField(default=timezone.now)
+    datePublished = models.DateField(default=timezone.now)
     text = models.CharField(max_length=500)
     company = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
 
     def __str__(self) :
         return str(self.announcementid)
+
+    @staticmethod
+    def getCompanyName(self):
+        return self.company.name
 
 

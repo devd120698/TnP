@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .forms import StudentRegisterForm
+from home.models import *
 
 #Group checking functions
 def is_student(user):
@@ -19,24 +20,31 @@ def is_superuser(user):
 
 # Views
 def index(request):
-	if request.user.is_authenticated and request.user.is_active == True:
-		student_flag = is_student(request.user)
-		if is_student(request.user):
-			return redirect('student/')
+	# if request.user.is_authenticated and request.user.is_active == True:
+	# 	student_flag = is_student(request.user)
+	# 	if is_student(request.user):
+	# 		return redirect('student/')
 
-		elif is_coordinator(request.user):
-			return redirect('coordinator/')
+	# 	elif is_coordinator(request.user):
+	# 		return redirect('coordinator/')
 
-		elif is_administrator(request.user):
-    			return redirect('administration/')
+	# 	elif is_administrator(request.user):
+    # 			return redirect('administration/')
 
-		elif is_superuser(request.user):
-			return redirect('admin/')
-		else:
-			return render(request, 'Tnp_home/index.html', None)
-	else:
-		return render(request, 'Tnp_home/index.html', None)
+	# 	elif is_superuser(request.user):
+	# 		return redirect('admin/')
+	# 	else:
+	# 		return render(request, 'home/index.html', None)
+	# else:
+	# 	return render(request, 'home/index.html', None)
 
+    links = Links.objects.all()
+    recruiters = pastRecruiters.objects.all()
+    team = Team.objects.all()
+    photos = PhotosNitw.objects.all()
+    faq = FrequentlyAsked.objects.all()
+    context = {'Recruiters':recruiters, 'Team':team, 'CampusPictures': photos, 'FAQs': faq}
+    return render(request, 'home/index.html', context)
 
 def sign_in(request):
     if request.method == "POST":

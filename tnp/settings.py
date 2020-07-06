@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     #-->all auth---copied from installation all auth django ---form authenticiation---
     'django.contrib.sites',
     'allauth',
+    'home',
     'allauth.account',
     'allauth.socialaccount',
     'student.apps.StudentConfig',

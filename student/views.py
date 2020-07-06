@@ -4,36 +4,57 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .forms import *
 from .models import Student
+from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import *
-from coordinator.models import Companies
+from coordinator.models import *
+from datetime import datetime, timedelta
 
-# Views
+listOfAnnouncements = []
+noOfAnnouncements = 0
+student  = None
+
 @login_required
 def studentDashboard(request):
-    print(CompanyApplicants.objects.all())
-    student = Student.objects.get(user = request.user)
-    return render(request, 'student/dashboard/index.html', {'student':student})
+    
+    global listOfAnnouncements, student, noOfAnnouncements
+    return render(request, 'student/dashboard/index.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
 
 @login_required
 def registerStudent(request):
     user = request.user
+    global student
     if Student.objects.filter(user = user).exists() :
-        HttpResponseRedirect(studentDashboard)
+        getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
+        student = Student.objects.get(user = request.user)
+        
+        for announcement in getAnnouncements:
+            if announcement.type_of_announcement == 'Broadcasting':
+                listOfAnnouncements.append(announcement)
+            else:
+                companyName = Announcement.getCompanyName(announcement)
+                company = Companies.objects.get(name = companyName)
+                if CompanyApplicants.objects.filter(student = student).filter(company = company).exists():
+                    listOfAnnouncements.append(announcement)
+        
+        global noOfAnnouncements
+        noOfAnnouncements = len(listOfAnnouncements)
+        return HttpResponseRedirect('/student/studentDashboard')
 
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         appl = form.save(commit = False)
         appl.user = request.user
         appl.save()
-        HttpResponseRedirect(studentDashboard)
+        return HttpResponseRedirect('student/studentDashboard')
     return render(request,'authentication/form.html',{'form' : form})
 
 @login_required
 def viewNewApplications(request):
+    global student
+
     user = request.user
-    student = Student.objects.get(user = user)
     company = CompanyApplicants.objects.filter(student = student).filter(placementStatus = 'N')
     context = {'eligibleCompanies' : company, 'student':student}
     companyName = request.POST.get('nameOfCompany')
@@ -48,23 +69,25 @@ def viewNewApplications(request):
 
 @login_required
 def viewStatusOfApplication(request):
+    global student
     user = request.user
-    student = Student.objects.get(user = user)
     company = CompanyApplicants.objects.filter(student = student).exclude(placementStatus = 'N').exclude(placementStatus = 'R')
     return render(request,'student/showApplied.html',{'eligibleCompanies':company, 'student':student})
 
 @login_required
 def viewProfile(request):
+    global student
+
     resumeUploaded = False
-    student = Student.objects.get(user = request.user)
     if Resume.objects.filter(user = request.user).exists():
         resumeUploaded = True
     return render(request,'student/dashboard/pages/profile.html',{'student':student, 'resumeUploaded': resumeUploaded})
 
 @login_required
 def uploadResume(request):
+    global student
+    
     form = ResumeForm(request.POST or None)
-    student = Student.objects.get(user = request.user)
     if form.is_valid():
         education = form.cleaned_data.get('educationAll')
         projectAll = form.cleaned_data.get('projectAll')
@@ -87,6 +110,11 @@ def uploadResume(request):
 
 @login_required
 def showCalendar(request):
-    student = Student.objects.get(user = request.user)
+    global student
     return render(request,'student/dashboard/pages/calendar.html',{'student':student})
+
+@login_required
+def viewAnnouncements(request):
+    global listOfAnnouncements, noOfAnnouncements, student
+    return render(request,'student/dashboard/pages/announcements.html',{'student':student, 'announcements':listOfAnnouncements, 'noOfAnnouncements': len(listOfAnnouncements)})
 
