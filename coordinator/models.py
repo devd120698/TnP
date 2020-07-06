@@ -57,24 +57,42 @@ class Companies(models.Model):
         (ACCEPTED, 'accepted'),
     )
     name = models.CharField(max_length = 120, primary_key=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,)
     dateOfVisit = models.DateField(null = True)
     status = models.CharField(
         max_length=8,
         choices=COMPANY_STATUS,
         default=WAITING,
     )
-    CTC = models.FloatField(null=False)
-    branchesAllowed = models.CharField(validators=[validate_comma_separated_integer_list],max_length=200, blank=True, null=True,default='')
+    branchesAllowed = models.CharField(max_length=2000, blank=True, null=True,default='')
     CGPA = models.FloatField(null=False, default = 7.0)
     companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
 
     def __str__(self) :
         return str(self.name)
 
-class Announcements(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length = 100000)
+class Announcement(models.Model):
+    BROADCAST_ANNOUNCEMENT = 'Broadcasting'
+    ELIGIBLE_ANNOUNCEMENT = 'Eligible'
+    TYPE_OF_ANNOUNCEMENT = (
+        (BROADCAST_ANNOUNCEMENT, 'Broadcast'),
+        (ELIGIBLE_ANNOUNCEMENT, 'Eligible_ones'),
+    )
+    type_of_announcement = models.CharField(
+        max_length=20,
+        choices=TYPE_OF_ANNOUNCEMENT,
+        default=BROADCAST_ANNOUNCEMENT,
+    )
+    announcementid = models.CharField(max_length = 120, primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,)
+    datePublished = models.DateField(default=timezone.now)
+    text = models.CharField(max_length=500)
+    company = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
 
+    def __str__(self) :
+        return str(self.announcementid)
+
+    @staticmethod
+    def getCompanyName(self):
+        return self.company.name
 
 

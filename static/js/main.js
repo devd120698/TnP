@@ -12,6 +12,15 @@ jQuery(function ($) {
     }
   });
 
+  $(".add").click(function() {
+            $("form > p:first-child").clone(true).insertBefore("form > p:last-child");
+            return false;
+        });
+
+        $(".remove").click(function() {
+            $(this).parent().remove();
+        });
+
   //toggle sidebar
   $('#toggle-sidebar').click(function () {
     $('.page-wrapper').toggleClass('toggled');

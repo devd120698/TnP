@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url,include
 from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -26,4 +27,8 @@ urlpatterns = [
     url(r'^administrator/', include('administrator.urls', namespace="administrator")),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^company/', include('company.urls', namespace="company")),
     ]
+
+if settings.DEBUG:
+    urlpatterns +=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
