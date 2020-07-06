@@ -1,4 +1,3 @@
-
 @keyframes swing {
   0% {
     transform: rotate(0deg);
@@ -354,9 +353,12 @@ body {
 .page-wrapper .page-content {
   display: inline-block;
   width: 100%;
+  padding-left: 0px;
+  padding-top: 20px;
 }
 
 .page-wrapper .page-content > div {
+  padding: 20px 40px;
 }
 
 .page-wrapper .page-content {
@@ -475,13 +477,4 @@ body {
 
 .chiller-theme .sidebar-footer>a:last-child {
     border-right: none;
-}
-
-
-
-#dashboard{
-  padding:0px;
-  background: white;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
