@@ -100,4 +100,4 @@ def sign_up(request):
     #         return redirect('student-login')
     # else :
     #     form = StudentRegisterForm()
-    return render(request,'account/pages/login.html',{})
+    return render(request,'account/index.html',{})
