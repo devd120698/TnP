@@ -9,6 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from coordinator.models import *
+from administrator.models import Branch
 from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
@@ -25,6 +26,7 @@ def studentDashboard(request):
 @login_required
 def registerStudent(request):
     user = request.user
+    branches = Branch.objects.all()
     if Student.objects.filter(user = user).exists() :
         getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
         student = Student.objects.get(user = request.user)
@@ -42,13 +44,28 @@ def registerStudent(request):
         noOfAnnouncements = len(listOfAnnouncements)
         return HttpResponseRedirect('/student/studentDashboard')
 
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        appl = form.save(commit = False)
-        appl.user = request.user
-        appl.save()
-        return HttpResponseRedirect('student/studentDashboard')
-    return render(request,'authentication/form.html',{'form' : form})
+    rollNumber = request.POST.get('rollNumber')
+
+    if rollNumber != None:
+        if Student.objects.filter(rollNumber = rollNumber).exists():
+            return HttpResponse("already registered")
+        
+        else:
+            branchName = request.POST.get('branches')
+            saveDetails = Student(
+                name = request.POST.get('name'),
+                user = request.user,
+                admissionNumber = request.POST.get('admNumber'),
+                rollNumber = rollNumber,
+                branch = Branch.objects.get(branch = branchName),
+                yearOfGraduation = request.POST.get('yearOfGraduation'),
+                CGPA = request.POST.get('CGPA'),
+                address = request.POST.get('address'),
+                mobileNumber = request.POST.get('mobNo')
+            )
+            saveDetails.save()
+            return HttpResponseRedirect('studentDashboard')
+    return render(request,'Register/studentRegister.html',{'branches':branches})
 
 @login_required
 def viewNewApplications(request):
