@@ -92,12 +92,12 @@ def contact_us(request):
 # 	return render(request, 'authentication/sign_up.html', {})
 
 def sign_up(request):
-    if request.method == 'POST':
-        form = StudentRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            print(request, f' Your account has been created !')
-            return redirect('student-login')
-    else :
-        form = StudentRegisterForm()
-    return render(request,'authentication/sign_up.html',{'form':form})
+    # if request.method == 'POST':
+    #     form = StudentRegisterForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         print(request, f' Your account has been created !')
+    #         return redirect('student-login')
+    # else :
+    #     form = StudentRegisterForm()
+    return render(request,'account/index.html',{})

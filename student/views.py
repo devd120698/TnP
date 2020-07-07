@@ -24,7 +24,6 @@ def studentDashboard(request):
 @login_required
 def registerStudent(request):
     user = request.user
-    student = Student.objects.get(user = request.user)
     if Student.objects.filter(user = user).exists() :
         getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
         student = Student.objects.get(user = request.user)
