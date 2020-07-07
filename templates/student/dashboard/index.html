@@ -1,10 +1,7 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/resume.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/mdb.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+
 <!-- MDBootstrap Datatables  -->
 
 <!DOCTYPE html>
@@ -49,7 +46,7 @@
   <nav id="sidebar" class="sidebar-wrapper --dark">
     <div class="sidebar-content">
       <div class="sidebar-brand">
-        <a href="#">Student Portal</a>
+        <a href="#" style="text-decoration : none;">Student Portal</a>
         <div id="close-sidebar">
           <i class="fas fa-times"></i>
         </div>
@@ -124,30 +121,31 @@
     </div>
     <!-- sidebar-content  -->
     <div class="sidebar-footer" style="padding-top: 10px;">
-      <a href="{% url 'student:viewAnnouncements'%}">
+      <a href="{% url 'student:viewAnnouncements'%}" title="Announcements">
         <i class="fa fa-bell"></i>
         <span class="badge badge-pill badge-warning notification">{{noOfAnnouncements}}</span>
       </a>
-      <a href="#">
+      <a href="#" title="Messages">
         <i class="fa fa-envelope"></i>
         <span class="badge badge-pill badge-success notification">7</span>
       </a>
-      <a href="#">
+      <a href="#" title="Setting">
         <i class="fa fa-cog"></i>
         <span class="badge-sonar"></span>
       </a>
-      <a href="{% url 'account_logout' %}">
+      <a href="{% url 'account_logout' %}" title="Sign Out">
         <i class="fa fa-power-off"></i>
       </a>
+      
     </div>
   </nav>
   <!-- sidebar-wrapper  -->
   <main class="page-content" id = "dashboard">
     <div class="container-fluid">
-      <div class="wrapper" id = "#wrapper">
+      {% comment %} <div class="wrapper" id = "#wrapper"> {% endcomment %}
         {% block content %}
         {% endblock content %}
-      </div>
+      {% comment %} </div> {% endcomment %}
     </div>
   </main>
   <!-- page-content" -->
