@@ -3,7 +3,9 @@ from .models import *
 from coordinator.models import Companies
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from student.forms import *
 from student.models import CompanyApplicants
+from django.core.mail import send_mail
 
 @login_required
 def companyForm(request):
@@ -162,4 +164,26 @@ def viewApplicants(request):
 
     return render(request, 'company/Applicants.html', {'listOfApplicants':listOfStudents})
 
+@login_required
+def contacTnp(request):
+    form = ContactForm(request.POST or None)
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        mailid = form.cleaned_data.get('mailid')
+        message = form.cleaned_data.get('message')
+        saveDetails = ContactCompany(
+            name = name,
+            mailid = mailid,
+            message = message
+        )
+        saveDetails.save()
+        send_mail(
+		    name + ' contacting CCPD',
+		    message,
+		    'taps@nitw.ac.in',
+		    [mailid],
+		    fail_silently=True,
+	    )
+		
+    return render(request,'company/Contact.html',{'form':form}) 
 

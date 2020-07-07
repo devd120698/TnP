@@ -10,8 +10,6 @@ from django_currentuser.middleware import (get_current_user, get_current_authent
 # As model field:
 from django_currentuser.db.models import CurrentUserField
 
-
-
 class Student(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
@@ -96,6 +94,12 @@ class Resume(models.Model):
     # fieldOfInterest = models.CharField(max_length = 20000000, null = True)
     relevantCourses = models.CharField(max_length = 20000000, null = True)
     extraCurricular = models.CharField(max_length = 20000000, null = True)
+
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    name = models.CharField(max_length = 120)
+    mailid = models.EmailField()
+    message = models.CharField(max_length = 20000000)  
 
 
 

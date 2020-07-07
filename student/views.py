@@ -18,7 +18,8 @@ student  = None
 
 @login_required
 def studentDashboard(request):
-    global listOfAnnouncements, student, noOfAnnouncements
+    global listOfAnnouncements, noOfAnnouncements
+    student = Student.objects.get(user = request.user)
     return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
 
 @login_required
@@ -114,7 +115,7 @@ def uploadResume(request):
         )
 
         saveDetails.save()
-    return render(request,'student/Resume.html',{'form':form, 'student':student})    
+    return render(request,'student/Resume.html',{'form':form, 'student':student})       
 
 @login_required
 def showCalendar(request):
@@ -123,6 +124,31 @@ def showCalendar(request):
 
 @login_required
 def viewAnnouncements(request):
-    global listOfAnnouncements, noOfAnnouncements, student
+    global listOfAnnouncements, noOfAnnouncements
+    student = Student.objects.get(user = request.user)
     return render(request,'student/dashboard/pages/announcements.html',{'student':student, 'announcements':listOfAnnouncements, 'noOfAnnouncements': len(listOfAnnouncements)})
+
+@login_required
+def contactTnp(request):
+    student = Student.objects.get(user = request.user)
+    form = ContactForm(request.POST or None)
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        mailid = form.cleaned_data.get('mailid')
+        message = form.cleaned_data.get('message')
+        saveDetails = Contact(
+            name = name,
+            mailid = mailid,
+            message = message
+        )
+        saveDetails.save()
+        send_mail(
+		    name + ' contacting CCPD',
+		    message,
+		    'taps@nitw.ac.in',
+		    [mailid],
+		    fail_silently=True,
+	    )
+		
+    return render(request,'student/Resume.html',{'form':form, 'student':student})  
 
