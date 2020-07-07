@@ -1,27 +1,155 @@
 {% extends 'student/dashboard/index.html' %}
 {% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
 {% load crispy_forms_tags %}
-
 <style>
-.card.text-white.bg-dark.mb-3 {
-    border-radius: 0.7rem;
-	box-shadow: 5px 4px #80808047;
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 0;
+    background-color: #7574749e;
+    overflow: hidden;
+    width: 90.5%;
+    height: 0;
+    transition: .5s ease;
+}
+
+.row:hover .overlay {
+  height: 100%;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,900);
+
+//colors
+$red: #E1332D;
+$white: #fff;
+
+a {
+    background: rgba($red, 0);
+    border-bottom: 1px solid;
+    color: $white;
+    line-height: 1.4;
+    padding: .25em;
+    text-decoration: none;
+    
+    &:hover {
+      background: rgba($red, 1);
+      color: $red;
+    }
+  }
+
+
+//default button
+.btn {
+  color: #fff;
+  cursor: pointer;
+  // display: block;
+  font-size:16px;
+  font-weight: 400;
+  line-height: 45px;
+  margin: 0 0 2em;
+  max-width: 160px; 
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%; 
+  
+//   @media(min-width: 400px) {
+//     display: inline-block;
+//     margin-right: 2.5em;
+  
+//     &:nth-of-type(even) {
+//       margin-right: 0;
+//     }
+//   }
+  
+  @media(min-width: 600px) {
+      
+    margin: 0 1em 2em;
+  
+//     &:nth-of-type(even) {
+//       margin-right: 2.5em;
+//     }
+    
+//     &:nth-of-type(5) {
+//       margin-right: 0;
+//     }
+    
+  }
+  
+  &:hover { text-decoration: none; }
+  
+}
+
+.btn-5 {
+    width: inherit;
+    position: absolute;
+    top: 35%;
+    left: 5%;
+    color: #00000094;
+    border: 2px solid black;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+    outline: 1px solid;
+    outline-color: rgba(45, 44, 44, 0.5);
+    outline-offset: 0px;
+    text-shadow: none;
+    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
 }
  
+
+.btn-5:hover {
+    color: #00000094;
+    background-color: #ffffff8c;
+    border: 1px solid black;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px; 
+}
+.main-head .box {
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+    background-color: #131317e3;
+    padding: 15px;
+    overflow: hidden;
+}
 </style>
-{% for company in eligibleCompanies%}
-	<div class="card text-white bg-dark mb-3" style="max-width: 18rem; height: fit-content">
-		<div class="card-header">{{company.company.name}}</div>
-		<div class="card-body">
-			<h5 class="card-title"> Date of visit : {{company.company.dateOfVisit}}</h5>
-			{% if company.placementStatus == 'A' %}
-				<button type = "button" class = "btn btn-primary" > Applied </button>
-			{% elif company.placementStatus == 'I' %}
-				<button type = "button" class = "btn btn-warning" > Inteview </button>
-			{% elif company.placementStatus == 'P' %}
-				<button type = "button" class = "btn btn-success" > Placed </button>
-			{% endif %}
-		</div>
-		</div>
-{% endfor %}
+<section class="main-head">
+    <div class="container-fluid">
+	{% for company in eligibleCompanies%}
+    	<div class="row">
+    		<div class="col-md-4">
+              	<div class="box" style="display:flex;">
+                	<i class="fa fa-building fa-fw bg-dark"></i>
+                	<div class="info">
+                  	<h3><a href="#" class="text-light" style="text-decoration : none;">{{company.company.name}}</a></h3>
+					<p>Date of visit : {{company.company.dateOfVisit}}</p>
+                  	<div class = "overlay">
+						{% if company.placementStatus == 'A' %}
+							 <a href="#" class="btn btn-5">Applied</a> 
+						{% elif company.placementStatus == 'I' %}
+							<button type = "button" class = "btn btn-warning" > Inteview </button>
+						{% elif company.placementStatus == 'P' %}
+							<button type = "button" class = "btn btn-success" > Placed </button>
+						{% endif %} 
+						
+					</div>
+                </div>
+            </div>
+        </div>
+	{% endfor %}
+	</div>
+</section>
 {% endblock content %}

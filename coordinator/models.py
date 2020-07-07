@@ -63,6 +63,17 @@ class Companies(models.Model):
         choices=COMPANY_STATUS,
         default=WAITING,
     )
+    ALIVE = 'Alive'
+    DEAD = 'Dead'
+    EXISTING_STATUS = (
+        (ALIVE, 'Alive'),
+        (DEAD, 'Dead'),
+    )
+    existing_status = models.CharField(
+        max_length=8,
+        choices=EXISTING_STATUS,
+        default=ALIVE,
+    )
     branchesAllowed = models.CharField(max_length=2000, blank=True, null=True,default='')
     CGPA = models.FloatField(null=False, default = 7.0)
     companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)

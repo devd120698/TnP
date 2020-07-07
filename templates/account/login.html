@@ -12,7 +12,7 @@
         <div class="col-md-4 col-offset-4">
             <h1>{% trans "Sign In" %}</h1>
 
-            {% get_providers as socialaccount_providers %}
+            {% comment %} {% get_providers as socialaccount_providers %}
 
             {% if socialaccount_providers %}
             <p>{% blocktrans with site.name as site_name %}Please sign in with one
@@ -34,7 +34,7 @@
             {% else %}
             <p>{% blocktrans %}If you have not created an account yet, then please
             <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-            {% endif %}
+            {% endif %} {% endcomment %}
 
             <form class="login" method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}

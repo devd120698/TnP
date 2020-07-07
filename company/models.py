@@ -27,21 +27,21 @@ class Details(models.Model):
     numberOfRounds = models.CharField(max_length = 10,null=True)
     otherInfo = models.CharField(max_length = 1000, null=True)
     
-    salaryDetails_btech = models.CharField(max_length = 1000)
-    salaryDetails_mtech = models.CharField(max_length = 1000)
-    salaryDetails_otherPG = models.CharField(max_length = 1000)
-    salaryDetails_PhD = models.CharField(max_length = 1000)
+    salaryDetails_btech = models.CharField(max_length = 1000,null=True, default = '0')
+    salaryDetails_mtech = models.CharField(max_length = 1000,null=True, default = '0')
+    salaryDetails_otherPG = models.CharField(max_length = 1000,null=True, default = '0')
+    salaryDetails_PhD = models.CharField(max_length = 1000,null=True, default = '0')
     minOffers = models.CharField(max_length = 10, null=True, default = '0')
 
     trainingPeriod = models.CharField(max_length = 10,null=True, default = '0')
-    stipulatedBond = models.CharField(max_length = 10,null=True, default = 0)
+    stipulatedBond = models.CharField(max_length = 10,null=True, default = '0')
 
-    stipendDetails_BTech = models.CharField(max_length = 1000)
-    stipendDetails_MTech = models.CharField(max_length = 1000)
-    stipendDetails_OtherPG = models.CharField(max_length = 1000)
+    stipendDetails_BTech = models.CharField(max_length = 1000,null=True, default = '0')
+    stipendDetails_MTech = models.CharField(max_length = 1000,null=True, default = '0')
+    stipendDetails_OtherPG = models.CharField(max_length = 1000,null=True, default = '0')
 
-    duration_UG = models.CharField(max_length = 1000)
-    duration_PG = models.CharField(max_length = 1000)
+    duration_UG = models.CharField(max_length = 1000,null=True, default = '0')
+    duration_PG = models.CharField(max_length = 1000,null=True, default = '0')
 
     def __str__(self):
         return self.name
@@ -99,3 +99,8 @@ class LinkForTest(models.Model):
     dateTime = models.DateTimeField(default = timezone.now)
     otherInstructions = models.CharField(max_length = 10000)
 
+class ContactCompany(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    name = models.CharField(max_length = 120)
+    mailid = models.EmailField()
+    message = models.CharField(max_length = 20000000) 
