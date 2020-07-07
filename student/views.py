@@ -19,7 +19,7 @@ student  = None
 @login_required
 def studentDashboard(request):
     global listOfAnnouncements, student, noOfAnnouncements
-    return render(request, 'student/dashboard/index.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
+    return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
 
 @login_required
 def registerStudent(request):
