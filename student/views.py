@@ -16,7 +16,7 @@ listOfAnnouncements = []
 noOfAnnouncements = 0
 student  = None
 
-@login_required
+#@login_required
 def studentDashboard(request):
     global listOfAnnouncements, student, noOfAnnouncements
     return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
@@ -117,9 +117,10 @@ def uploadResume(request):
         saveDetails.save()
     return render(request,'student/Resume.html',{'form':form, 'student':student})    
 
-@login_required
+# @login_required
 def showCalendar(request):
-    student = Student.objects.get(user = request.user)
+    #student = Student.objects.get(user = request.user)
+    student = 'abcd'
     return render(request,'student/dashboard/pages/calendar.html',{'student':student})
 
 @login_required
