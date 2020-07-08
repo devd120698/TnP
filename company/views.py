@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 @login_required
 def companyForm(request):
     
-    if request.POST.get('joining_date', "") != "":
+    if request.POST.get('joining_date', "") != "" and Details.objects.filter(user = request.user) == None:
         companyName = request.POST.get('companyName', "")
         companyWebsite = request.POST.get('companyWebsite', "")
         companyHR = request.POST.get('companyHR', "")
