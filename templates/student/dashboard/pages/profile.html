@@ -2,6 +2,11 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 {% block content %}
+<style>
+.page-wrapper .page-content {
+    padding-top: 80px;
+}
+</style>
 <div class="profile-card js-profile-card">
           <div class="profile-card__img">
             <img src="{% static 'img/pic1.jpeg' %}" alt="profile card">

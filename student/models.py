@@ -7,6 +7,7 @@ from administrator.models import Branch
 from django.utils import timezone
 from coordinator.models import Companies
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
+from django.core.validators import FileExtensionValidator
 # As model field:
 from django_currentuser.db.models import CurrentUserField
 
@@ -21,7 +22,8 @@ class Student(models.Model):
     CGPA = models.FloatField(null=False)
     address = models.CharField(max_length = 1000, null = True)
     mobileNumber = models.CharField(max_length = 10, null = True)
-    
+    picture = models.FileField(null = True,upload_to = 'RegisterPictures/',validators=[FileExtensionValidator(allowed_extensions=['png','jpg', 'jpeg'])])
+
     def __str__(self) :
         return str(self.rollNumber)
 
