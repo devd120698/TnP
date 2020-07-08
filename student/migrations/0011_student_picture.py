@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='student',
             name='picture',
-            field=models.FileField(null=True, upload_to='RegisterPictures/', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])]),
+            field=models.FileField(null=True, upload_to='images/RegisterPictures/', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])]),
         ),
     ]

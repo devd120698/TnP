@@ -13,35 +13,37 @@ from administrator.models import Branch
 from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
-listOfAnnouncements = []
+
 noOfAnnouncements = 0
 student  = None
 
 @login_required
 def studentDashboard(request):
-    global listOfAnnouncements, noOfAnnouncements
+    global noOfAnnouncements
+    getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
     student = Student.objects.get(user = request.user)
-    return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
+    listOfAnnouncements = []
+    for announcement in getAnnouncements:
+        if announcement.type_of_announcement == 'Broadcasting':
+            listOfAnnouncements.append(announcement)
+        else:
+            companyName = Announcement.getCompanyName(announcement)
+            company = Companies.objects.get(name = companyName)
+            if CompanyApplicants.objects.filter(student = student).filter(company = company).exists():
+                listOfAnnouncements.append(announcement)
+        
+        global noOfAnnouncements
+        noOfAnnouncements = len(listOfAnnouncements)
+        
+    student = Student.objects.get(user = request.user)
+    return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements, 'listOfAnnouncements':listOfAnnouncements  })
 
 @login_required
 def registerStudent(request):
     user = request.user
     branches = Branch.objects.all()
     if Student.objects.filter(user = user).exists() :
-        getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
-        student = Student.objects.get(user = request.user)
         
-        for announcement in getAnnouncements:
-            if announcement.type_of_announcement == 'Broadcasting':
-                listOfAnnouncements.append(announcement)
-            else:
-                companyName = Announcement.getCompanyName(announcement)
-                company = Companies.objects.get(name = companyName)
-                if CompanyApplicants.objects.filter(student = student).filter(company = company).exists():
-                    listOfAnnouncements.append(announcement)
-        
-        global noOfAnnouncements
-        noOfAnnouncements = len(listOfAnnouncements)
         return HttpResponseRedirect('/student/studentDashboard')
 
     rollNumber = request.POST.get('rollNumber')
@@ -139,11 +141,6 @@ def showCalendar(request):
     student = Student.objects.get(user = request.user)
     return render(request,'student/dashboard/pages/calendar.html',{'student':student})
 
-@login_required
-def viewAnnouncements(request):
-    global listOfAnnouncements, noOfAnnouncements
-    student = Student.objects.get(user = request.user)
-    return render(request,'student/dashboard/pages/announcements.html',{'student':student, 'announcements':listOfAnnouncements, 'noOfAnnouncements': len(listOfAnnouncements)})
 
 @login_required
 def contactTnp(request):

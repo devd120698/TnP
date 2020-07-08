@@ -48,7 +48,7 @@ class Details(models.Model):
 
 class LoginDetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default = "", null = True)
-    uploadFile = models.FileField(null = True,upload_to = 'test/Documents/Company/LoginDetails',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    uploadFile = models.FileField(null = True,upload_to = 'images/Documents/Company/LoginDetails',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     name = models.CharField(max_length = 10, default = "name")
     
     def __str__(self):
@@ -56,7 +56,7 @@ class LoginDetails(models.Model):
 
 class Schedule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default = "", null = True)
-    uploadFile = models.FileField(null = True,upload_to = 'test/Documents/Company/Schedule',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    uploadFile = models.FileField(null = True,upload_to = 'images/Documents/Company/Schedule',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     name = models.CharField(max_length = 10, default = "name")
     
     def __str__(self):
