@@ -142,10 +142,13 @@ def uploadResume(request):
     #     print(saveDetails)
     #     saveDetails.save()
     # return render(request,'student/dashboard/pages/resume-form.html',{'student':student})   
+   
     student = Student.objects.get(user = request.user)
     form = UploadResume(request.POST or None ,request.FILES or None)
     form.user = request.user
     if form.is_valid():
+        if Resume.objects.filter(user = request.user).exists():
+            Resume.objects.get(user = request.user).delete()
         appl = form.save(commit = False)
         appl.user = request.user
         form.save()
