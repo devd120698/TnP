@@ -17,7 +17,7 @@ from django.core.mail import send_mail
 noOfAnnouncements = 0
 student  = None
 
-@login_required
+#@login_required
 def studentDashboard(request):
     global noOfAnnouncements
     getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
@@ -114,17 +114,23 @@ def viewProfile(request):
 @login_required
 def uploadResume(request):
     student = Student.objects.get(user = request.user)
-    
-    form = ResumeForm(request.POST or None)
-    if form.is_valid():
-        education = form.cleaned_data.get('educationAll')
-        projectAll = form.cleaned_data.get('projectAll')
-        acheievementsAll = form.cleaned_data.get('acheievementsAll')
-        relevantCoursesAll = form.cleaned_data.get('relevantCoursesAll')
-        skillsAll = form.cleaned_data.get('skillsAll')
-        extraCurricularAll = form.cleaned_data.get('extraCurricularAll')
+    print(request.POST.get('educationAll'))
+
+    if request.POST.get('educationAll') != None:
+        education = request.POST.get('educationAll')
+        projectAll = request.POST.get('projectAll')
+        acheievementsAll = request.POST.get('acheievementsAll')
+        relevantCoursesAll = request.POST.get('relevantCoursesAll')
+        skillsAll = request.POST.get('skillsAll')
+        extraCurricularAll = request.POST.get('extraCurricularAll')
 
         saveDetails = Resume(
+            name = request.POST.get('name'),
+            year = request.POST.get('year'),
+            email = request.POST.get('email'),
+            phoneNumber = request.POST.get('phone'),
+            address = request.POST.get('address'),
+            user = request.user,
             education = education,
             projects = projectAll,
             achievements = acheievementsAll,
@@ -133,12 +139,14 @@ def uploadResume(request):
             extraCurricular = extraCurricularAll
         )
 
+        print(saveDetails)
         saveDetails.save()
-    return render(request,'student/Resume.html',{'form':form, 'student':student})       
+    return render(request,'student/dashboard/pages/resume-form.html',{'student':student})       
 
-@login_required
+# @login_required
 def showCalendar(request):
-    student = Student.objects.get(user = request.user)
+    #student = Student.objects.get(user = request.user)
+    student = 'abcd'
     return render(request,'student/dashboard/pages/calendar.html',{'student':student})
 
 
