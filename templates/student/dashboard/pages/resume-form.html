@@ -125,32 +125,32 @@
                     for(i = 1;i<skillCount;i++){
                         skillId = "skill_"+i
                         skillChild = document.getElementById(skillId).childNodes;
-                        skills += "(" + skillChild[1].getElementsByTagName("input")[0].value + ")"
+                        skills += skillChild[1].getElementsByTagName("input")[0].value +  "|"
                     }
 
                     for(i = 1;i<projectCount;i++){
                         skillId = "project_"+i
                         skillChild = document.getElementById(skillId).childNodes;
-                        project += "(" + skillChild[1].getElementsByTagName("input")[0].value +","+
+                        project +=  skillChild[1].getElementsByTagName("input")[0].value +","+
 							skillChild[3].getElementsByTagName("input")[0].value +","+
-							skillChild[5].getElementsByTagName("input")[0].value + ")"
+							skillChild[5].getElementsByTagName("input")[0].value + "|"
                     }
                     for(i = 1;i<educationCount;i++){
                         skillId = "education_"+i
                         skillChild = document.getElementById(skillId).childNodes;
-                        education += "(" + skillChild[1].getElementsByTagName("input")[0].value +","+
+                        education += skillChild[1].getElementsByTagName("input")[0].value +","+
 							skillChild[3].getElementsByTagName("input")[0].value +","+
-							skillChild[5].getElementsByTagName("input")[0].value + ")"
+							skillChild[5].getElementsByTagName("input")[0].value +  "|"
                     }
                     for(i = 1;i<coursesCount;i++){
                         skillId = "courses_"+i
                         skillChild = document.getElementById(skillId).childNodes;
-                        courses += "(" + skillChild[1].getElementsByTagName("input")[0].value + ")"
+                        courses += skillChild[1].getElementsByTagName("input")[0].value +  "|"
                     }
                     for(i = 1;i<experienceCount;i++){
                         skillId = "experience_"+i
                        	skillChild = document.getElementById(skillId).childNodes;
-                        experience += "(" + skillChild[1].getElementsByTagName("input")[0].value + ")"
+                        experience += skillChild[1].getElementsByTagName("input")[0].value +  "|"
                     }
 
 					console.log(skills,education, project, courses, experience)

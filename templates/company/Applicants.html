@@ -8,10 +8,23 @@
 				margin: 1.5rem 0;
 			}
 		</style>
+		<script>
+			shortlisted = []
+			function viewResume(){
+				document.getElementById("form").submit()
+			}
+			function shortlist(admissionNumber){
+				shortlisted.push(admissionNumber)
+				document.getElementById(admissionNumber).disabled = true
+			}
+		</script>
 			<div class="container">
 				<div class="row">
 					<div class="col mb-12">
 						<div class="card">
+							<form method = "post" id = "form">
+							{% csrf_token %}
+							<input type = "text" name = "shortlists" value = "NULL" hidden>
 							<table class="table">
                                 <thead class="thead-dark">
                                     <tr>
@@ -22,17 +35,20 @@
                                 </thead>
                                 <tbody>
                                     {% for applicant  in  listOfApplicants %}
-                                        <tr>
-                                            <td>{{applicant}}</td>
-                                            <td><button type="button" class="btn btn-primary">View Resume</button></td>
-                                            <td><button type="button" class="btn btn-success">Shortlist</button></td>
-                                        </tr>
+											<tr>
+												<td>{{applicant.student.name}}</td>
+												<input type = "text" value = "{{applicant.student.rollNumber}}" name = "resume" hidden>
+												<td><button type="button" onclick = "viewResume()" class="btn btn-primary">View Resume</button></td>
+												<td><button type="button" onclick = "shortlist({{applicant.student.rollNumber}})" class="btn btn-success" id = "{{applicant.student.rollNumber}}" >Shortlist</button></td>
+											</tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                             
 							</div>
                             <button type="button" class="btn btn-success">Shortlist All</button>
+							<button type="button" class="btn btn-success">Submit Shortlist</button>
+							</form>
 						</div>
                         
 					</div>

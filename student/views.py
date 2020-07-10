@@ -113,35 +113,43 @@ def viewProfile(request):
 
 @login_required
 def uploadResume(request):
+    # student = Student.objects.get(user = request.user)
+    # print(request.POST.get('educationAll'))
+
+    # if request.POST.get('educationAll') != None:
+    #     education = request.POST.get('educationAll')
+    #     projectAll = request.POST.get('projectAll')
+    #     acheievementsAll = request.POST.get('acheievementsAll')
+    #     relevantCoursesAll = request.POST.get('relevantCoursesAll')
+    #     skillsAll = request.POST.get('skillsAll')
+    #     extraCurricularAll = request.POST.get('extraCurricularAll')
+
+    #     saveDetails = Resume(
+    #         name = request.POST.get('name'),
+    #         year = request.POST.get('year'),
+    #         email = request.POST.get('email'),
+    #         phoneNumber = request.POST.get('phone'),
+    #         address = request.POST.get('address'),
+    #         student = student,
+    #         education = education,
+    #         projects = projectAll,
+    #         achievements = acheievementsAll,
+    #         skills = skillsAll,
+    #         relevantCourses = relevantCoursesAll,
+    #         extraCurricular = extraCurricularAll
+    #     )
+
+    #     print(saveDetails)
+    #     saveDetails.save()
+    # return render(request,'student/dashboard/pages/resume-form.html',{'student':student})   
     student = Student.objects.get(user = request.user)
-    print(request.POST.get('educationAll'))
-
-    if request.POST.get('educationAll') != None:
-        education = request.POST.get('educationAll')
-        projectAll = request.POST.get('projectAll')
-        acheievementsAll = request.POST.get('acheievementsAll')
-        relevantCoursesAll = request.POST.get('relevantCoursesAll')
-        skillsAll = request.POST.get('skillsAll')
-        extraCurricularAll = request.POST.get('extraCurricularAll')
-
-        saveDetails = Resume(
-            name = request.POST.get('name'),
-            year = request.POST.get('year'),
-            email = request.POST.get('email'),
-            phoneNumber = request.POST.get('phone'),
-            address = request.POST.get('address'),
-            user = request.user,
-            education = education,
-            projects = projectAll,
-            achievements = acheievementsAll,
-            skills = skillsAll,
-            relevantCourses = relevantCoursesAll,
-            extraCurricular = extraCurricularAll
-        )
-
-        print(saveDetails)
-        saveDetails.save()
-    return render(request,'student/dashboard/pages/resume-form.html',{'student':student})       
+    form = UploadResume(request.POST or None ,request.FILES or None)
+    form.user = request.user
+    if form.is_valid():
+        appl = form.save(commit = False)
+        appl.user = request.user
+        form.save()
+    return render(request,'student/dashboard/pages/resume.html', {'form':form, 'student':student})    
 
 # @login_required
 def showCalendar(request):
