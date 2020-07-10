@@ -20,7 +20,7 @@ class Student(models.Model):
     yearOfGraduation = models.IntegerField(null=False)
     rollNumber = models.IntegerField(null=False, primary_key=True)
     CGPA = models.FloatField(null=False)
-    address = models.CharField(max_length = 1000, null = True)
+    address = models.TextField( null = True)
     mobileNumber = models.CharField(max_length = 10, null = True)
     picture = models.FileField(null = True,upload_to = 'RegisterPictures/',validators=[FileExtensionValidator(allowed_extensions=['png','jpg', 'jpeg'])])
 
@@ -88,14 +88,22 @@ class CompanyApplicants(models.Model):
         return self.student.name
 
 class Resume(models.Model):
+    name = models.CharField(max_length = 50, null = True)
+    year = models.CharField(max_length = 50, null = True)
+    email = models.EmailField(null = True)
+    phoneNumber = models.CharField(max_length = 15, null = True)
+    address = models.TextField(default = "1234 main st")
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
-    education = models.CharField(max_length = 20000000)
-    projects = models.CharField(max_length = 20000000)
-    achievements = models.CharField(max_length = 20000000, null = True)
-    skills = models.CharField(max_length = 20000000, null = True)
+    education = models.TextField()
+    projects = models.TextField()
+    achievements = models.TextField(null = True)
+    skills = models.TextField(null = True)
     # fieldOfInterest = models.CharField(max_length = 20000000, null = True)
-    relevantCourses = models.CharField(max_length = 20000000, null = True)
-    extraCurricular = models.CharField(max_length = 20000000, null = True)
+    relevantCourses = models.TextField( null = True)
+    extraCurricular = models.TextField( null = True)
+
+    def __str__(self):
+        return str(self.user)
 
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)

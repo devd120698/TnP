@@ -1,0 +1,490 @@
+{% extends 'student/dashboard/index.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+{% block content %}
+
+		<!-- Font Awesome -->
+		<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+		/>
+		<!-- Bootstrap core CSS -->
+		<link href="{% static '/ResumeAssets/css/bootstrap.min.css' %}" rel="stylesheet" />
+		<!-- Material Design Bootstrap -->
+		<link href="{% static '/ResumeAssets/css/mdb.min.css' %}" rel="stylesheet" />
+
+		<style>
+			.intro-2 {
+				margin-top:700px;
+			}
+			h6 {
+				line-height: 1.7;
+			}
+		</style>
+		<script src="js/dynamic-form.js"></script>
+        
+		<div class="content-section">
+            <div class="button-group">
+                <script>
+                skillCount = 2; projectCount = 2;
+                educationCount = 2; coursesCount =  2; experienceCount = 2; 
+                
+                function addNewSkill(){
+                    var f = document.getElementById("skills-row");
+					var elmnt = document.getElementById("skill_1");
+					var cln = elmnt.cloneNode(true);
+
+					var childNodes = elmnt.childNodes
+					
+					var clnChildNodes = cln.childNodes
+					clnChildNodes[1].getElementsByTagName("input")[0].value = ""
+					
+					skillId = "skill_"+skillCount
+					cln.setAttribute('id',skillId)
+
+					f.appendChild(cln);
+                    skillCount++
+                }
+                
+                function addProjects(){
+                    var f = document.getElementById("project-row");
+					var elmnt = document.getElementById("project_1");
+					var cln = elmnt.cloneNode(true);
+
+					var childNodes = elmnt.childNodes
+					
+					var clnChildNodes = cln.childNodes
+					clnChildNodes[1].getElementsByTagName("input")[0].value = ""
+					clnChildNodes[3].getElementsByTagName("input")[0].value = ""
+					clnChildNodes[5].getElementsByTagName("input")[0].value = ""
+					
+					skillId = "project_"+projectCount
+					cln.setAttribute('id',skillId)
+
+					f.appendChild(cln);
+                    projectCount++
+                }
+                function addEducation(){
+                    var f = document.getElementById("education-row");
+					var elmnt = document.getElementById("education_1");
+					var cln = elmnt.cloneNode(true);
+
+					var childNodes = elmnt.childNodes
+					
+					var clnChildNodes = cln.childNodes
+					clnChildNodes[1].getElementsByTagName("input")[0].value = ""
+					clnChildNodes[3].getElementsByTagName("input")[0].value = ""
+					clnChildNodes[5].getElementsByTagName("input")[0].value = ""
+					
+					skillId = "education_"+educationCount
+					cln.setAttribute('id',skillId)
+
+					f.appendChild(cln);
+                    educationCount++
+                }
+                function addExperience(){
+                    var f = document.getElementById("eca-row");
+					var elmnt = document.getElementById("experience_1");
+					var cln = elmnt.cloneNode(true);
+
+					var childNodes = elmnt.childNodes
+					
+					var clnChildNodes = cln.childNodes
+					clnChildNodes[1].getElementsByTagName("input")[0].value = ""
+					
+					skillId = "experience_"+experienceCount
+					cln.setAttribute('id',skillId)
+
+					f.appendChild(cln);
+                    experienceCount++
+                }
+                function addRelevantCourses(){
+                    var f = document.getElementById("courses-row");
+					var elmnt = document.getElementById("courses_1");
+					var cln = elmnt.cloneNode(true);
+
+					var childNodes = elmnt.childNodes
+					
+					var clnChildNodes = cln.childNodes
+					clnChildNodes[1].getElementsByTagName("input")[0].value = ""
+					
+					skillId = "courses_"+coursesCount
+					cln.setAttribute('id',skillId)
+
+					f.appendChild(cln);
+                    coursesCount++
+                }
+
+                function formSubmitted(){
+                    console.log("hey")
+                    skills = ""
+                    project = ""
+                    courses = ""
+                    experience = ""
+                    education = ""
+                    for(i = 1;i<skillCount;i++){
+                        skillId = "skill_"+i
+                        skillChild = document.getElementById(skillId).childNodes;
+                        skills += "(" + skillChild[1].getElementsByTagName("input")[0].value + ")"
+                    }
+
+                    for(i = 1;i<projectCount;i++){
+                        skillId = "project_"+i
+                        skillChild = document.getElementById(skillId).childNodes;
+                        project += "(" + skillChild[1].getElementsByTagName("input")[0].value +","+
+							skillChild[3].getElementsByTagName("input")[0].value +","+
+							skillChild[5].getElementsByTagName("input")[0].value + ")"
+                    }
+                    for(i = 1;i<educationCount;i++){
+                        skillId = "education_"+i
+                        skillChild = document.getElementById(skillId).childNodes;
+                        education += "(" + skillChild[1].getElementsByTagName("input")[0].value +","+
+							skillChild[3].getElementsByTagName("input")[0].value +","+
+							skillChild[5].getElementsByTagName("input")[0].value + ")"
+                    }
+                    for(i = 1;i<coursesCount;i++){
+                        skillId = "courses_"+i
+                        skillChild = document.getElementById(skillId).childNodes;
+                        courses += "(" + skillChild[1].getElementsByTagName("input")[0].value + ")"
+                    }
+                    for(i = 1;i<experienceCount;i++){
+                        skillId = "experience_"+i
+                       	skillChild = document.getElementById(skillId).childNodes;
+                        experience += "(" + skillChild[1].getElementsByTagName("input")[0].value + ")"
+                    }
+
+					console.log(skills,education, project, courses, experience)
+
+                    var f = document.getElementsByName("skillsAll")[0];   
+                    f.value = skills 
+                    var f1 = document.getElementsByName("educationAll")[0];   
+                    f1.value = education
+                    var f2 = document.getElementsByName("projectAll")[0];  
+                    f2.value = project
+                    var f3 = document.getElementsByName("relevantCoursesAll")[0];  
+                    f3.value = courses
+                    var f4 = document.getElementsByName("extraCurricularAll")[0]; 
+                    f4.value = experience
+
+                    console.log(skills, experience, courses, education, project)
+                    document.getElementById("form").submit();
+                }
+                </script>
+
+			<section class="intro-2">
+				<div class="mask rgba-gradient">
+					<div
+						class="container h-100 d-flex justify-content-center align-items-center"
+					>
+						<!--Grid row-->
+						<div class="row pt-5 mt-3">
+							<!--Grid column-->
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<h2
+											class="font-weight-bold my-4 text-center mb-5 mt-4 font-weight-bold"
+										>
+											<strong>RESUME</strong>
+										</h2>
+										<hr />
+
+										<!--Grid row-->
+										<div class="row mt-5">
+											<!--Grid column-->
+											<div class="col-12">
+												<div class="card">
+													<h5
+														class="card-header elegant-color white-text text-center py-4"
+													>
+														<strong>Enter Details Manually</strong>
+													</h5>
+
+													<!--Card content-->
+													<div class="card-body px-lg-5 pt-0">
+														<!-- Form -->
+														<form class="m-4" id = "form" method="POST">
+															{% csrf_token %}
+															<input type = "text" name = "educationAll" hidden>
+															<input type = "text" name = "skillsAll" hidden>
+															<input type = "text" name = "projectAll" hidden>
+															<input type = "text" name = "extraCurricularAll" hidden>
+															<input type = "text" name = "relevantCoursesAll" hidden>
+
+															<div class="form-row">
+																<div class="form-group col-md-6">
+																	<label for="resume-name">Name</label>
+																	<input
+																		type="text"
+																		class="form-control"
+																		id="resume-name"
+																		placeholder="Name"
+																		name = "name"
+																		value = {{student.name}}
+																	/>
+																</div>
+
+																<div class="form-group col-md-6">
+																	<label for="resume-year">Year</label>
+																	<input
+																		type="Number"
+																		class="form-control"
+																		id="resume-year"
+																		placeholder="Year"
+																		name = "year"
+																		value = {{student.yearOfGraduation}}
+																	/>
+																</div>
+
+																<div class="form-group col-md-6">
+																	<label for="resume-email">Email</label>
+																	<input
+																		type="email"
+																		class="form-control"
+																		id="resume-email"
+																		placeholder="Email"
+																		name = "email"
+																		value = {{student.user.email}}
+																	/>
+																</div>
+																<div class="form-group col-md-6">
+																	<label for="resume-phone">Phone Number</label>
+																	<input
+																		type="number"
+																		class="form-control"
+																		id="resume-phone"
+																		placeholder="Phone Number"
+																		name = "phone"
+																		value = {{student.mobileNumber}}
+																	/>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="resume-address">Address</label>
+																<input
+																	type="text"
+																	class="form-control"
+																	id="resume-address"
+																	placeholder="1234 Main St"
+																	name = "address"
+																	value = {{student.address}}
+																/>
+															</div>
+															<hr />
+															<div class="form-group" id="education-row">
+																<h4>Education</h4>
+																<br />
+																<div class="form-row" name = "educationElement" id = "education_1">
+																	<div class="form-group col-12 col-md-6">
+																		<label for="resume-course">Name</label>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-course"
+																			placeholder="Course"
+																		/>
+																	</div>
+
+																	<div class="form-group col-md-6">
+																		<label for="resume-course-year">Year</label>
+																		<input
+																			type="Number"
+																			class="form-control"
+																			id="resume-course-year"
+																			placeholder="Year"
+																		/>
+																	</div>
+
+																	<div class="form-group col-md-12">
+																		<label for="resume-course-description"
+																			>Description</label
+																		>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-course-description"
+																			placeholder="Description"
+																		/>
+																	</div>
+																</div>
+																
+															</div>
+															<button type = "button" id = "educationButton" class = "btn btn-success" onclick = "addEducation()" > Add More </button>
+															<hr />
+															<div class="form-group" id="project-row">
+																<h4>Projects</h4>
+																<br />
+																<div class="form-row" id = "project_1">
+																	<div class="form-group col-12 col-md-6">
+																		<label for="resume-project-topic"
+																			>Project Topic</label
+																		>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-project-topic"
+																			placeholder="Project Topic"
+																		/>
+																	</div>
+
+																	<div class="form-group col-md-6">
+																		<label for="resume-project-year"
+																			>Year</label
+																		>
+																		<input
+																			type="Number"
+																			class="form-control"
+																			id="resume-project-year"
+																			placeholder="Year"
+																		/>
+																	</div>
+
+																	<div class="form-group col-md-12">
+																		<label for="resume-project-description"
+																			>Description</label
+																		>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-project-description"
+																			placeholder="Description"
+																		/>
+																	</div>
+																</div>
+															</div>
+
+															<button type = "button" id = "projectButton" class = "btn btn-success" onclick = "addProjects()" > Add More </button>
+															<hr />
+
+															<div class="form-group" id="skills-row">
+																<h4>Skills</h4>
+																<br />
+																<div class="form-row" id = "skill_1">
+																	<div class="form-group col-12">
+																		<label for="resume-project-topic"
+																			>Skills</label
+																		>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-skill"
+																			placeholder="Skills"
+																		/>
+																	</div>
+																</div>
+															</div>
+															<button type = "button" id = "skillButton" class = "btn btn-success" onclick = "addNewSkill()" > Add More </button>
+															<hr />
+															<div class="form-group" id="courses-row">
+																<h4>Relevant Courses</h4>
+																<br />
+																<div class="form-row" id = "courses_1">
+																	<div class="form-group col-12">
+																		<label for="resume-courses">Course</label>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-courses"
+																			placeholder="Course"
+																		/>
+																	</div>
+																</div>
+															</div>
+															<button type = "button" id = "coursesButton" class = "btn btn-success" onclick = "addRelevantCourses()" > Add More </button>
+															<hr />
+															<div class="form-group" id="eca-row">
+																<h4>Extra Curricular Activities</h4>
+																<br />
+																<div class="form-row" id = "experience_1">
+																	<div class="form-group col-12">
+																		<label for="resume-eca"
+																			>Extra Curricular Activities</label
+																		>
+																		<input
+																			type="text"
+																			class="form-control"
+																			id="resume-eca"
+																			placeholder="Extra Curricular Activities"
+																		/>
+																	</div>
+																</div>
+															</div>
+															<button type = "button" id = "ecaButton" class = "btn btn-success" onclick = "addExperience()" > Add More </button>
+															<hr />
+														</form>
+														<!-- Form -->
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12 text-center pt-3 pb-3">
+														<h3>
+															OR
+														</h3>
+													</div>
+
+													<div class="col-12">
+														<div class="card">
+															<h5
+																class="card-header elegant-color white-text text-center pt-4"
+															>
+																<strong>Upload Your Resume</strong>
+															</h5>
+
+															<div class="card-body px-lg-5 pt-0">
+																<form action="">
+																	<div class="form-row pt-4">
+																		<div class="form-group col-12">
+																			<h4>
+																				Upload Your Resume
+																			</h4>
+																			<input
+																				type="text"
+																				class="form-control pt-2"
+																				id="resume-upload"
+																				placeholder="Upload your file"
+																			/>
+																		</div>
+																	</div>
+																	<div class="text-center">
+																		<button type = "button" onclick = "formSubmitted()" class="btn btn-indigo btn-rounded mt-5">
+																			Submit
+																		</button>
+																	</div>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+											<!--Grid column-->
+										</div>
+										<!--Grid row-->
+									</div>
+								</div>
+							</div>
+							<!--Grid column-->
+						</div>
+						<!--Grid row-->
+					</div>
+				</div>
+			</section>
+			<!--Intro Section-->
+		</header>
+		<!--Main Navigation-->
+
+		<!--  SCRIPTS  -->
+		<!-- JQuery -->
+		<script type="text/javascript" src="{% static '/ResumeAssets/js/jquery.min.js' %}"></script>
+		<!-- Bootstrap tooltips -->
+		<script type="text/javascript" src="{% static '/ResumeAssets/js/popper.min.js' %}"></script>
+		<!-- Bootstrap core JavaScript -->
+		<script type="text/javascript" src="{% static '/ResumeAssets/js/bootstrap.min.js' %}"></script>
+		<!-- MDB core JavaScript -->
+		<script type="text/javascript" src="{% static '/ResumeAssets/js/mdb.min.js' %}"></script>
+		<script>
+			new WOW().init();
+		</script>
+
+{% endblock %}
