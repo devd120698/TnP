@@ -20,7 +20,7 @@
   font-weight: 400;
   line-height: 45px;
   margin: 0 0 2em;
-  max-width: 160px; 
+  max-width: 130px; 
   position: relative;
   text-decoration: none;
   text-transform: uppercase;
@@ -58,7 +58,7 @@
 
 .btn-2:hover,
 .btn-2:active {
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 }
 
 .btn-2:after,
@@ -82,15 +82,20 @@
   width: 70%;
 }
 a.btn.btn-2 {
+    color: #f8f9fa;
     position: absolute;
-    padding-top: 10px;
     top: 0px;
-    right: 0px;
+    left : -20px;
+    padding-bottom:20px;
 }
 .btn-2:hover:before {
   bottom: auto;
-  top: 0;
+  top: 10px;
   width: 70%;
+  color : white;
+}
+i{
+  color: #dadada47;
 }
 
 </style>
@@ -105,18 +110,19 @@ a.btn.btn-2 {
             {% for company in eligibleCompanies%}
               {% if company.placementStatus == 'A' %}
                 <div class="card-header bg-primary">
-                  <i class="fa fa-link fa-3x text-light"></i>
+                  <i class="fa fa-link fa-3x"></i>
+                   <section class="buttons">
+                    <a href="#" class="btn btn-2">Applied</a>     
+                  </section>
                 </div>
                 <div class="card-body" style="background: rgba(0, 123, 255,0.4);">
                   <h5>{{company.company.name}}</h5>
-                   <section class="buttons">
-                    <a href="https://twitter.com/Dave_Conner" class="btn btn-2">Applied</a>     
-                  </section>
+                  
                 </div>
                
               {% elif company.placementStatus == 'I' %}
                 <div class="card-header bg-secondary">
-                  <i class="fa fa-life-ring fa-3x text-light"></i>
+                  
                 </div>
                 <div class="card-body" style="background: rgba(108, 117, 125,0.5);">
                   <h3>Qualified For Interview</h3>

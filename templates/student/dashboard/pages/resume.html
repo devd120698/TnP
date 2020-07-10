@@ -1,30 +1,85 @@
 {% extends 'student/dashboard/index.html' %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/resume.css' %}">
 {% block content %}
-        <center>
-          <h1>Upload Your Resume Here.</h1>
-<!--           this will be displayed if resume doesn't exist   -->
-          <p class="lead text-danger">You have not uploaded your resume yet.</p>
-        </center>
-        <!-- Upload  -->
-        <form id="file-upload-form" class="uploader">
-          <input id="file-upload" type="file" name="fileUpload"/>
+<style>
+form {
+    position: absolute;
+    top: 40%;
+    background: #ffffffbf;
+    left: 60%;
+    margin-top: -100px;
+    margin-left: -250px;
+    width: 500px;
+    height: 200px;
+    border: 4px dashed #000;
+    box-shadow: 3px 0px 3px 3px #ffffff52;
+}
+form p{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 170px;
+  color: #000;
+  font-family: Arial;
+}
+form input{
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+}
+form button{
+  margin: 0;
+  color: #fff;
+  background: #16a085;
+  border: none;
+  width: 508px;
+  height: 35px;
+  margin-top: -20px;
+  margin-left: -4px;
+  border-radius: 4px;
+  border-bottom: 4px solid #117A60;
+  transition: all .2s ease;
+  outline: none;
+}
+form button:hover{
+  background: #149174;
+	color: #0C5645;
+}
+label{
+  display:none;
+}
+form button:active{
+  border:0;
+}
+.page-wrapper {
+    background-image: linear-gradient(160deg, #f1f1f1 0%, #7e7979 100%);
+    height: 116vh;
+    top: 0px;
+    margin-top: -100px;
+    width:fir-content;
+}
+</style>
+<script>
+function myfunc(){
+  console.log("hello")
+  document.getElementsByTagName("p")[0].innerHTML = "file selected"
+}
+</script>
 
-          <label for="file-upload" id="file-drag">
-            <img id="file-image" src="#" alt="Preview" class="hidden">
-            <div id="start">
-              <i class="fa fa-download" aria-hidden="true"></i>
-              <div>Select a file or drag here</div>
-              <div id="notimage" class="hidden">Please select an image</div>
-              <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
-            </div>
-          </label>
-          <center>
-            <p>You can upload your resume any number of times.</p>
-            <p>Uploading this will overwrite the previous uploaded.</p>
-          </center>
-        </form>
+<form method="POST" enctype="multipart/form-data" onchange = "myfunc()">
+
+<div class="form-group">
+  {% csrf_token %}
+  {{form}}
+   <p>Drag your files here or click in this area.</p>
+  <button type="submit">Upload</button>
+</div>
+</form>
+
 
 {% endblock content %} 
         

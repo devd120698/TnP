@@ -30,6 +30,10 @@ class Student(models.Model):
     class Meta:
         db_table = 'student_user'
 
+    @staticmethod
+    def getUser(self):
+        return self.user
+
 @receiver(post_save, sender=Student)
 def ensure_profile_exists(sender, **kwargs):
     if kwargs.get('created', False):
@@ -88,22 +92,51 @@ class CompanyApplicants(models.Model):
         return self.student.name
 
 class Resume(models.Model):
-    name = models.CharField(max_length = 50, null = True)
-    year = models.CharField(max_length = 50, null = True)
-    email = models.EmailField(null = True)
-    phoneNumber = models.CharField(max_length = 15, null = True)
-    address = models.TextField(default = "1234 main st")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
-    education = models.TextField()
-    projects = models.TextField()
-    achievements = models.TextField(null = True)
-    skills = models.TextField(null = True)
-    # fieldOfInterest = models.CharField(max_length = 20000000, null = True)
-    relevantCourses = models.TextField( null = True)
-    extraCurricular = models.TextField( null = True)
+    
+    # name = models.CharField(max_length = 50, null = True)
+    # year = models.CharField(max_length = 50, null = True)
+    # email = models.EmailField(null = True)
+    # phoneNumber = models.CharField(max_length = 15, null = True)
+    # address = models.TextField(default = "1234 main st")
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, null = True)
+    # education = models.TextField()
+    # projects = models.TextField()
+    # achievements = models.TextField(null = True)
+    # skills = models.TextField(null = True)
+    # # fieldOfInterest = models.CharField(max_length = 20000000, null = True)
+    # relevantCourses = models.TextField( null = True)
+    # extraCurricular = models.TextField( null = True)
 
+    user = models.ForeignKey(User, null = True, on_delete=models.CASCADE)
+    resume = models.FileField(null = True, upload_to="images/Resume",validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     def __str__(self):
         return str(self.user)
+    
+    # @staticmethod
+    # def getRelevant(self):
+    #     return self.relevantCourses
+
+    # @staticmethod
+    # def getAchievements(self):
+    #     return self.achievements
+
+    # @staticmethod
+    # def getExtraCurricular(self):
+    #     return self.extraCurricular
+    
+    # @staticmethod
+    # def getSkills(self):
+    #     return self.skills
+    
+    # @staticmethod
+    # def getProjects(self):
+    #     return self.projects
+    
+    # @staticmethod
+    # def getEducation(self):
+    #     return self.education
+
+    
 
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
