@@ -1,7 +1,7 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 <!-- MDBootstrap Datatables  -->
 
 <!DOCTYPE html>
@@ -10,43 +10,29 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
+    <meta name="viewport" content="width=device-width" /> 
     <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
- 
+  
+  </head>
   <style>
-  #dashboard{
-      background: white;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    @media screen and (max-width: 768px)
-    .wrapper {
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .wrapper {
-        width: fit-content;
-        height: auto;
-        min-height: 100vh;
-        display: flex;
-    }
+  .sidebar-wrapper .sidebar-brand > a {
+    text-decoration: none;
+  }
   </style>
-</head>
-
-<body id="dashboard">
+<body>
 <div class="page-wrapper chiller-theme toggled">
   <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
     <i class="fas fa-bars"></i>
   </a>
-  <nav id="sidebar" class="sidebar-wrapper --dark">
+   <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
       <div class="sidebar-brand">
-        <a href="#" style="text-decoration : none;">Student Portal</a>
+        <a href="#">Student Portal</a>
         <div id="close-sidebar">
           <i class="fas fa-times"></i>
         </div>
@@ -76,7 +62,7 @@
           <li class="bg-secondary">
             <a href="{% url 'student:viewProfile'%}">
               <i class="fa fa-user"></i>
-              <span class="text-dark">My Profile</span>
+              <span style="color:#000">My Profile</span>
             </a>
           </li>
 
@@ -121,7 +107,7 @@
     </div>
     <!-- sidebar-content  -->
     <div class="sidebar-footer" style="padding-top: 10px;">
-      <a href="{% url 'student:viewAnnouncements'%}" title="Announcements">
+      <a href="#" title="Announcements">
         <i class="fa fa-bell"></i>
         <span class="badge badge-pill badge-warning notification">{{noOfAnnouncements}}</span>
       </a>

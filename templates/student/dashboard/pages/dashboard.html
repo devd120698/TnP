@@ -2,6 +2,20 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+<style>
+.fa-star:hover, .fa-check:hover, .fa-user:hover {
+  color: #3a3a3e7a;
+}
+.statis .box{
+  box-shadow: 0 8px 6px 2px #00000059;
+}
+.welcome1 .content1 {
+    background-color: #313348;
+    padding: 5px;
+    height: 50px;
+    margin-top: 25px;
+}
+</style>
     {% comment %} <div style="display:block; background : #dadada; margin:0"> {% endcomment %}
       <div class="welcome">
         <div class="container-fluid">
@@ -19,29 +33,20 @@
       <section class="main-head">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-4">
-              <div class="box" style="display:flex;">
-                <i class="fa fa-envelope fa-fw bg-primary"></i>
-                <div class="info">
-                  <h3><a href="#" class="text-light" style="text-decoration : none;">New Applications</a></h3>
-                  <p>Apply for New Application</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <div class="box" style="display:flex;">
                 <i class="fa fa-file fa-fw danger"></i>
                 <div class="info">
-                  <h3><a href="#" class="text-light" style="text-decoration : none;">View Status</a></h3>
+                  <h3><a href="{% url 'student:viewStatusOfApplication'%}#" class="text-light" style="text-decoration : none;">View Status</a></h3>
                   <p>Look for the status of your Application(s)</p>
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <div class="box" style="display:flex;">
                 <i class="fa fa-mouse-pointer fa-fw bg-success"></i>
                 <div class="info">
-                  <h3><a href="#" class="text-light" style="text-decoration : none;">Apply For Company</a></h3>
+                  <h3><a href="{% url 'student:viewNewApplications'%}" class="text-light" style="text-decoration : none;">Apply For Company</a></h3>
                   <p>A single click away to apply for the Company</p>
                 </div>
               </div>
@@ -52,64 +57,56 @@
       <section class="subhead">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header content-center" style="background-color: #313348;">
                   <i class="icon text-white my-4 display-4"></i>
-                  <h2>Announcement<span class="badge badge-pill badge-danger ml-2" style="font-size: 10px;">New</span></h2>
+                  <center><h4>Announcement<span class="badge badge-pill badge-danger ml-2" style="font-size: 10px;">New</span></h4></center>
                 </div>
                 <div class="card-body text-dark">
-                  <li>You can now fill for ABC Company.</li>
-                  <li>Lorem ipsum</li>
-                  <li>Lorem ipsum</li>
-                  <li>Lorem ipsum</li>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-header content-center" style="background-color: #313348;">
-                  <i class="icon text-white my-4 display-4"></i>
-                  <h2>Reminder</h2>
-                </div>
-                <div class="card-body text-dark">
-                  <li>Last date to apply for XYZ Company</li>
-                  <li>Lorem ipsum</li>
-                  <li>Lorem ipsum</li>
-                  <li>Lorem ipsum</li>
+                  {% for annoucement in listOfAnnouncements %}
+                    <li>  
+                      <p> {{annoucement.announcementid}}</p>
+                      <p> {{annoucement.text}}</p>
+                      <p> {{annoucement.company.name}}</p>
+                     </li>
+                  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section class="text-center mt-5"><h2>Summary</h2></section>
+      <div class="welcome1">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content1 text-center">
+                <h2 class="text-light">SUMMARY</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <section class='statis text-center'>
 
           <div class="container-fluid">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="box bg-primary">
                   <i class="fa fa-star"></i>
                   <h3>5</h3>
                   <p class="lead">Companies Applied</p>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="box danger">
                   <i class="fa fa-user"></i>
                   <h3>87%</h3>
                   <p class="lead">Profile Completed</p>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="box warning">
-                  <i class="fa fa-calendar"></i>
-                  <h3>mm/dd/yyyy</h3>
-                  <p class="lead">Last Resume Uploaded on</p>
-                </div>
-              </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="box success">
                   <i class="fa fa-check"></i>
                   <h3>2</h3>

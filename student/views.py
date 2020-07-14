@@ -9,46 +9,65 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from coordinator.models import *
+from administrator.models import Branch
 from datetime import datetime, timedelta
 from django.core.mail import send_mail
 
-listOfAnnouncements = []
+
 noOfAnnouncements = 0
 student  = None
 
 #@login_required
 def studentDashboard(request):
-    global listOfAnnouncements, student, noOfAnnouncements
-    return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements })
+    global noOfAnnouncements
+    getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
+    student = Student.objects.get(user = request.user)
+    listOfAnnouncements = []
+    for announcement in getAnnouncements:
+        if announcement.type_of_announcement == 'Broadcasting':
+            listOfAnnouncements.append(announcement)
+        else:
+            companyName = Announcement.getCompanyName(announcement)
+            company = Companies.objects.get(name = companyName)
+            if CompanyApplicants.objects.filter(student = student).filter(company = company).exists():
+                listOfAnnouncements.append(announcement)
+        
+        global noOfAnnouncements
+        noOfAnnouncements = len(listOfAnnouncements)
+        
+    student = Student.objects.get(user = request.user)
+    return render(request, 'student/dashboard/pages/dashboard.html', {'student':student,'noOfAnnouncements': noOfAnnouncements, 'listOfAnnouncements':listOfAnnouncements  })
 
 @login_required
 def registerStudent(request):
     user = request.user
-    student = Student.objects.get(user = request.user)
+    branches = Branch.objects.all()
     if Student.objects.filter(user = user).exists() :
-        getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
-        student = Student.objects.get(user = request.user)
         
-        for announcement in getAnnouncements:
-            if announcement.type_of_announcement == 'Broadcasting':
-                listOfAnnouncements.append(announcement)
-            else:
-                companyName = Announcement.getCompanyName(announcement)
-                company = Companies.objects.get(name = companyName)
-                if CompanyApplicants.objects.filter(student = student).filter(company = company).exists():
-                    listOfAnnouncements.append(announcement)
-        
-        global noOfAnnouncements
-        noOfAnnouncements = len(listOfAnnouncements)
         return HttpResponseRedirect('/student/studentDashboard')
 
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        appl = form.save(commit = False)
-        appl.user = request.user
-        appl.save()
-        return HttpResponseRedirect('student/studentDashboard')
-    return render(request,'authentication/form.html',{'form' : form})
+    rollNumber = request.POST.get('rollNumber')
+
+    if rollNumber != None:
+        if Student.objects.filter(rollNumber = rollNumber).exists():
+            return HttpResponse("already registered")
+        
+        else:
+            branchName = request.POST.get('branches')
+            saveDetails = Student(
+                name = request.POST.get('name'),
+                user = request.user,
+                admissionNumber = request.POST.get('admNumber'),
+                rollNumber = rollNumber,
+                branch = Branch.objects.get(branch = branchName),
+                yearOfGraduation = request.POST.get('yearOfGraduation'),
+                CGPA = request.POST.get('CGPA'),
+                address = request.POST.get('address'),
+                mobileNumber = request.POST.get('mobNo')
+            )
+            saveDetails.save()
+            return HttpResponseRedirect('studentDashboard')
+    return render(request,'Register/studentRegister.html',{'branches':branches})
 
 @login_required
 def viewNewApplications(request):
@@ -94,28 +113,46 @@ def viewProfile(request):
 
 @login_required
 def uploadResume(request):
+    # student = Student.objects.get(user = request.user)
+    # print(request.POST.get('educationAll'))
+
+    # if request.POST.get('educationAll') != None:
+    #     education = request.POST.get('educationAll')
+    #     projectAll = request.POST.get('projectAll')
+    #     acheievementsAll = request.POST.get('acheievementsAll')
+    #     relevantCoursesAll = request.POST.get('relevantCoursesAll')
+    #     skillsAll = request.POST.get('skillsAll')
+    #     extraCurricularAll = request.POST.get('extraCurricularAll')
+
+    #     saveDetails = Resume(
+    #         name = request.POST.get('name'),
+    #         year = request.POST.get('year'),
+    #         email = request.POST.get('email'),
+    #         phoneNumber = request.POST.get('phone'),
+    #         address = request.POST.get('address'),
+    #         student = student,
+    #         education = education,
+    #         projects = projectAll,
+    #         achievements = acheievementsAll,
+    #         skills = skillsAll,
+    #         relevantCourses = relevantCoursesAll,
+    #         extraCurricular = extraCurricularAll
+    #     )
+
+    #     print(saveDetails)
+    #     saveDetails.save()
+    # return render(request,'student/dashboard/pages/resume-form.html',{'student':student})   
+   
     student = Student.objects.get(user = request.user)
-    
-    form = ResumeForm(request.POST or None)
+    form = UploadResume(request.POST or None ,request.FILES or None)
+    form.user = request.user
     if form.is_valid():
-        education = form.cleaned_data.get('educationAll')
-        projectAll = form.cleaned_data.get('projectAll')
-        acheievementsAll = form.cleaned_data.get('acheievementsAll')
-        relevantCoursesAll = form.cleaned_data.get('relevantCoursesAll')
-        skillsAll = form.cleaned_data.get('skillsAll')
-        extraCurricularAll = form.cleaned_data.get('extraCurricularAll')
-
-        saveDetails = Resume(
-            education = education,
-            projects = projectAll,
-            achievements = acheievementsAll,
-            skills = skillsAll,
-            relevantCourses = relevantCoursesAll,
-            extraCurricular = extraCurricularAll
-        )
-
-        saveDetails.save()
-    return render(request,'student/Resume.html',{'form':form, 'student':student})    
+        if Resume.objects.filter(user = request.user).exists():
+            Resume.objects.get(user = request.user).delete()
+        appl = form.save(commit = False)
+        appl.user = request.user
+        form.save()
+    return render(request,'student/dashboard/pages/resume.html', {'form':form, 'student':student})    
 
 # @login_required
 def showCalendar(request):
@@ -123,8 +160,28 @@ def showCalendar(request):
     student = 'abcd'
     return render(request,'student/dashboard/pages/calendar.html',{'student':student})
 
+
 @login_required
-def viewAnnouncements(request):
-    global listOfAnnouncements, noOfAnnouncements, student
-    return render(request,'student/dashboard/pages/announcements.html',{'student':student, 'announcements':listOfAnnouncements, 'noOfAnnouncements': len(listOfAnnouncements)})
+def contactTnp(request):
+    student = Student.objects.get(user = request.user)
+    form = ContactForm(request.POST or None)
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        mailid = form.cleaned_data.get('mailid')
+        message = form.cleaned_data.get('message')
+        saveDetails = Contact(
+            name = name,
+            mailid = mailid,
+            message = message
+        )
+        saveDetails.save()
+        send_mail(
+		    name + ' contacting CCPD',
+		    message,
+		    'taps@nitw.ac.in',
+		    [mailid],
+		    fail_silently=True,
+	    )
+		
+    return render(request,'student/Resume.html',{'form':form, 'student':student})  
 

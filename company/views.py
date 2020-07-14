@@ -3,12 +3,15 @@ from .models import *
 from coordinator.models import Companies
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from student.models import CompanyApplicants
+from student.forms import *
+from student.models import *
+from django.core.mail import send_mail
+from django.http import HttpResponse
 
 @login_required
 def companyForm(request):
     
-    if request.POST.get('joining_date', "") != "":
+    if request.POST.get('joining_date', "") != "" and Details.objects.filter(user = request.user) == None:
         companyName = request.POST.get('companyName', "")
         companyWebsite = request.POST.get('companyWebsite', "")
         companyHR = request.POST.get('companyHR', "")
@@ -151,15 +154,55 @@ def linkForTest(request):
 
 @login_required
 def viewApplicants(request):
-    listOfStudents = ['dummy', 'dummy1']
+    # ------- custom resume -------
+    listOfStudents = []
     if Details.objects.filter(user = request.user).exists():
         getCompanyDetails = Details.objects.get(user = request.user)
         getCurrentCompany = Companies.objects.get(companyID = getCompanyDetails)
-        getList = CompanyApplicants.objects.filter(company = getCurrentCompany)
+        getList = CompanyApplicants.objects.filter(company = getCurrentCompany).filter(placementStatus = 'A')
 
-        for student in getList:
-            listOfStudents.append(CompanyApplicants.getStudentName(student))
+        if request.POST.get('shortlists') == "NULL":
+            studentId = request.POST.get('resume')
+            student = Student.objects.get(rollNumber = studentId)
+            user = User.objects.get(email = student.user.email)
+            resume = Resume.objects.get(user = user)
+            with open(resume.resume.path, 'rb') as pdf:
+                response = HttpResponse(pdf.read(), content_type='application/pdf')
+                response['Content-Disposition'] = 'inline;filename=some_file.pdf'
+                return response
+            pdf.closed
+            # relevantCourses = Resume.getRelevant(resume).split("|")
+            # acheivements = Resume.getAchievements(resume).split("|")
+            # eac = Resume.getExtraCurricular(resume).split("|")
+            # skills = Resume.getSkills(resume).split("|")
+            # projects = Resume.getProjects(resume).split("|")
+            # education = Resume.getEducation(resume).split("|")
 
-    return render(request, 'company/Applicants.html', {'listOfApplicants':listOfStudents})
+            return render(request, 'authentication/showResume.html', {'resume':resume})
+    
+    #-------upload resume ------
+    return render(request, 'company/Applicants.html', {'listOfApplicants':getList})
 
+@login_required
+def contacTnp(request):
+    form = ContactForm(request.POST or None)
+    if form.is_valid():
+        name = form.cleaned_data.get('name')
+        mailid = form.cleaned_data.get('mailid')
+        message = form.cleaned_data.get('message')
+        saveDetails = ContactCompany(
+            name = name,
+            mailid = mailid,
+            message = message
+        )
+        saveDetails.save()
+        send_mail(
+		    name + ' contacting CCPD',
+		    message,
+		    'taps@nitw.ac.in',
+		    [mailid],
+		    fail_silently=True,
+	    )
+		
+    return render(request,'company/Contact.html',{'form':form}) 
 
