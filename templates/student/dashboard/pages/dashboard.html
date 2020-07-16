@@ -16,6 +16,8 @@
     margin-top: 25px;
 }
 </style>
+<div class="card-body ">
+ <div class="card p-3 mb-5 bg-white rounded" style="min-height: 410px; box-shadow: 0 20px 16px 15px rgba(0, 0, 0, 0.38);">
     {% comment %} <div style="display:block; background : #dadada; margin:0"> {% endcomment %}
       <div class="welcome">
         <div class="container-fluid">
@@ -65,7 +67,7 @@
                 </div>
                 <div class="card-body text-dark">
                   {% for annoucement in listOfAnnouncements %}
-                    <li>  
+                    <li>
                       <p> {{annoucement.announcementid}}</p>
                       <p> {{annoucement.text}}</p>
                       <p> {{annoucement.company.name}}</p>
@@ -117,4 +119,6 @@
           </div>
         </section>
         </div>
-{% endblock content %} 
+        </div>
+        </div>
+{% endblock content %}
