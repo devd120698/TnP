@@ -15,6 +15,8 @@
     height: 50px;
     margin-top: 25px;
 }
+.addeventatc {visibility:hidden;}
+
 </style>
     {% comment %} <div style="display:block; background : #dadada; margin:0"> {% endcomment %}
       <div class="welcome">
@@ -23,8 +25,6 @@
             <div class="col-md-12">
               <div class="content text-center">
                 <h2 class="text-light"><strong>Welcome to Dashboard, {{student.name}}</strong></h2>
-                <!-- Designation/Title -->
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
               </div>
             </div>
           </div>
@@ -65,11 +65,18 @@
                 </div>
                 <div class="card-body text-dark">
                   {% for annoucement in listOfAnnouncements %}
-                    <li>  
-                      <p> {{annoucement.announcementid}}</p>
-                      <p> {{annoucement.text}}</p>
-                      <p> {{annoucement.company.name}}</p>
-                     </li>
+                     
+                      <p> {{annoucement.company.name}} - {{annoucement.text}}</p>
+                      <div title="Add to Calendar" class="addeventatc">
+                        Add to Calendar
+                        <span class="start">07/30/2020 08:00 AM</span>
+                        <span class="end">07/30/2020 10:00 AM</span>
+                        <span class="timezone">Asia/Kolkata</span>
+                        <span class="title">Summary of the event</span>
+                        <span class="description">Description of the event</span>
+                        <span class="location">Location of the event</span>
+                    </div>
+                    <p></p>
                   {% endfor %}
                 </div>
               </div>
