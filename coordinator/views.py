@@ -15,6 +15,7 @@ from student.models import CompanyApplicants
 from .models import Announcement
 from .forms import AnnouncementForm, UpdateAnnouncementForm
 from company.models import Details
+from datetime import datetime, timedelta
 
 # Views
 flagDeleted = 0
@@ -23,11 +24,23 @@ flagDeleted = 0
 @login_required
 def coordinatorDashboard(request):
     user = request.user
+    getAnnouncements = Announcement.objects.filter(
+        datePublished__gte=datetime.now() - timedelta(1), datePublished__lte=datetime.now())
+    listOfAnnouncements = []
+    for announcement in getAnnouncements:
+        if announcement.type_of_announcement == 'Broadcasting':
+            listOfAnnouncements.append(announcement)
+        else:
+            companyName = Announcement.getCompanyName(announcement)
+            company = Companies.objects.get(name=companyName)
+            if CompanyApplicants.objects.filter(student=student).filter(company=company).exists():
+                listOfAnnouncements.append(announcement)
+
     listOfCoordinators = User.objects.filter(groups__name='Coordinator')
     emails = User.objects.filter(is_active=True).values_list(
         'email', flat=True).filter(groups__name='Coordinator')
     if emails.filter(email=request.user.email).exists():
-        context = {}
+        context = {'listOfAnnouncements': listOfAnnouncements}
         template = 'coordinator/dashboard/pages/dash.html'
         return render(request, template, context)
 
