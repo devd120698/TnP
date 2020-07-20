@@ -11,149 +11,145 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
-    <meta name="viewport" content="width=device-width" /> 
+    <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
-    <link rel = "stylesheet" type="text/css" href="{% static 'css/theme6.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/theme6.css' %}">
 
 
-  </head>
-  <style>
-  .sidebar-wrapper .sidebar-brand > a {
-    text-decoration: none;
-  }
-  </style>
+</head>
+<style>
+    .sidebar-wrapper .sidebar-brand>a {
+        text-decoration: none;
+    }
+</style>
+
 <body>
-<div class="page-wrapper chiller-theme toggled">
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-    <i class="fas fa-bars"></i>
-  </a>
-   <nav id="sidebar" class="sidebar-wrapper">
-    <div class="sidebar-content">
-      <div class="sidebar-brand">
-        <a href="#">Coordinator Portal</a>
-        <div id="close-sidebar">
-          <i class="fas fa-times"></i>
-        </div>
-      </div>
-      <div class="sidebar-header">
-        <div class="user-pic">
-          <img class="img-responsive rounded-circle" src="{% static 'img/pic1.jpeg'%}"  alt="User picture" style="width:50px;height: 50px">
-        </div>
-        <div class="user-info">
-          <span class="user-name">
-            <strong>Name</strong>
-          </span>
-          <span class="user-role">CCPD associate</span>
-          <span class="user-status">
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <a href="#">Coordinator Portal</a>
+                    <div id="close-sidebar">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="sidebar-header">
+                    <div class="user-pic">
+                        <img class="img-responsive rounded-circle" src="{% static 'img/pic1.jpeg'%}" alt="User picture" style="width:50px;height: 50px">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name"><strong>{{ user }}</strong></span>
+                        <span class="user-role">CCPD associate</span>
+                        <span class="user-status">
             <i class="fa fa-circle"></i>
             <span>Online</span>
-          </span>
-        </div>
-      </div>
+                        </span>
+                    </div>
+                </div>
 
-      <div class="sidebar-menu">
-        <ul>
-          <li class="header-menu">
-            <span>Tasks</span>
-          </li>
+                <div class="sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>Tasks</span>
+                        </li>
 
-          <li class="bg-secondary">
-            <a href="{% url 'coordinator:addNewCompany'%}">
-              <i class="fa fa-user"></i>
-              <span style="color:#000">Add New Company</span>
-            </a>
-          </li>
+                        <li class="bg-secondary">
+                            <a href="{% url 'coordinator:addNewCompany'%}">
+                                <i class="fa fa-user"></i>
+                                <span style="color:#000">Add New Company</span>
+                            </a>
+                        </li>
 
-          <li>
-            <a href="{% url 'coordinator:updateCompanyStatus'%}">
-              <i class="fa fa-tachometer-alt"></i>
-              <span>Update Company</span>
-            </a>
-          </li>
+                        <li>
+                            <a href="{% url 'coordinator:updateCompanyStatus'%}">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span>Update Company</span>
+                            </a>
+                        </li>
 
-          <li>
-            <a href="{% url 'coordinator:getCompanyStatus'%}">
-              <i class="fa fa-calendar-check"></i>
-              <span>View Company Status</span>
-            </a>
-          </li>
+                        <li>
+                            <a href="{% url 'coordinator:getCompanyStatus'%}">
+                                <i class="fa fa-calendar-check"></i>
+                                <span>View Company Status</span>
+                            </a>
+                        </li>
 
-          <li>
-            <a href="{% url 'coordinator:sendCompanyDetails'%}">
-              <i class="far fa-file"></i>
-              <span>Send Company Status</span>
-            </a>
-          </li>
+                        <li>
+                            <a href="{% url 'coordinator:sendCompanyDetails'%}">
+                                <i class="far fa-file"></i>
+                                <span>Send Company Status</span>
+                            </a>
+                        </li>
 
-          <li>
-            <a href="{% url 'coordinator:checkApplicantsOfCompany'%}">
-              <i class="fa fa-mouse-pointer"></i>
-              <span>Check Applicants</span>
-            </a>
-          </li>
+                        <li>
+                            <a href="{% url 'coordinator:checkApplicantsOfCompany'%}">
+                                <i class="fa fa-mouse-pointer"></i>
+                                <span>Check Applicants</span>
+                            </a>
+                        </li>
 
-          <li>
-            <a href="{% url 'coordinator:placedStudents'%}">
-              <i class="fa fa-calendar"></i>
-              <span>Placed Students</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'coordinator:updateStudents'%}">
-              <i class="fa fa-calendar"></i>
-              <span>Update Students</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'coordinator:updateAnnouncements'%}">
-              <i class="fa fa-calendar"></i>
-              <span>Update Announcement</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'coordinator:createAnnouncements'%}">
-              <i class="fa fa-calendar"></i>
-              <span>Add Announcement</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- sidebar-menu  -->
+                        <li>
+                            <a href="{% url 'coordinator:placedStudents'%}">
+                                <i class="fa fa-calendar"></i>
+                                <span>Placed Students</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'coordinator:updateStudents'%}">
+                                <i class="fa fa-calendar"></i>
+                                <span>Update Students</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'coordinator:updateAnnouncements'%}">
+                                <i class="fa fa-calendar"></i>
+                                <span>Update Announcement</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'coordinator:createAnnouncements'%}">
+                                <i class="fa fa-calendar"></i>
+                                <span>Add Announcement</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-content  -->
+            <div class="sidebar-footer" style="padding-top: 10px;">
+                <a href="{% url 'account_logout' %}" title="Sign Out">
+                    <i class="fa fa-power-off"></i>
+                </a>
+            </div>
+
+        </nav>
+        <!-- sidebar-wrapper  -->
+        <main class="page-content" id="dashboard">
+            <div class="container-fluid">
+                {% comment %}
+                <div class="wrapper" id="#wrapper"> {% endcomment %} {% block content %} {% endblock content %} {% comment %} </div> {% endcomment %}
+            </div>
+        </main>
+        <!-- page-content" -->
     </div>
-    <!-- sidebar-content  -->
-      <a href="{% url 'account_logout' %}" title="Sign Out">
-        <i class="fa fa-power-off"></i>
-      </a>
-      
-    </div>
-  </nav>
-  <!-- sidebar-wrapper  -->
-  <main class="page-content" id = "dashboard">
-    <div class="container-fluid">
-      {% comment %} <div class="wrapper" id = "#wrapper"> {% endcomment %}
-        {% block content %}
-        {% endblock content %}
-      {% comment %} </div> {% endcomment %}
-    </div>
-  </main>
-  <!-- page-content" -->
-</div>
-<!-- page-wrapper -->
+    <!-- page-wrapper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 <!-- MDBootstrap Datatables  -->
 <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 
 <script type="text/javascript" src=" {% static 'js/jquery.js' %}"></script>
+
 </html>
