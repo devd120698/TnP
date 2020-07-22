@@ -228,3 +228,17 @@ def updateAnnouncement(request):
     context = {'form' : form}
     template = 'authentication/form.html'
     return render(request,template,context)
+
+@login_required
+def allCompanies(request):
+    companies = Companies.objects.all()
+    record = {}
+    for company in companies:
+        status = company.status
+        students = []
+        record[company] = {'status' : status, 'students' : students}
+
+    print(record)
+    template = 'coordinator/dashboard/pages/allCompanies.html'
+    return render(request,template,{})
+
