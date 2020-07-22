@@ -11,6 +11,7 @@ from django.core.validators import FileExtensionValidator
 # As model field:
 from django_currentuser.db.models import CurrentUserField
 
+
 class Student(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
@@ -90,6 +91,20 @@ class CompanyApplicants(models.Model):
     @staticmethod
     def getStudentName(self):
         return self.student.name
+
+    @property
+    def getstudentadmissionNumber(self):
+        return self.student.admissionNumber
+
+    @staticmethod
+    def getcgpa(self):
+        return self.student.CGPA
+
+    adm = getstudentadmissionNumber()
+
+    grades = staticmethod(getcgpa)
+
+    
 
 class Resume(models.Model):
     

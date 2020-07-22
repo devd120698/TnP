@@ -41,6 +41,7 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'import_export',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
