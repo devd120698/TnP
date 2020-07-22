@@ -8,6 +8,7 @@ from import_export.admin import ImportExportModelAdmin
 admin.site.register(Student)
 
 class BookResource(resources.ModelResource):
+	
 
     class Meta:
         model = CompanyApplicants
@@ -16,7 +17,7 @@ class BookResource(resources.ModelResource):
 class BookAdmin(ImportExportModelAdmin):
     resource_class = BookResource
     list_filter = ('company','placementStatus')
-    list_display= ['student','company','placementStatus','getstudentadmissionNumber','grades']
+    list_display= ['student','company','placementStatus']
 
 admin.site.register(Application)
 admin.site.register(Resume)

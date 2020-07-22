@@ -99,10 +99,7 @@ class CompanyApplicants(models.Model):
     @staticmethod
     def getcgpa(self):
         return self.student.CGPA
-
-    adm = getstudentadmissionNumber()
-
-    grades = staticmethod(getcgpa)
+    
 
     
 
