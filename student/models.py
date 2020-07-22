@@ -35,6 +35,11 @@ class Student(models.Model):
     def getUser(self):
         return self.user
 
+    # @staticmethod
+    # def getstudcgpa(self):
+    #     return self.CGPA
+
+
 @receiver(post_save, sender=Student)
 def ensure_profile_exists(sender, **kwargs):
     if kwargs.get('created', False):
@@ -90,17 +95,7 @@ class CompanyApplicants(models.Model):
 
     @staticmethod
     def getStudentName(self):
-        return self.student.name
-
-    @property
-    def getstudentadmissionNumber(self):
-        return self.student.admissionNumber
-
-    @staticmethod
-    def getcgpa(self):
         return self.student.CGPA
-    
-
     
 
 class Resume(models.Model):
