@@ -72,7 +72,8 @@ def addNewCompany(request):
             appl = form.save(commit=False)
             appl.user = request.user
             appl.save()
-            return HttpResponse("successful")
+            #return HttpResponse("successful")
+            return HttpResponseRedirect('/coordinator/coordinatorDashboard')
 
     context = {'form': form, 'title': 'Add New Company'}
     template = 'authentication/form.html'
