@@ -17,6 +17,8 @@ from .forms import AnnouncementForm, UpdateAnnouncementForm
 from company.models import Details
 from datetime import datetime, timedelta
 
+from django.contrib import messages
+
 # Views
 flagDeleted = 0
 
@@ -138,7 +140,8 @@ def addNewCompany(request):
             appl = form.save(commit=False)
             appl.user = request.user
             appl.save()
-            return HttpResponse("successful")
+            #return HttpResponse("successful")
+            return HttpResponseRedirect('/coordinator/coordinatorDashboard')
 
     context = {'form': form, 'title': 'Add New Company'}
     template = 'authentication/form.html'
@@ -162,9 +165,11 @@ def updateCompanyStatus(request):
                 appl = form.save(commit=False)
                 appl.user = request.user
                 appl.save()
-                return HttpResponse("successful")
+                #return HttpResponse("successful")
+                messages.success(request, "successful")
         else:
-            print("The company was not added before!")
+            #print("The company was not added before!")
+            messages.error(request,"The company was not added before!")
 
     context = {'form': form, 'title': 'Update Company Status'}
     template = 'authentication/form.html'
@@ -180,9 +185,13 @@ def getCompanyStatus(request):
             companyDetails = Companies.objects.filter(name=companyName)
             statusOfCompany = companyDetails.values_list(
                 'status', flat=True)[0]
-            print(statusOfCompany)
+            #print(statusOfCompany)
+            #return HttpResponse(statusOfCompany)
+            messages.info(request, statusOfCompany)
         else:
-            HttpResponse("The company was not added before!")
+            #return HttpResponse("The company was not added before!")
+            messages.error(request,"The company was not added before!")
+            
 
     context = {'form': form, 'title': 'View Company Status'}
     template = 'authentication/form.html'
@@ -214,9 +223,11 @@ def sendCompanyDetails(request):
                         newApplicant = CompanyApplicants(
                             company=company, student=student)
                         newApplicant.save()
-                    print(allowedByCGPA)
+                    #print(allowedByCGPA)
+                    return HttpResponse(allowedByCGPA)
         else:
-            HttpResponse("The company was not added before!")
+            #return HttpResponse("The company was not added before!")
+            messages.error(request,"The company was not added before!")
 
     context = {'form': form, 'title': 'Send Company Details'}
     template = 'authentication/form.html'
@@ -232,9 +243,12 @@ def checkApplicantsOfCompany(request):
             companyDetails = Companies.objects.get(name=companyName)
             listOfApplicants = CompanyApplicants.objects.filter(
                 placementStatus='A').filter(company=companyDetails)
-            print(listOfApplicants)
+            #print(listOfApplicants)
+            #messages.info(request,listOfApplicants)
+            return HttpResponse(listOfApplicants)
         else:
-            HttpResponse("The company was not added before!")
+            #return HttpResponse("The company was not added before!")
+            messages.error(request,"The company was not added before!")
 
     context = {'form': form, 'title': 'Check Applicants of Company'}
     template = 'authentication/form.html'
