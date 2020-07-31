@@ -52,3 +52,12 @@ class LinkForTestForm(forms.ModelForm):
         ]
     
 
+class ContactForm(forms.ModelForm):
+
+    class Meta:
+        model = ContactCompany
+        fields = [
+        'name' ,
+        'mailid',
+        'message',
+        ]

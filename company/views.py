@@ -211,7 +211,7 @@ def viewApplicants(request):
     return render(request, 'company/Applicants.html', {'listOfApplicants': getList})
 
 
-@login_required
+#@login_required
 def contacTnp(request):
     form = ContactForm(request.POST or None)
     if form.is_valid():
@@ -227,9 +227,9 @@ def contacTnp(request):
         send_mail(
             name + ' contacting CCPD',
             message,
-            'taps@nitw.ac.in',
+            'divyanshdubey538@gmail.com',
             [mailid],
             fail_silently=True,
         )
 
-    return render(request, 'company/Contact.html', {'form': form})
+    return render(request, 'company/contact_form.html', {'form': form})

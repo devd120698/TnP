@@ -4,6 +4,15 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .forms import StudentRegisterForm
 from home.models import *
+from company.forms import ContactForm
+from django.core.mail import send_mail
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from student.forms import *
+from student.models import *
+from django.core.mail import send_mail
+from django.http import HttpResponse
 
 #Group checking functions
 def is_student(user):
@@ -43,7 +52,27 @@ def index(request):
     team = Team.objects.all()
     photos = PhotosNitw.objects.all()
     faq = FrequentlyAsked.objects.all()
-    context = {'Recruiters':recruiters, 'Team':team, 'CampusPictures': photos, 'FAQs': faq}
+    form = ContactForm(request.POST or None)
+
+    # new logic!
+    if request.method == 'POST':
+        name = form.cleaned_data.get('name')
+        mailid = form.cleaned_data.get('mailid')
+        message = form.cleaned_data.get('message')
+        saveDetails = ContactCompany(
+            name=name,
+            mailid=mailid,
+            message=message
+        )
+        saveDetails.save()
+        send_mail(
+            name + ' contacting CCPD',
+            message,
+            'nagamraghu120117143@gmail.com',
+            [mailid],
+            fail_silently=True,
+        )
+    context = {'Recruiters':recruiters, 'Team':team, 'CampusPictures': photos, 'FAQs': faq,'form':form}
     return render(request, 'home/index.html', context)
 
 def sign_in(request):
