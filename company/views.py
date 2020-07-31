@@ -231,5 +231,6 @@ def contacTnp(request):
             [mailid],
             fail_silently=True,
         )
+        return render(request,'company/contact_thanks.html')
 
     return render(request, 'company/contact_form.html', {'form': form})
