@@ -30,11 +30,11 @@
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
-                            <h2><a href="{% url 'account_reset_password' %}">Forgot Password?</a></h2>
+                            {#<h2><a href="{% url 'account_reset_password' %}">Forgot Password?</a></h2> #}
                         </div>
                     </form>
                 </div>
-                
+
 {% comment %} <div class="container">
 	<div class="jumbotron">
         <div class="row">
@@ -63,7 +63,7 @@
             {% else %}
             <p>{% blocktrans %}If you have not created an account yet, then please
             <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-            {% endif %} 
+            {% endif %}
 
             <form class="login" method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}
@@ -71,7 +71,7 @@
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <a class="button secondaryAction btn btn-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          {# <a class="button secondaryAction btn btn-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>#}
             <button class="primaryAction btn btn-default" type="submit">{% trans "Sign In" %}</button>
             </form>
         </div>

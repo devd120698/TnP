@@ -117,16 +117,19 @@ def about_us(request):
 def contact_us(request):
 	return render(request, 'authentication/contact.html', {})
 
-# def sign_up(request):
-# 	return render(request, 'authentication/sign_up.html', {})
-
 def sign_up(request):
-    # if request.method == 'POST':
-    #     form = StudentRegisterForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         print(request, f' Your account has been created !')
-    #         return redirect('student-login')
-    # else :
-    #     form = StudentRegisterForm()
     return render(request,'account/index.html',{})
+
+def activate_account(request, uidb64, token):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return HttpResponse('Your account has been activate successfully')
+    else:
+        return HttpResponse('Activation link is invalid!')

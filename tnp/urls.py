@@ -18,7 +18,8 @@ from django.urls import path
 from django.conf.urls import url,include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from authentication import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^', include('authentication.urls', namespace="authentication")),
@@ -28,6 +29,22 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^company/', include('company.urls', namespace="company")),
+    path('password_reset/',
+    auth_views.PasswordResetView.as_view(template_name = 'account/password_reset.html'),name='password_reset'),
+    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='account/password_reset_done.html'),name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(
+             template_name='account/password_reset_confirm.html'
+         ),
+         name='password_reset_confirm'),
+
+    path('reset/done/',
+         auth_views.PasswordResetCompleteView.as_view(
+             template_name='account/password_reset_complete.html'
+         ),
+         name='password_reset_complete'),
+    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})',
+        views.activate_account, name='activate'),
     ]
 
 if settings.DEBUG:
