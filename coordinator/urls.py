@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^updateStudents',views.updateStudents,name='updateStudents'),
     url(r'^updateAnnouncements',views.updateAnnouncement,name='updateAnnouncements'),
     url(r'^createAnnouncements',views.createAnnouncement,name='createAnnouncements'),
+    # path('export/', views.export_movies_to_xlsx, name='export'),
  ]

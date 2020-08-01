@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^selectedStudents',views.selectedStudents,name='selectedStudents'),
     url(r'^linkForTest',views.linkForTest,name='linkForTest'),
     url(r'^viewApplicants',views.viewApplicants,name='viewApplicants'),
+    url(r'^contact/$', views.contacTnp, name='contact'),
  ]

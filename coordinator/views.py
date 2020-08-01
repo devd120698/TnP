@@ -22,6 +22,72 @@ from django.contrib import messages
 # Views
 flagDeleted = 0
 
+# from openpyxl import Workbook
+# from django.http import HttpResponse
+
+# from .models import MovieCategory, Movie
+
+
+# @login_required
+# def export_movies_to_xlsx(request):
+#     """
+#     Downloads all movies as Excel file with a single worksheet
+#     """
+#     student_queryset = Student.objects.filter('rollNumber' = 'Companies__student').values('ID','name','CGPA','admissionNumber','branch')
+    
+#     response = HttpResponse(
+#         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+#     )
+#     response['Content-Disposition'] = 'attachment; filename={date}-movies.xlsx'.format(
+#         date=datetime.now().strftime('%Y-%m-%d'),
+#     )
+#     workbook = Workbook()
+    
+#     # Get active worksheet/tab
+#     worksheet = workbook.active
+
+#     worksheet.title = 'Movies'
+
+#     # Define the titles for columns
+#     columns = [
+#         'ID',
+#         'name',
+#         'CGPA',
+#         'admissionNumber',
+#         'branch'
+#     ]
+#     row_num = 1
+
+#     # Assign the titles for each cell of the header
+#     for col_num, column_title in enumerate(columns, 1):
+#         cell = worksheet.cell(row=row_num, column=col_num)
+#         cell.value = column_title
+
+#     # Iterate through all movies
+#     for movie in student_queryset:
+#         row_num += 1
+        
+#         # Define the data for each cell in the row 
+#         row = [
+#             movie.pk,
+#             movie.name,
+#             movie.CGPA,
+#             movie.admissionNumber,
+#             movie.branch,
+#         ]
+        
+#         # Assign the data for each cell of the row 
+#         for col_num, cell_value in enumerate(row, 1):
+#             cell = worksheet.cell(row=row_num, column=col_num)
+#             cell.value = cell_value
+
+#     workbook.save(response)
+#     if emails.filter(email=request.user.email).exists():
+#         return HttpResponse("downloading in a queue ")
+#     else:
+#         return HttpResponse("unauthorized")
+
+
 
 @login_required
 def coordinatorDashboard(request):

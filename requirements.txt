@@ -3,3 +3,4 @@ pip3 install django_currentuser
 pip3 install django_extensions
 pip3 install django-allauth
 pip3 install --user django-crispy-forms
+pip3 install django-import-export
