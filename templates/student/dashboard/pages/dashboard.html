@@ -95,7 +95,7 @@
                   </center>
                 </div>
                 <div class="card-body text-dark">
-                  {% for annoucement in listOfAnnouncements %} <<<<<<< HEAD
+                  {% for annoucement in listOfAnnouncements %} 
 
                   <p>{{annoucement.company.name}} - {{annoucement.text}}</p>
                   <div title="Add to Calendar" class="addeventatc">
@@ -108,13 +108,7 @@
                     <span class="location">Location of the event</span>
                   </div>
                   <p></p>
-                  =======
-                  <li>
-                    <p>{{annoucement.announcementid}}</p>
-                    <p>{{annoucement.text}}</p>
-                    <p>{{annoucement.company.name}}</p>
-                  </li>
-                  >>>>>>> b5ced6c4b2f2fa40b276e268f85cc4dc4c4749da {% endfor %}
+                   {% endfor %}
                 </div>
               </div>
             </div>

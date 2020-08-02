@@ -23,6 +23,10 @@ class BookResource2(resources.ModelResource):
 	
 	class Meta:
 		model = Student
+
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('admissionNumber', 'rollNumber')
+    list_display_links = ('admissionNumber', 'rollNumber')
 		
 
 class BookAdmin1(ImportExportModelAdmin):
