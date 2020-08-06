@@ -149,7 +149,7 @@ class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
-    message = models.CharField(max_length = 20000000)  
+    message = models.CharField(max_length = 20000)  
 
 
 
