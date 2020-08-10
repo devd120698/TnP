@@ -30,8 +30,8 @@
                 {% csrf_token %}
 
                     <div class="form-group mx-sm-3 mb-2">
-                    <label for="registration_number">Search Company</label>
-                    <input type="text" class="form-control form-control-lg" id = "registration_number" name="companyName" value={{ value }} >
+                    <label for="registration_number">Search Student</label>
+                    <input type="text" class="form-control form-control-lg" id = "rollNumber" name="rollNumber" value={{ value }} >
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -44,6 +44,10 @@
   <div>
   <div class = "col-sm-6">
     <center>
+    {% if applications %}
+    <h5>Name : {{student.name}}</h5>
+    <h5>Branch : {{student.branch}}</h5>
+    <h5>Phone : {{student.mobileNumber}} </h5>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -52,15 +56,16 @@
         </tr>
       </thead>
       <tbody>
-        {% for company in record %}
+        {% for application in applications %}
         <tr>
-          <td>{{company}}</td>
-          <td>{{company.status}}</td>
+          <td>{{application.company}}</td>
+          <td>{{application.status}}</td>
         </tr>
         
         {% endfor %}
       </tbody>
     </table>
+    {% endif %}
     </center>
   </div>
 </div>

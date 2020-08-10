@@ -268,12 +268,47 @@ def updateAnnouncement(request):
 @login_required
 def allCompanies(request):
     companies = Companies.objects.all()
+    companyName = ''
+    if request.method == 'POST':
+        companyName = request.POST.get("companyName")
+        companies = Companies.objects.filter(name__istartswith = companyName)
     record = {}
     for company in companies:
         status = company.status
+        applicants = CompanyApplicants.objects.filter(company = company)
         students = []
-        record[company] = {'status' : status, 'students' : students}
+        if(status == 'Accepted'):
+            for applicant in applicants:
+                if applicant.placementStatus == 'P':
+                    students.append((applicant.student, applicant.placementStatus))
+        else:
+            for applicant in applicants:
+                if applicant.placementStatus != 'P':
+                    students.append((applicant.student, applicant.placementStatus))
 
+        record[company] = {'status' : status, 'students' : students}
     print(record)
     template = 'coordinator/dashboard/pages/allCompanies.html'
-    return render(request,template,{})
+    return render(request,template,{'record' : record, 'value' : companyName})
+
+@login_required
+def searchStudent(request):
+    context = {}
+    template = 'coordinator/dashboard/pages/searchStudents.html'
+    if request.method == 'POST':
+        rollNumber = request.POST.get("rollNumber")
+        student = Student.objects.filter(rollNumber = rollNumber).first()
+        print(student)
+        applications = CompanyApplicants.objects.filter(student = student)
+        applied = []
+        for app in applications:
+            applied.append({'company' : app.company, 'status' : app.placementStatus})
+
+        print(applied)
+        context['student'] = student
+        context['applications'] = applied
+        context['value'] = rollNumber
+        return render(request,template, context)
+    return render(request, template, context)
+
+

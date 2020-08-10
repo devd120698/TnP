@@ -72,7 +72,7 @@ class UpdateAnnouncementForm(forms.Form):
         (BROADCAST_ANNOUNCEMENT, 'Broadcast'),
         (ELIGIBLE_ANNOUNCEMENT, 'Eligible_ones'),
     )
-    type_of_announcement = forms.ChoiceField(choices = TYPE_OF_ANNOUNCEMENT) 
- 
+    type_of_announcement = forms.ChoiceField(choices = TYPE_OF_ANNOUNCEMENT)
+
 
 		
