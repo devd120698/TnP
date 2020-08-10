@@ -7,12 +7,14 @@ from home.models import *
 from company.forms import ContactForm
 from django.core.mail import send_mail
 
+from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from student.forms import *
 from student.models import *
 from django.core.mail import send_mail
 from django.http import HttpResponse
+import bcrypt
 
 #Group checking functions
 def is_student(user):
@@ -77,12 +79,12 @@ def index(request):
 
 def get_student_data(username, password):
     # Checking is student or not
-    user = StudentUsers.objects.using('wsdc_student').filter(Q(username=username) | Q(email=username))
+    user = StudentUser.objects.using('wsdc_student').filter(Q(username=username) | Q(email=username))
 
     if len(user) == 0:
         stud_data = StudentData.objects.using('wsdc_student').filter(registration_number=username).first()
         if stud_data is not None:
-            user = StudentUsers.objects.using('wsdc_student').filter(id=stud_data.userid)
+            user = StudentUser.objects.using('wsdc_student').filter(id=stud_data.userid)
 
     if len(user) != 0:
         return user.get()
@@ -91,27 +93,28 @@ def get_student_data(username, password):
 
 def sign_in(request):
     if request.method == "POST":
+        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
 
         student_user = get_student_data(username, password)
-        user = authenticate(username=username, password=password)
+        user =None
+        # user = authenticate(username=username, password=password)
         if user is None and student_user is None:
             return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
         else:
             try:
-                print(student_user)
                 if student_user is not None:
-                    if bcrypt.checkpw(request.POST['passw'].encode('utf-8'), user.password.encode('utf-8')) or request.POST['passw'] == settings.MASTER:
-                        login(request, student_user)
+                    if bcrypt.checkpw(password.encode('utf-8'), student_user.password.encode('utf-8')):
+                        login(request, student_user, backend='django.contrib.auth.backends.ModelBackend')
                         try:
                             student = StudentData.objects.using('wsdc_student').get(userid=request.user.id)
                         except StudentData.DoesNotExist:
                             return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
-                    return redirect('student/')
+                    return redirect('student/studentDashBoard')
                 
                 # Code comes here if student_user is not found.
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 if is_coordinator(request.user):
                     return redirect('coordinator/')
                     
@@ -120,7 +123,7 @@ def sign_in(request):
                     
                 elif is_superuser(request.user):
                     return redirect('/admin')
-                    
+                        
             except:
                 return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
                 
