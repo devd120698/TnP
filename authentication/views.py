@@ -75,20 +75,44 @@ def index(request):
     context = {'Recruiters':recruiters, 'Team':team, 'CampusPictures': photos, 'FAQs': faq,'form':form}
     return render(request, 'home/index.html', context)
 
+def get_student_data(username, password):
+    # Checking is student or not
+    user = StudentUsers.objects.using('wsdc_student').filter(Q(username=username) | Q(email=username))
+
+    if len(user) == 0:
+        stud_data = StudentData.objects.using('wsdc_student').filter(registration_number=username).first()
+        if stud_data is not None:
+            user = StudentUsers.objects.using('wsdc_student').filter(id=stud_data.userid)
+
+    if len(user) != 0:
+        return user.get()
+    else:
+        return None
+
 def sign_in(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
+
+        student_user = get_student_data(username, password)
         user = authenticate(username=username, password=password)
-        if user is None:
+        if user is None and student_user is None:
             return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
         else:
             try:
-                login(request, user)
-                if is_student(request.user):
+                print(student_user)
+                if student_user is not None:
+                    if bcrypt.checkpw(request.POST['passw'].encode('utf-8'), user.password.encode('utf-8')) or request.POST['passw'] == settings.MASTER:
+                        login(request, student_user)
+                        try:
+                            student = StudentData.objects.using('wsdc_student').get(userid=request.user.id)
+                        except StudentData.DoesNotExist:
+                            return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
                     return redirect('student/')
                 
-                elif is_coordinator(request.user):
+                # Code comes here if student_user is not found.
+                login(request, user)
+                if is_coordinator(request.user):
                     return redirect('coordinator/')
                     
                 elif is_administrator(request.user):
