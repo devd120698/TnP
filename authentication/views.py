@@ -111,7 +111,7 @@ def sign_in(request):
                             student = StudentData.objects.using('wsdc_student').get(userid=request.user.id)
                         except StudentData.DoesNotExist:
                             return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
-                    return redirect('student/studentDashBoard')
+                    return redirect('student/studentDashBoard/')
                 
                 # Code comes here if student_user is not found.
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')

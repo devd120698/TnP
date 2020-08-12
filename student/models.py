@@ -149,8 +149,86 @@ class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
-    message = models.CharField(max_length = 20000)  
+    message = models.CharField(max_length = 1000)  
+
+class StudentData(models.Model):
+	userid = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=64)
+	roll_number = models.CharField(unique=True, max_length=10, blank=True, null=True)
+	registration_number = models.CharField(unique=True, max_length=10, blank=True, null=True)
+	current_section = models.CharField(max_length=4)
+	current_year = models.CharField(max_length=4)
+	joining_year = models.CharField(max_length=4)
+	admissiontype = models.CharField(max_length=50, null=True)
+	course = models.CharField(max_length=10)
+	branch = models.CharField(max_length=10)
+	gender = models.CharField(max_length=1)
+	birthday = models.DateField()
+	country = models.CharField(max_length=32)
+	mobile = models.CharField(max_length=16)
+	emergency_contact = models.CharField(max_length=16)
+	sbh_account = models.CharField(max_length=32, blank=True, null=True)
+	passport = models.CharField(max_length=20, blank=True, null=True)
+	hostel_room = models.CharField(max_length=10)
+	hostel = models.CharField(max_length=10)
+	mess = models.CharField(max_length=10)
+	created_location = models.CharField(max_length=32)
+	created_time = models.DateTimeField()
+	guardian1 = models.CharField(max_length=64, blank=True, null=True)
+	relationship1 = models.CharField(max_length=64, blank=True, null=True)
+	email1 = models.CharField(max_length=64, blank=True, null=True)
+	mobile1 = models.CharField(max_length=16, blank=True, null=True)
+	guardian2 = models.CharField(max_length=64, blank=True, null=True)
+	relationship2 = models.CharField(max_length=64, blank=True, null=True)
+	email2 = models.CharField(max_length=64, blank=True, null=True)
+	mobile2 = models.CharField(max_length=16, blank=True, null=True)
+	homenumber = models.CharField(max_length=16, blank=True, null=True)
+	address = models.CharField(max_length=500, blank=True, null=True)
+	bloodgroup = models.CharField(max_length=5, blank=True, null=True)
+	adhaar = models.CharField(max_length=20, blank=True, null=True)
+	linkedin = models.CharField(max_length=100, blank=True, null=True)
+	mac = models.CharField(max_length=30, blank=True, null=True)
+
+	class Meta:
+		managed = False
+		db_table = 'student_data'
+		unique_together = (('roll_number', 'registration_number'),)
 
 
+class StudentUser(models.Model):
+	ip_address = models.CharField(max_length=15)
+	username = models.CharField(unique=True, max_length=100)
+	password = models.CharField(max_length=255)
+	profile_edited = models.IntegerField()
+	salt = models.CharField(max_length=40, blank=True, null=True)
+	email = models.CharField(unique=True, max_length=100)
+	activation_code = models.CharField(max_length=40, blank=True, null=True)
+	forgotten_password_code = models.CharField(max_length=40, blank=True, null=True)
+	forgotten_password_time = models.PositiveIntegerField(blank=True, null=True)
+	remember_code = models.CharField(max_length=40, blank=True, null=True)
+	created_on = models.PositiveIntegerField()
+	last_login = models.DateTimeField(blank=True, null=True)
+	active = models.PositiveIntegerField(blank=True, null=True)
+	first_name = models.CharField(max_length=50, blank=True, null=True)
+	middle_name = models.CharField(max_length=256)
+	last_name = models.CharField(max_length=50, blank=True, null=True)
+	company = models.CharField(max_length=100, blank=True, null=True)
+	phone = models.CharField(max_length=20, blank=True, null=True)
 
+	class Meta:
+		managed=False
+		db_table = 'users'
 
+	def get_student_data(self):
+		return StudentData.objects.using('wsdc_student').filter(userid=self.id).first()
+
+	def get_student_name(self):
+		return StudentData.objects.using('wsdc_student').get(userid=self.id).name.split(' ')[0]
+
+	def get_image(self):
+		img = StudentData.objects.using('wsdc_student').get(userid=self.id).profile_image
+
+		if img:
+			return img.url
+		else:
+			return "/static/assets/img/person.png"
