@@ -17,8 +17,8 @@ class pastRecruiters(models.Model):
     photo = models.FileField(null = True,upload_to = 'images/Recruiters/',validators=[FileExtensionValidator(allowed_extensions=['png','jpg', 'jpeg'])])
 
 class FrequentlyAsked(models.Model):
-    question = models.CharField(max_length = 10000)
-    answer = models.CharField(max_length = 10000)
+    question = models.CharField(max_length = 1000)
+    answer = models.CharField(max_length = 1000)
 
 class Team(models.Model):
     name = models.CharField(max_length = 20)
