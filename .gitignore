@@ -1,0 +1,7 @@
+.pyc
+tnp/settings.py
+tnp/database.py
+*__pycache__*
+.idea/
+media/*
+requirements1.txt

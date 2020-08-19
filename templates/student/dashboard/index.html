@@ -60,6 +60,13 @@
 
                 <div class="sidebar-menu">
                     <ul>
+                        {% for group in user.groups.all %}
+                        {% if group.name == 'Coordinator' %}
+                        <li class="text-center">
+                                   <a href="{% url 'coordinator:coordinatorDashboard'%}">
+                                       <span>Switch to Coordinator</span>
+                                   </a>
+                               </li>{% endif %}{% endfor %}
                         <li class="header-menu">
                             <span>General</span>
                         </li>

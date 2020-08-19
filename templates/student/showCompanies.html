@@ -128,12 +128,12 @@ button {
 </style>
 <section class="main-head">
     <div class="container-fluid">
+    <div class="row">
 	{% for company in eligibleCompanies%}
-    	<div class="row">
     		<div class="col-md-4">
 				<form method = "POST">
 				  {% csrf_token %}
-				  <input name = "nameOfCompany" value = {{company.company.name}} hidden/>
+				  <input name = "nameOfCompany" value = "{{company.company.name}}" hidden/>
 				  <div class="box" style="display:flex;">
                 	<i class="fa fa-building fa-fw bg-dark"></i>
                 	<div class="info">
@@ -151,4 +151,3 @@ button {
 	</div>
 </section>
 {% endblock content %}
-

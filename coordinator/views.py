@@ -17,8 +17,76 @@ from .forms import AnnouncementForm, UpdateAnnouncementForm
 from company.models import Details
 from datetime import datetime, timedelta
 
+from django.contrib import messages
+
 # Views
 flagDeleted = 0
+
+# from openpyxl import Workbook
+# from django.http import HttpResponse
+
+# from .models import MovieCategory, Movie
+
+
+# @login_required
+# def export_movies_to_xlsx(request):
+#     """
+#     Downloads all movies as Excel file with a single worksheet
+#     """
+#     student_queryset = Student.objects.filter('rollNumber' = 'Companies__student').values('ID','name','CGPA','admissionNumber','branch')
+    
+#     response = HttpResponse(
+#         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+#     )
+#     response['Content-Disposition'] = 'attachment; filename={date}-movies.xlsx'.format(
+#         date=datetime.now().strftime('%Y-%m-%d'),
+#     )
+#     workbook = Workbook()
+    
+#     # Get active worksheet/tab
+#     worksheet = workbook.active
+
+#     worksheet.title = 'Movies'
+
+#     # Define the titles for columns
+#     columns = [
+#         'ID',
+#         'name',
+#         'CGPA',
+#         'admissionNumber',
+#         'branch'
+#     ]
+#     row_num = 1
+
+#     # Assign the titles for each cell of the header
+#     for col_num, column_title in enumerate(columns, 1):
+#         cell = worksheet.cell(row=row_num, column=col_num)
+#         cell.value = column_title
+
+#     # Iterate through all movies
+#     for movie in student_queryset:
+#         row_num += 1
+        
+#         # Define the data for each cell in the row 
+#         row = [
+#             movie.pk,
+#             movie.name,
+#             movie.CGPA,
+#             movie.admissionNumber,
+#             movie.branch,
+#         ]
+        
+#         # Assign the data for each cell of the row 
+#         for col_num, cell_value in enumerate(row, 1):
+#             cell = worksheet.cell(row=row_num, column=col_num)
+#             cell.value = cell_value
+
+#     workbook.save(response)
+#     if emails.filter(email=request.user.email).exists():
+#         return HttpResponse("downloading in a queue ")
+#     else:
+#         return HttpResponse("unauthorized")
+
 
 
 @login_required
@@ -72,7 +140,8 @@ def addNewCompany(request):
             appl = form.save(commit=False)
             appl.user = request.user
             appl.save()
-            return HttpResponse("successful")
+            #return HttpResponse("successful")
+            return HttpResponseRedirect('/coordinator/coordinatorDashboard')
 
     context = {'form': form, 'title': 'Add New Company'}
     template = 'authentication/form.html'
@@ -96,9 +165,11 @@ def updateCompanyStatus(request):
                 appl = form.save(commit=False)
                 appl.user = request.user
                 appl.save()
-                return HttpResponse("successful")
+                #return HttpResponse("successful")
+                messages.success(request, "successful")
         else:
-            print("The company was not added before!")
+            #print("The company was not added before!")
+            messages.error(request,"The company was not added before!")
 
     context = {'form': form, 'title': 'Update Company Status'}
     template = 'authentication/form.html'
@@ -114,9 +185,13 @@ def getCompanyStatus(request):
             companyDetails = Companies.objects.filter(name=companyName)
             statusOfCompany = companyDetails.values_list(
                 'status', flat=True)[0]
-            print(statusOfCompany)
+            #print(statusOfCompany)
+            #return HttpResponse(statusOfCompany)
+            messages.info(request, statusOfCompany)
         else:
-            HttpResponse("The company was not added before!")
+            #return HttpResponse("The company was not added before!")
+            messages.error(request,"The company was not added before!")
+            
 
     context = {'form': form, 'title': 'View Company Status'}
     template = 'authentication/form.html'
@@ -148,9 +223,11 @@ def sendCompanyDetails(request):
                         newApplicant = CompanyApplicants(
                             company=company, student=student)
                         newApplicant.save()
-                    print(allowedByCGPA)
+                    #print(allowedByCGPA)
+                    return HttpResponse(allowedByCGPA)
         else:
-            HttpResponse("The company was not added before!")
+            #return HttpResponse("The company was not added before!")
+            messages.error(request,"The company was not added before!")
 
     context = {'form': form, 'title': 'Send Company Details'}
     template = 'authentication/form.html'
@@ -166,9 +243,12 @@ def checkApplicantsOfCompany(request):
             companyDetails = Companies.objects.get(name=companyName)
             listOfApplicants = CompanyApplicants.objects.filter(
                 placementStatus='A').filter(company=companyDetails)
-            print(listOfApplicants)
+            #print(listOfApplicants)
+            #messages.info(request,listOfApplicants)
+            return HttpResponse(listOfApplicants)
         else:
-            HttpResponse("The company was not added before!")
+            #return HttpResponse("The company was not added before!")
+            messages.error(request,"The company was not added before!")
 
     context = {'form': form, 'title': 'Check Applicants of Company'}
     template = 'authentication/form.html'
@@ -276,20 +356,28 @@ def allCompanies(request):
     for company in companies:
         status = company.status
         applicants = CompanyApplicants.objects.filter(company = company)
-        students = []
-        if(status == 'Accepted'):
-            for applicant in applicants:
-                if applicant.placementStatus == 'P':
-                    students.append((applicant.student, applicant.placementStatus))
-        else:
-            for applicant in applicants:
-                if applicant.placementStatus != 'P':
-                    students.append((applicant.student, applicant.placementStatus))
-
-        record[company] = {'status' : status, 'students' : students}
-    print(record)
+        record[company] = {'status' : status}
     template = 'coordinator/dashboard/pages/allCompanies.html'
     return render(request,template,{'record' : record, 'value' : companyName})
+
+@login_required
+def companyApplicants(request,companyId):
+    print(companyId)
+    company = Companies.objects.filter(companyID = companyId).first()
+    status = company.status
+    applicants = CompanyApplicants.objects.filter(company = company)
+    students = []
+    if(status == 'Accepted'):
+        for applicant in applicants:
+            if applicant.placementStatus == 'P':
+                students.append({'student' : applicant.student, 'placementStatus' :applicant.placementStatus})
+    else:
+        for applicant in applicants:
+            if applicant.placementStatus != 'P':
+                students.append({'student' : applicant.student, 'placementStatus' :applicant.placementStatus})
+    template = 'coordinator/dashboard/pages/companyApplicants.html'
+    return render(request,template,{'company':company, 'students' : students})
+
 
 @login_required
 def searchStudent(request):

@@ -2,6 +2,13 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Coordinator, Companies, Announcement
+
+from django.forms import ModelForm
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Coordinator
@@ -25,6 +32,13 @@ class CompaniesForm(forms.ModelForm):
             'CGPA',
             'companyID'
         ]
+#widgets
+        widgets = {
+            'dateOfVisit': DateInput(),
+        }
+
+
+
     def __init__(self,*args,**kwargs):
         super(CompaniesForm,self).__init__(*args,**kwargs)
         self.fields['dateOfVisit'].required=False

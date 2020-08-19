@@ -11,6 +11,7 @@ from django.core.validators import FileExtensionValidator
 # As model field:
 from django_currentuser.db.models import CurrentUserField
 
+
 class Student(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
@@ -33,6 +34,11 @@ class Student(models.Model):
     @staticmethod
     def getUser(self):
         return self.user
+
+    # @staticmethod
+    # def getstudcgpa(self):
+    #     return self.CGPA
+
 
 @receiver(post_save, sender=Student)
 def ensure_profile_exists(sender, **kwargs):
@@ -89,7 +95,8 @@ class CompanyApplicants(models.Model):
 
     @staticmethod
     def getStudentName(self):
-        return self.student.name
+        return self.student.CGPA
+    
 
 class Resume(models.Model):
     
@@ -142,7 +149,7 @@ class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
-    message = models.CharField(max_length = 20000000)  
+    message = models.CharField(max_length = 20000)  
 
 
 

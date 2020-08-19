@@ -12,8 +12,8 @@ class Details(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE, default = "", null =True)
     name = models.CharField(max_length = 120,primary_key = True, default = 'ABC')
     websiteLink = models.CharField(max_length = 120, null=True)
-    hrDetails = models.CharField(max_length = 20000, null=True)
-    address = models.CharField(max_length = 20000, null=True)
+    hrDetails = models.CharField(max_length = 2000, null=True)
+    address = models.CharField(max_length = 2000, null=True)
     emailId = models.EmailField(null=True)
     phoneNumber = models.CharField(max_length = 15,null=True)
     mobileNumber = models.CharField(max_length = 15,null=True) 
@@ -23,7 +23,7 @@ class Details(models.Model):
     jobType = models.CharField(validators=[validate_comma_separated_integer_list],max_length=200, blank=True, null=True,default='')
     workLocation = models.CharField(max_length = 1000, null=True)
     tentativeDOJ = models.DateField(null =True)
-    roundsDetails = models.CharField(validators=[validate_comma_separated_integer_list],max_length=20000, blank=True, null=True,default='')
+    roundsDetails = models.CharField(validators=[validate_comma_separated_integer_list],max_length=2000, blank=True, null=True,default='')
     numberOfRounds = models.CharField(max_length = 10,null=True)
     otherInfo = models.CharField(max_length = 1000, null=True)
     
@@ -64,7 +64,7 @@ class Schedule(models.Model):
 
 class SelectedStudents(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    selectedStudents = models.CharField(max_length = 20000, null = False, default = "None qualified")
+    selectedStudents = models.CharField(max_length = 2000, null = False, default = "None qualified")
     name = models.CharField(max_length = 40)
     DUMMY = 'D'
     ROUND_CHOICE = (
@@ -103,4 +103,4 @@ class ContactCompany(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
-    message = models.CharField(max_length = 20000000) 
+    message = models.CharField(max_length = 2000) 
