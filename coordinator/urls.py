@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 from . import views
 
 app_name='coordinator'
@@ -15,5 +16,8 @@ urlpatterns = [
     url(r'^updateStudents',views.updateStudents,name='updateStudents'),
     url(r'^updateAnnouncements',views.updateAnnouncement,name='updateAnnouncements'),
     url(r'^createAnnouncements',views.createAnnouncement,name='createAnnouncements'),
+    url(r'^allCompanies', views.allCompanies, name='allCompanies'),
+    url(r'^searchStudent', views.searchStudent, name = 'searchStudent'),
+    path('companyApplicants/<slug:companyId>', views.companyApplicants, name = 'companyApplicants'),
     # path('export/', views.export_movies_to_xlsx, name='export'),
  ]

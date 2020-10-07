@@ -1,0 +1,77 @@
+{% load crispy_forms_tags %}
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+ 
+
+</head>
+
+<body>
+  <div class="input-group">
+  <div class="row">
+    
+            <div class = "col-sm-6">
+            <div class="container-fluid well">
+                <center>
+                <form class="form-inline" method='POST'>
+                
+                {% csrf_token %}
+
+                    <div class="form-group mx-sm-3 mb-2">
+                    <label for="registration_number">Search Student</label>
+                    <input type="text" class="form-control form-control-lg" id = "rollNumber" name="rollNumber" value={{ value }} >
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                </center>
+            </div>
+        </div>
+
+    </div>
+  </div>
+  <div>
+  <div class = "col-sm-6">
+    <center>
+    {% if applications %}
+    <h5>Name : {{student.name}}</h5>
+    <h5>Branch : {{student.branch}}</h5>
+    <h5>Phone : {{student.mobileNumber}} </h5>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Company Name</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for application in applications %}
+        <tr>
+          <td>{{application.company}}</td>
+          <td>{{application.status}}</td>
+        </tr>
+        
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    </center>
+  </div>
+</div>
+</body>
+
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+</html>

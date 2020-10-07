@@ -1,7 +1,8 @@
 .pyc
 tnp/settings.py
-tnp/database.py
+tnp/databases.py
 *__pycache__*
 .idea/
 media/*
 requirements1.txt
+*migrations*
