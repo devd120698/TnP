@@ -343,4 +343,60 @@ def updateAnnouncement(request):
 
     context = {'form': form, 'title': 'Update Announcement'}
     template = 'authentication/form.html'
+    return render(request,template,context)
+
+@login_required
+def allCompanies(request):
+    companies = Companies.objects.all()
+    companyName = ''
+    if request.method == 'POST':
+        companyName = request.POST.get("companyName")
+        companies = Companies.objects.filter(name__istartswith = companyName)
+    record = {}
+    for company in companies:
+        status = company.status
+        applicants = CompanyApplicants.objects.filter(company = company)
+        record[company] = {'status' : status}
+    template = 'coordinator/dashboard/pages/allCompanies.html'
+    return render(request,template,{'record' : record, 'value' : companyName})
+
+@login_required
+def companyApplicants(request,companyId):
+    print(companyId)
+    company = Companies.objects.filter(companyID = companyId).first()
+    status = company.status
+    applicants = CompanyApplicants.objects.filter(company = company)
+    students = []
+    if(status == 'Accepted'):
+        for applicant in applicants:
+            if applicant.placementStatus == 'P':
+                students.append({'student' : applicant.student, 'placementStatus' :applicant.placementStatus})
+    else:
+        for applicant in applicants:
+            if applicant.placementStatus != 'P':
+                students.append({'student' : applicant.student, 'placementStatus' :applicant.placementStatus})
+    template = 'coordinator/dashboard/pages/companyApplicants.html'
+    return render(request,template,{'company':company, 'students' : students})
+
+
+@login_required
+def searchStudent(request):
+    context = {}
+    template = 'coordinator/dashboard/pages/searchStudents.html'
+    if request.method == 'POST':
+        rollNumber = request.POST.get("rollNumber")
+        student = Student.objects.filter(rollNumber = rollNumber).first()
+        print(student)
+        applications = CompanyApplicants.objects.filter(student = student)
+        applied = []
+        for app in applications:
+            applied.append({'company' : app.company, 'status' : app.placementStatus})
+
+        print(applied)
+        context['student'] = student
+        context['applications'] = applied
+        context['value'] = rollNumber
+        return render(request,template, context)
     return render(request, template, context)
+
+

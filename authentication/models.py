@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from student.models import StudentUser
 from PIL import Image
 from django.urls import reverse
 
 
 class Student_Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	user_id = models.IntegerField()
 	image = models.ImageField( default = 'default.jpg' , upload_to = 'profile_pics')
 
 	def __str__(self):

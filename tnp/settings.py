@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from .databases import *
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +33,7 @@ SECRET_KEY = '8yyi(3*x2!3))*wab+xjpu8!9ab7fo_s@c_%lnc+=hp+u53dm+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'passport.sudo@gmail.com'
 EMAIL_HOST_PASSWORD = 'Shalini123'
@@ -108,12 +110,7 @@ WSGI_APPLICATION = 'tnp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+
 
 
 # Password validation
