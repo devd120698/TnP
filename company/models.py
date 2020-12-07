@@ -12,13 +12,8 @@ class Details(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE, default = "", null =True)
     name = models.CharField(max_length = 120,primary_key = True, default = 'ABC')
     websiteLink = models.CharField(max_length = 120, null=True)
-<<<<<<< HEAD
     hrDetails = models.CharField(max_length = 2000, null=True)
     address = models.CharField(max_length = 2000, null=True)
-=======
-    hrDetails = models.CharField(max_length = 1000, null=True)
-    address = models.CharField(max_length = 1000, null=True)
->>>>>>> ffaabcf8c20b55553e8b49d414830f5841785b04
     emailId = models.EmailField(null=True)
     phoneNumber = models.CharField(max_length = 15,null=True)
     mobileNumber = models.CharField(max_length = 15,null=True) 
