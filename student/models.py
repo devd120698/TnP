@@ -149,13 +149,6 @@ class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
-<<<<<<< HEAD
-    message = models.CharField(max_length = 20000)  
-
-
-
-
-=======
     message = models.CharField(max_length = 1000)  
 
 class StudentData(models.Model):
@@ -239,4 +232,3 @@ class StudentUser(models.Model):
 			return img.url
 		else:
 			return "/static/assets/img/person.png"
->>>>>>> ffaabcf8c20b55553e8b49d414830f5841785b04

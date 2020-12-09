@@ -17,7 +17,7 @@ from django.core.mail import send_mail
 noOfAnnouncements = 0
 student  = None
 
-#@login_required
+@login_required
 def studentDashboard(request):
     global noOfAnnouncements
     getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
