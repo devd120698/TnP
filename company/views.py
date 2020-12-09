@@ -227,8 +227,8 @@ def contacTnp(request):
         send_mail(
             name + ' contacting CCPD',
             message,
-            'divyanshdubey538@gmail.com',
-            [mailid],
+            mailid,
+            ['taps@nitw.ac.in'],
             fail_silently=True,
         )
         return render(request,'company/contact_thanks.html')
