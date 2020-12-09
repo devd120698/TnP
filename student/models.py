@@ -232,3 +232,7 @@ class StudentUser(models.Model):
 			return img.url
 		else:
 			return "/static/assets/img/person.png"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8a1723023e82c786b958ac0d97aa4d2d0d2fc824

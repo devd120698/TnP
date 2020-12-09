@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
+       migrations.CreateModel(
             name='LinkForTest',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -59,20 +59,31 @@ class Migration(migrations.Migration):
             fields=[
                 ('name', models.CharField(default='ABC', max_length=120, primary_key=True, serialize=False)),
                 ('websiteLink', models.CharField(max_length=120, null=True)),
+<<<<<<< HEAD
                 ('hrDetails', models.CharField(max_length=1000, null=True)),
                 ('address', models.CharField(max_length=1000, null=True)),
+=======
+                ('hrDetails', models.CharField(max_length=200, null=True)),
+                ('address', models.CharField(max_length=200, null=True)),
+>>>>>>> 8a1723023e82c786b958ac0d97aa4d2d0d2fc824
                 ('emailId', models.EmailField(max_length=254, null=True)),
                 ('phoneNumber', models.CharField(max_length=15, null=True)),
                 ('mobileNumber', models.CharField(max_length=15, null=True)),
                 ('sector', models.CharField(blank=True, default='', max_length=100, null=True, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')])),
                 ('category', models.CharField(blank=True, default='', max_length=100, null=True, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')])),
                 ('jobDesignation', models.CharField(max_length=120, null=True)),
+<<<<<<< HEAD
                 ('jobType', models.CharField(blank=True, default='', max_length=200, null=True, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')])),
                 ('workLocation', models.CharField(max_length=1000, null=True)),
+=======
+                ('jobType', models.CharField(blank=True, default='', max_length=200, null=True, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:\\,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')])),
+                ('workLocation', models.CharField(max_length=100, null=True)),
+>>>>>>> 8a1723023e82c786b958ac0d97aa4d2d0d2fc824
                 ('tentativeDOJ', models.DateField(null=True)),
                 ('roundsDetails', models.CharField(blank=True, default='', max_length=2000, null=True, validators=[django.core.validators.RegexValidator(re.compile('^\\d+(?:,\\d+)*\\Z'), code='invalid', message='Enter only digits separated by commas.')])),
                 ('numberOfRounds', models.CharField(max_length=10, null=True)),
                 ('otherInfo', models.CharField(max_length=100, null=True)),
+<<<<<<< HEAD
                 ('salaryDetails_btech', models.CharField(default='0', max_length=50, null=True)),
                 ('salaryDetails_mtech', models.CharField(default='0', max_length=50, null=True)),
                 ('salaryDetails_otherPG', models.CharField(default='0', max_length=50, null=True)),
@@ -85,6 +96,20 @@ class Migration(migrations.Migration):
                 ('stipendDetails_OtherPG', models.CharField(default='0', max_length=50, null=True)),
                 ('duration_UG', models.CharField(default='0', max_length=10, null=True)),
                 ('duration_PG', models.CharField(default='0', max_length=10, null=True)),
+=======
+                ('salaryDetails_btech', models.CharField(default='0', max_length=1000, null=True)),
+                ('salaryDetails_mtech', models.CharField(default='0', max_length=1000, null=True)),
+                ('salaryDetails_otherPG', models.CharField(default='0', max_length=1000, null=True)),
+                ('salaryDetails_PhD', models.CharField(default='0', max_length=1000, null=True)),
+                ('minOffers', models.CharField(default='0', max_length=10, null=True)),
+                ('trainingPeriod', models.CharField(default='0', max_length=10, null=True)),
+                ('stipulatedBond', models.CharField(default='0', max_length=10, null=True)),
+                ('stipendDetails_BTech', models.CharField(default='0', max_length=1000, null=True)),
+                ('stipendDetails_MTech', models.CharField(default='0', max_length=1000, null=True)),
+                ('stipendDetails_OtherPG', models.CharField(default='0', max_length=1000, null=True)),
+                ('duration_UG', models.CharField(default='0', max_length=100, null=True)),
+                ('duration_PG', models.CharField(default='0', max_length=100, null=True)),
+>>>>>>> 8a1723023e82c786b958ac0d97aa4d2d0d2fc824
                 ('user', models.ForeignKey(default='', null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -94,7 +119,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=120)),
                 ('mailid', models.EmailField(max_length=254)),
-                ('message', models.CharField(max_length=2000)),
+                ('message', models.CharField(max_length=200)),
                 ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
