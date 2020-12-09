@@ -6,3 +6,4 @@ tnp/databases.py
 media/*
 requirements1.txt
 *migrations*
+databases/
