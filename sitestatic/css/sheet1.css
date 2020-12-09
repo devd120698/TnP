@@ -1,0 +1,75 @@
+.custom-mr-bottom{
+  margin-bottom: 0px;
+}
+
+#btn-font-custom{
+  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Squada One', cursive; */
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 10;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block}
+
+.footer-txt-custom{
+   text-transform: uppercase;
+   font-family: Helvetica;
+   line-height: 1.0;
+}
+
+.custom-ul{
+  list-style-type:none;
+  line-height: 2.3;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.btn-custom{
+  color:white;
+}
+
+.custom-animation{
+  font-size: 25px;
+  font-family: cursive;
+  color: white;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink{
+0%{opacity: 0;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
+
+a.custom-hover:hover{
+  color: gray;
+}
+
+.custom-btn-register{
+  letter-spacing: 2.3;
+  border-radius: 12px;
+}
