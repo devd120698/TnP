@@ -9,7 +9,6 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 
 
-@login_required
 def companyForm(request):
     if Details.objects.filter(user=request.user).exists():
         print("You have already Submitted")
