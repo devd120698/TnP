@@ -17,9 +17,12 @@ from django.core.mail import send_mail
 noOfAnnouncements = 0
 student  = None
 
+
+
 @login_required
 def studentDashboard(request):
     global noOfAnnouncements
+    print(request.user)
     getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
     student = Student.objects.get(user = request.user)
     listOfAnnouncements = []
@@ -95,7 +98,7 @@ def viewNewApplications(request):
         
     return render(request,'student/showCompanies.html',context)
 
-@login_required
+# login_required
 def viewStatusOfApplication(request):
     student = Student.objects.get(user = request.user)
     user = request.user

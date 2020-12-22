@@ -22,7 +22,7 @@ from authentication import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^', include('authentication.urls', namespace="authentication")),
+    url(r'^ccpd', include('authentication.urls', namespace="authentication")),
     url(r'^student/', include('student.urls', namespace="student")),
     url(r'^coordinator/', include('coordinator.urls', namespace="coordinator")),
     url(r'^administrator/', include('administrator.urls', namespace="administrator")),

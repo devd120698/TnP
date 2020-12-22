@@ -80,12 +80,13 @@ def index(request):
 def get_student_data(username, password):
     # Checking is student or not
     user = StudentUser.objects.using('wsdc_student').filter(Q(username=username) | Q(email=username))
-
+    # print(user)
     if len(user) == 0:
         stud_data = StudentData.objects.using('wsdc_student').filter(registration_number=username).first()
+        # print(stud_data)
         if stud_data is not None:
             user = StudentUser.objects.using('wsdc_student').filter(id=stud_data.userid)
-
+    
     if len(user) != 0:
         return user.get()
     else:
@@ -101,35 +102,36 @@ def sign_in(request):
         user =None
         # user = authenticate(username=username, password=password)
         if user is None and student_user is None:
-            return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
+            return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
         else:
-            try:
-                if student_user is not None:
-                    if bcrypt.checkpw(password.encode('utf-8'), student_user.password.encode('utf-8')):
-                        login(request, student_user, backend='django.contrib.auth.backends.ModelBackend')
-                        try:
-                            student = StudentData.objects.using('wsdc_student').get(userid=request.user.id)
-                        except StudentData.DoesNotExist:
-                            return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
-                    return redirect('student/studentDashBoard/')
+            if student_user is not None:
+                if bcrypt.checkpw(password.encode('utf-8'), student_user.password.encode('utf-8')):
+                    login(request, student_user, backend='django.contrib.auth.backends.ModelBackend')
+                    # print(request.user)
+                    try:
+                        student = StudentData.objects.using('wsdc_student').get(userid=request.user.id)
+                        print(student)
+                    except StudentData.DoesNotExist:
+                        return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
+                return redirect('student/studentDashBoard/')
+            
+            # Code comes here if student_user is not found.
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            if is_coordinator(request.user):
+                return redirect('coordinator/')
                 
-                # Code comes here if student_user is not found.
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                if is_coordinator(request.user):
-                    return redirect('coordinator/')
+            elif is_administrator(request.user):
+                return redirect('administrator/')
+                
+            elif is_superuser(request.user):
+                return redirect('/admin')
                     
-                elif is_administrator(request.user):
-                    return redirect('administrator/')
-                    
-                elif is_superuser(request.user):
-                    return redirect('/admin')
-                        
-            except:
-                return render(request, 'Tnp_home/index.html', {'error': 'Invalid username or password'})
+            # except:
+            #     return render(request, 'student/dashboard/pages/dashboard.html', {'error': 'Invalid username or password'})
                 
     else:
-        return index(request)
-
+        form = StudentRegisterForm()
+    return render(request, 'authentication/log_in.html', {'form':form})
 
 # def sign_out(request):
 # 	logout(request)
@@ -138,14 +140,14 @@ def sign_in(request):
 # def log_in(request):
 # 	return render(request, 'authentication/log_in.html', {})
 
-def about_us(request):
-	return render(request, 'authentication/resume.html', {})
+# def about_us(request):
+# 	return render(request, 'authentication/resume.html', {})
 
-def contact_us(request):
-	return render(request, 'authentication/contact.html', {})
+# def contact_us(request):
+# 	return render(request, 'authentication/contact.html', {})
 
-def sign_up(request):
-    return render(request,'account/index.html',{})
+# def sign_up(request):
+#     return render(request,'account/index.html',{})
 
 def activate_account(request, uidb64, token):
     try:
