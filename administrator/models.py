@@ -3,10 +3,10 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-
+# from student.models import StudentUser
 # Create your models here.
 class Administrator(models.Model):
-    user = models.OneToOneField(User, related_name='administrator', on_delete=models.CASCADE)
+    user = models.OneToOneField('student.StudentUser', related_name='administrator', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.first_name + self.user.last_name

@@ -7,9 +7,10 @@ from administrator.models import Branch
 from django.utils import timezone
 from django.core.validators import validate_comma_separated_integer_list
 from django.core.validators import FileExtensionValidator
+from student.models import StudentUser
 
 class Details(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE, default = "", null =True)
+    user = models.ForeignKey('student.StudentUser', on_delete= models.CASCADE, default = "", null =True)
     name = models.CharField(max_length = 120,primary_key = True, default = 'ABC')
     websiteLink = models.CharField(max_length = 120, null=True)
     hrDetails = models.CharField(max_length = 1000, null=True)
@@ -47,7 +48,7 @@ class Details(models.Model):
         return self.name
 
 class LoginDetails(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default = "", null = True)
+    user = models.ForeignKey('student.StudentUser', on_delete=models.CASCADE, default = "", null = True)
     uploadFile = models.FileField(null = True,upload_to = 'images/Documents/Company/LoginDetails',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     name = models.CharField(max_length = 10, default = "name")
     
@@ -55,7 +56,7 @@ class LoginDetails(models.Model):
         return self.name
 
 class Schedule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default = "", null = True)
+    user = models.ForeignKey('student.StudentUser', on_delete=models.CASCADE, default = "", null = True)
     uploadFile = models.FileField(null = True,upload_to = 'images/Documents/Company/Schedule',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     name = models.CharField(max_length = 10, default = "name")
     
@@ -63,7 +64,7 @@ class Schedule(models.Model):
         return self.name
 
 class SelectedStudents(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('student.StudentUser', on_delete=models.CASCADE)
     selectedStudents = models.CharField(max_length = 2000, null = False, default = "None qualified")
     name = models.CharField(max_length = 40)
     DUMMY = 'D'
@@ -100,7 +101,7 @@ class LinkForTest(models.Model):
     otherInstructions = models.CharField(max_length = 10000)
 
 class ContactCompany(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    user = models.ForeignKey('student.StudentUser', on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
     message = models.CharField(max_length = 2000) 
