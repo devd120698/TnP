@@ -10,12 +10,52 @@ from django_currentuser.middleware import (get_current_user, get_current_authent
 from django.core.validators import FileExtensionValidator
 # As model field:
 from django_currentuser.db.models import CurrentUserField
+from django.contrib.auth.models import AbstractUser
+
+class StudentUser(AbstractUser):
+	ip_address = models.CharField(max_length=15)
+	username = models.CharField(unique=True, max_length=100)
+	password = models.CharField(max_length=255)
+	profile_edited = models.IntegerField()
+	salt = models.CharField(max_length=40, blank=True, null=True)
+	email = models.CharField(unique=True, max_length=100)
+	activation_code = models.CharField(max_length=40, blank=True, null=True)
+	forgotten_password_code = models.CharField(max_length=40, blank=True, null=True)
+	forgotten_password_time = models.PositiveIntegerField(blank=True, null=True)
+	remember_code = models.CharField(max_length=40, blank=True, null=True)
+	created_on = models.PositiveIntegerField()
+	last_login = models.DateTimeField(blank=True, null=True)
+	active = models.PositiveIntegerField(blank=True, null=True)
+	first_name = models.CharField(max_length=50, blank=True, null=True)
+	middle_name = models.CharField(max_length=256)
+	last_name = models.CharField(max_length=50, blank=True, null=True)
+	company = models.CharField(max_length=100, blank=True, null=True)
+	phone = models.CharField(max_length=20, blank=True, null=True)
+
+	class Meta:
+		managed=False
+		db_table = 'users'
+
+	def get_student_data(self):
+		return StudentData.objects.using('wsdc_student').filter(userid=self.id).first()
+
+	def get_student_name(self):
+		return StudentData.objects.using('wsdc_student').get(userid=self.id).name.split(' ')[0]
+
+	def get_image(self):
+		img = StudentData.objects.using('wsdc_student').get(userid=self.id).profile_image
+
+		if img:
+			return img.url
+		else:
+			return "/static/assets/img/person.png"
+
 
 
 class Student(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,)
+    user = models.ForeignKey(StudentUser,on_delete=models.CASCADE,)
     admissionNumber = models.IntegerField()
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     yearOfGraduation = models.IntegerField(null=False)
@@ -114,7 +154,7 @@ class Resume(models.Model):
     # relevantCourses = models.TextField( null = True)
     # extraCurricular = models.TextField( null = True)
 
-    user = models.ForeignKey(User, null = True, on_delete=models.CASCADE)
+    user = models.ForeignKey(StudentUser, null = True, on_delete=models.CASCADE)
     resume = models.FileField(null = True, upload_to="images/Resume",validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     def __str__(self):
         return str(self.user)
@@ -146,7 +186,7 @@ class Resume(models.Model):
     
 
 class Contact(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    user = models.ForeignKey(StudentUser, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length = 120)
     mailid = models.EmailField()
     message = models.CharField(max_length = 1000)  
@@ -195,40 +235,3 @@ class StudentData(models.Model):
 		unique_together = (('roll_number', 'registration_number'),)
 
 
-class StudentUser(models.Model):
-	ip_address = models.CharField(max_length=15)
-	username = models.CharField(unique=True, max_length=100)
-	password = models.CharField(max_length=255)
-	profile_edited = models.IntegerField()
-	salt = models.CharField(max_length=40, blank=True, null=True)
-	email = models.CharField(unique=True, max_length=100)
-	activation_code = models.CharField(max_length=40, blank=True, null=True)
-	forgotten_password_code = models.CharField(max_length=40, blank=True, null=True)
-	forgotten_password_time = models.PositiveIntegerField(blank=True, null=True)
-	remember_code = models.CharField(max_length=40, blank=True, null=True)
-	created_on = models.PositiveIntegerField()
-	last_login = models.DateTimeField(blank=True, null=True)
-	active = models.PositiveIntegerField(blank=True, null=True)
-	first_name = models.CharField(max_length=50, blank=True, null=True)
-	middle_name = models.CharField(max_length=256)
-	last_name = models.CharField(max_length=50, blank=True, null=True)
-	company = models.CharField(max_length=100, blank=True, null=True)
-	phone = models.CharField(max_length=20, blank=True, null=True)
-
-	class Meta:
-		managed=False
-		db_table = 'users'
-
-	def get_student_data(self):
-		return StudentData.objects.using('wsdc_student').filter(userid=self.id).first()
-
-	def get_student_name(self):
-		return StudentData.objects.using('wsdc_student').get(userid=self.id).name.split(' ')[0]
-
-	def get_image(self):
-		img = StudentData.objects.using('wsdc_student').get(userid=self.id).profile_image
-
-		if img:
-			return img.url
-		else:
-			return "/static/assets/img/person.png"

@@ -7,10 +7,12 @@ from administrator.models import Branch
 from django.utils import timezone
 from django.core.validators import validate_comma_separated_integer_list
 from company.models import Details
+from student.models import *
+
 class Coordinator(models.Model):
     
     name = models.CharField(max_length = 120,null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,)
+    user = models.ForeignKey('student.StudentUser',on_delete=models.CASCADE,)
     admissionNumber = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     yearOfGraduation = models.IntegerField(null=False)
@@ -94,7 +96,7 @@ class Announcement(models.Model):
         default=BROADCAST_ANNOUNCEMENT,
     )
     announcementid = models.CharField(max_length = 120, primary_key=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,)
+    user = models.ForeignKey('student.StudentUser',on_delete=models.CASCADE,)
     datePublished = models.DateField(default=timezone.now)
     text = models.CharField(max_length=500)
     company = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
