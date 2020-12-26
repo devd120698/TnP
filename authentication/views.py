@@ -79,13 +79,13 @@ def index(request):
 
 def get_student_data(username, password):
     # Checking is student or not
-    user = StudentUser.objects.using('wsdc_student').filter(Q(username=username) | Q(email=username))
+    user = StudentUser.objects.filter(Q(username=username) | Q(email=username))
     # print(user)
     if len(user) == 0:
-        stud_data = StudentData.objects.using('wsdc_student').filter(registration_number=username).first()
+        stud_data = StudentData.objects.filter(registration_number=username).first()
         # print(stud_data)
         if stud_data is not None:
-            user = StudentUser.objects.using('wsdc_student').filter(id=stud_data.userid)
+            user = StudentUser.objects.filter(id=stud_data.userid)
     
     if len(user) != 0:
         return user.get()
@@ -100,20 +100,21 @@ def sign_in(request):
 
         student_user = get_student_data(username, password)
         user =None
-        # user = authenticate(username=username, password=password)
         if user is None and student_user is None:
             return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
         else:
             if student_user is not None:
                 if bcrypt.checkpw(password.encode('utf-8'), student_user.password.encode('utf-8')):
-                    login(request, student_user, backend='django.contrib.auth.backends.ModelBackend')
-                    # print(request.user)
+                    login(request, student_user,'django.contrib.auth.backends.ModelBackend')
+                    print('student_user',student_user)
+                    print('in auth',request.user)
+                    request.session['user'] = 'hello'
                     try:
-                        student = StudentData.objects.using('wsdc_student').get(userid=request.user.id)
+                        student = StudentData.objects.get(userid=request.user.id)
                         print(student)
                     except StudentData.DoesNotExist:
                         return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
-                return redirect('student/studentDashBoard/')
+                return redirect('/student/studentDashboard/')
             
             # Code comes here if student_user is not found.
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')

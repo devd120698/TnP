@@ -12,6 +12,21 @@ from django.core.validators import FileExtensionValidator
 from django_currentuser.db.models import CurrentUserField
 from django.contrib.auth.models import AbstractUser
 
+class WSDCStudentRouter(object):
+
+    def db_for_read(self, model, **hints):
+        """ reading SomeModel from otherdb """
+        if model == StudentUser or model == StudentData:
+            return 'wsdc_student'
+        return None
+
+    def db_for_write(self, model, **hints):
+        """ writing SomeModel to otherdb """
+        if model == StudentUser or model == StudentData:
+            return 'wsdc_student'
+        return None
+
+
 class StudentUser(AbstractUser):
 	ip_address = models.CharField(max_length=15)
 	username = models.CharField(unique=True, max_length=100)
@@ -33,23 +48,22 @@ class StudentUser(AbstractUser):
 	phone = models.CharField(max_length=20, blank=True, null=True)
 
 	class Meta:
-		managed=False
+		managed = False
 		db_table = 'users'
 
 	def get_student_data(self):
-		return StudentData.objects.using('wsdc_student').filter(userid=self.id).first()
+		return StudentData.objects.filter(userid=self.id).first()
 
 	def get_student_name(self):
-		return StudentData.objects.using('wsdc_student').get(userid=self.id).name.split(' ')[0]
+		return StudentData.objects.get(userid=self.id).name.split(' ')[0]
 
 	def get_image(self):
-		img = StudentData.objects.using('wsdc_student').get(userid=self.id).profile_image
+		img = StudentData.objects.get(userid=self.id).profile_image
 
 		if img:
 			return img.url
 		else:
 			return "/static/assets/img/person.png"
-
 
 
 class Student(models.Model):
@@ -233,5 +247,4 @@ class StudentData(models.Model):
 		managed = False
 		db_table = 'student_data'
 		unique_together = (('roll_number', 'registration_number'),)
-
 

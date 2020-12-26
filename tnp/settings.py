@@ -53,12 +53,12 @@ INSTALLED_APPS = [
     'home',
     'allauth.account',
     'allauth.socialaccount',
-    'student.apps.StudentConfig',
-    'coordinator.apps.CoordinatorConfig',
-    'administrator.apps.AdministratorConfig',
-    'company.apps.CompanyConfig',
+    'student',
+    'coordinator',
+    'administrator',
+    'company',
     'django_extensions',
-    'authentication.apps.AuthenticationConfig',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'tnp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+DATABASE_ROUTERS = ('student.models.WSDCStudentRouter',)
 
 
 # Password validation
@@ -160,8 +160,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #-------> allauth
 SITE_ID = 1
 
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/student/registerStudent'
+LOGIN_URL = '/ccpd/sign_in/'
+LOGIN_REDIRECT_URL = '/student/studentDashboard/'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False

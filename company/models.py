@@ -7,7 +7,6 @@ from administrator.models import Branch
 from django.utils import timezone
 from django.core.validators import validate_comma_separated_integer_list
 from django.core.validators import FileExtensionValidator
-from student.models import StudentUser
 
 class Details(models.Model):
     user = models.ForeignKey('student.StudentUser', on_delete= models.CASCADE, default = "", null =True)
