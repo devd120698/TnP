@@ -75,6 +75,8 @@ def index(request):
             fail_silently=True,
         )
     context = {'Recruiters':recruiters, 'Team':team, 'CampusPictures': photos, 'FAQs': faq,'form':form}
+    print(recruiters)
+    print(context)
     return render(request, 'home/index.html', context)
 
 def get_student_data(username, password):

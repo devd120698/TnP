@@ -18,13 +18,28 @@ class WSDCStudentRouter(object):
         """ reading SomeModel from otherdb """
         if model == StudentUser or model == StudentData:
             return 'wsdc_student'
-        return 'tnp'
+        return 'default'
 
     def db_for_write(self, model, **hints):
         """ writing SomeModel to otherdb """
         if model == StudentUser or model == StudentData:
             return 'wsdc_student'
-        return 'tnp'
+        return 'default'
+
+
+    def allow_relation(self, obj1, obj2, **hints):
+        """
+        Allow relations if a model in the feedback app is involved.
+        """
+        if obj1._meta.app_label == 'coordinator' or \
+           obj2._meta.app_label == 'coordinator':
+           return True
+        if obj1._meta.app_label == 'student' or \
+           obj2._meta.app_label == 'student':
+           return True
+        return None
+
+    
 
 
 class StudentUser(AbstractUser):
@@ -135,7 +150,7 @@ class Application(models.Model):
 
 class CompanyApplicants(models.Model):
     student = models.ForeignKey(StudentUser, on_delete = models.CASCADE, null = True)
-    company_name = models.ForeignKey(Companies, on_delete=models.CASCADE)
+    company = models.ForeignKey(Companies, on_delete=models.CASCADE)
     APPLIED = 'A'
     INTERVIEW = 'I'
     NOTAPPLIED = 'N'

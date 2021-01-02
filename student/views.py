@@ -26,7 +26,7 @@ def get_student_details(request):
     branch = student_data.branch
     year_of_graduation = (student_data.joining_year) 
     roll_number = student_data.roll_number
-    cgpa = 10.0
+    cgpa = 9
     address = student_data.address
     mob_number = student_data.mobile
     student = {
@@ -102,7 +102,7 @@ def registerStudent(request):
 def viewNewApplications(request):
     if request.method == 'GET':
         student = get_student_details(request)
-        all_companies = Companies.objects.all()
+        all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'])
         print(all_companies)
         ## check eligibility
         context = {'eligibleCompanies' : all_companies ,'student' : student}
@@ -120,12 +120,13 @@ def viewNewApplications(request):
         if companyName != None :
             companyDetails = Companies.objects.get(name = companyName)
             applicantData = CompanyApplicants()
-            applicantData.student = user
+            applicantData.student =user
+            print(user)
             applicantData.company = companyDetails
             applicantData.placementStatus = 'A'
             applicantData.save()
 
-            text_to_be_sent = 'Dear ' + student.name + ',\n' + 'You have successfully applied to be a part of the placement drive for the company - ' +  companyName + '. We will be reaching out to you with further notifications about the process.\n' + 'Best Regards\n' + 'CCPD.'
+            text_to_be_sent = 'Dear ' + student['name'] + ',\n' + 'You have successfully applied to be a part of the placement drive for the company - ' +  companyName + '. We will be reaching out to you with further notifications about the process.\n' + 'Best Regards\n' + 'CCPD.'
             send_mail(
                 'Application Confirmation',
                 text_to_be_sent,
@@ -278,22 +279,28 @@ def registerCoordinator(request):
 
 @login_required
 def addNewCompany(request):
-    form = CompaniesForm(request.POST or None)
+    instance = None
+    context = {}
+    if request.POST:
+        try:
+            name = request.POST.get('name')
+            instance = Companies.objects.get(name=name)
+        except Companies.DoesNotExist:
+            pass
+    form = CompaniesForm(request.POST or None , instance = instance)
     branches = Branch.objects.all()
     options_html = ""
     for b in branches :
         options_html += '<option value="'+b.branch+'">'+b.branch+'</option>'
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
-        if Companies.objects.filter(name=companyName).exists():
-            HttpResponse("The Company name has already been added!")
-        else:
-            appl = form.save(commit=False)
-            appl.user = request.user
-            appl.save()
-            print("save")
-            #return HttpResponse("successful")
-            return HttpResponseRedirect('/student/coordinatorDashboard')
+        
+        appl = form.save(commit=False)
+        appl.user = request.user
+        appl.save()
+        print("save")
+        #return HttpResponse("successful")
+        return HttpResponseRedirect('/student/coordinatorDashboard')
 
     context = {'form': form, 'title': 'Add New Company' ,'options_html' : options_html}
     template = 'authentication/add_company_form.html'
