@@ -1,0 +1,6 @@
+.pyc
+*__pycache__*
+.idea/
+media/*
+requirements1.txt
+databases/
