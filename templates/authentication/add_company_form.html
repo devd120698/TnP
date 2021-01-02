@@ -1,0 +1,86 @@
+{% extends 'authentication/template.html' %} {% block content %} {% load crispy_forms_tags %}
+
+
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="header">
+            <h2> <u> {{ title }} </u></h2>
+        </div>
+        <br>
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %} {{ form|crispy }}
+                
+
+                <!--message block-->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <!--message block-->
+                
+                <div  id="newRow"></div>
+
+                                                
+                <button id="addRow" type="button" class="btn btn-info mt-4">Add Branch</button><br>
+
+                <div class=" submit ">
+                    <button type="submit " class="btn btn-info submit"> Submit </button>
+                </div>
+
+                
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                <script type="text/javascript">
+                    // add row
+                    
+                    $("#addRow").click(function () {
+                        var html = '';
+                        var options = '{{options_html | safe}}'
+                        console.log(options)
+                        html += '<div class="row" id="inputFormRow"><div class="col-md-10"><div class="col-sm-2"><select  name="branches" class="form-control branch" ><option value="">Select Branch</option>'+options+'</select></div>';
+                        
+                        html += '<i class="fas fa-minus-circle" id="removeRow"></i>';
+                        html += '</div>';
+
+                        $('#newRow').append(html);
+                    });
+
+                    // remove row
+                    $(document).on('click', '#removeRow', function () {
+                        $(this).closest('#inputFormRow').remove();
+                    });
+
+                $(".submit").click(function(event){
+                    event.preventDefault()
+                    branch = ""
+                    list_branches =  $(".branch")
+                    for (var i=0; i < list_branches.length ; i++){
+                        if(i!=0)
+                        branch += ","+ list_branches[i].value 
+                        else
+                        branch +=  list_branches[i].value
+                    }
+                    console.log(branch) 
+
+                    $("#id_branchesAllowed").val(branch) 
+                    $("form").submit()                  
+                })
+
+                
+                </script>
+
+
+            </form>
+
+
+        </div>
+    </div>
+
+   
+</div>
+{% endblock %}
