@@ -48,8 +48,8 @@
                         <span class="user-name"><strong>{{ user }}</strong></span>
                         <span class="user-role">CCPD associate</span>
                         <span class="user-status">
-            <i class="fa fa-circle"></i>
-            <span>Online</span>
+            {% comment %} <i class="fa fa-circle"></i>
+            <span>Online</span> {% endcomment %}
                         </span>
                     </div>
                 </div>
@@ -68,16 +68,16 @@
                         <li class="bg-secondary">
                             <a href="{% url 'student:addNewCompany'%}">
                                 <i class="fa fa-user"></i>
-                                <span style="color:#000">Add New Company</span>
+                                <span style="color:#000">Add New/Update Company</span>
                             </a>
                         </li>
 
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'student:updateCompanyStatus'%}">
                                 <i class="fa fa-tachometer-alt"></i>
                                 <span>Update Company</span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
 
                         <li>
                             <a href="{% url 'student:getCompanyStatus'%}">
@@ -86,12 +86,12 @@
                             </a>
                         </li>
 
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'student:sendCompanyDetails'%}">
                                 <i class="far fa-file"></i>
                                 <span>Send Company Status</span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
 
                         <li>
                             <a href="{% url 'student:checkApplicantsOfCompany'%}">

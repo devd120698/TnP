@@ -51,9 +51,6 @@
             <strong>{{student.name}}</strong>
           </span>
                         <span class="user-role">{{student.branch.course}}, {{student.branch}}</span>
-                        <span class="user-status">
-            <i class="fa fa-circle"></i>
-            <span>Online</span>
                         </span>
                     </div>
                 </div>
@@ -82,7 +79,7 @@
                             <a href="{% url 'student:studentDashboard'%}">
                                 <i class="fa fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
-                                <span class="badge badge-pill badge-warning">New</span>
+                                
                             </a>
                         </li>
 
@@ -107,19 +104,19 @@
                             </a>
                         </li>
 
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'student:showCalendar'%}">
                                 <i class="fa fa-calendar"></i>
                                 <span>Calendar</span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
                     </ul>
                 </div>
                 <!-- sidebar-menu  -->
             </div>
             <!-- sidebar-content  -->
             <div class="sidebar-footer" style="padding-top: 10px;">
-                <a href="#" title="Announcements">
+                {% comment %} <a href="#" title="Announcements">
                     <i class="fa fa-bell"></i>
                     <span class="badge badge-pill badge-warning notification">{{noOfAnnouncements}}</span>
                 </a>
@@ -130,7 +127,7 @@
                 <a href="#" title="Setting">
                     <i class="fa fa-cog"></i>
                     <span class="badge-sonar"></span>
-                </a>
+                </a> {% endcomment %}
                 <a href="{% url 'account_logout' %}" title="Sign Out">
                     <i class="fa fa-power-off"></i>
                 </a>

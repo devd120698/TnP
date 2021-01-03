@@ -55,6 +55,7 @@ def studentDashboard(request):
             listOfAnnouncements.append(announcement)
         else:
             companyName = Announcement.getCompanyName(announcement)
+            print(companyName)
             company = Companies.objects.get(name = companyName)
             if CompanyApplicants.objects.filter(student = request.user).filter(company = company).exists():
                 listOfAnnouncements.append(announcement)
@@ -399,11 +400,12 @@ def checkApplicantsOfCompany(request):
     form = SearchCompany(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
+        print(companyName)
         if Companies.objects.filter(name=companyName).exists():
             companyDetails = Companies.objects.get(name=companyName)
             listOfApplicants = CompanyApplicants.objects.filter(
                 placementStatus='A').filter(company=companyDetails)
-            #print(listOfApplicants)
+            print(listOfApplicants)
             #messages.info(request,listOfApplicants)
             return HttpResponse(listOfApplicants)
         else:

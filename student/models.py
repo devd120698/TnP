@@ -172,7 +172,7 @@ class CompanyApplicants(models.Model):
     )
 
     def __str__(self):
-        return str(self.student.admissionNumber) + " " +self.student.name + " " + self.student.user.email
+        return str(self.student.first_name)
 
     @staticmethod
     def getCompanyName(self):
