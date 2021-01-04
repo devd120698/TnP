@@ -1,0 +1,161 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+<!-- MDBootstrap Datatables  -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/theme6.css' %}">
+
+
+
+</head>
+<style>
+    .sidebar-wrapper .sidebar-brand>a {
+        text-decoration: none;
+    }
+</style>
+
+<body>
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <a href="#">Student Portal</a>
+                    <div id="close-sidebar">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="sidebar-header">
+                    <div class="user-pic">
+                        <img class="img-responsive rounded-circle" src="{% static 'img/pic1.jpeg'%}" alt="User picture" style="width:50px;height: 50px">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">
+            <strong>{{student.name}}</strong>
+          </span>
+                        <span class="user-role">{{student.branch.course}}, {{student.branch}}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="sidebar-menu">
+                    <ul>
+                        {% comment %} {% for group in user.groups.all %}
+                        {% if group.name == 'Coordinator' %} {% endcomment %}
+                        <li class="text-center">
+                                   <a href="{% url 'student:coordinatorDashboard'%}">
+                                       <span>Switch to Coordinator</span>
+                                   </a>
+                               {% comment %} </li>{% endif %}{% endfor %} {% endcomment %}
+                        <li class="header-menu">
+                            <span>General</span>
+                        </li>
+
+                        <li class="bg-secondary">
+                            <a href="{% url 'student:viewProfile'%}">
+                                <i class="fa fa-user"></i>
+                                <span style="color:#000">My Profile</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'student:studentDashboard'%}">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                                
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'student:viewStatusOfApplication'%}">
+                                <i class="fa fa-calendar-check"></i>
+                                <span>Status of Application</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'student:uploadResume'%}">
+                                <i class="far fa-file"></i>
+                                <span>Upload Resume</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'student:viewNewApplications'%}">
+                                <i class="fa fa-mouse-pointer"></i>
+                                <span>Apply For Company</span>
+                            </a>
+                        </li>
+
+                        {% comment %} <li>
+                            <a href="{% url 'student:showCalendar'%}">
+                                <i class="fa fa-calendar"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li> {% endcomment %}
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-content  -->
+            <div class="sidebar-footer" style="padding-top: 10px;">
+                {% comment %} <a href="#" title="Announcements">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-pill badge-warning notification">{{noOfAnnouncements}}</span>
+                </a>
+                <a href="#" title="Messages">
+                    <i class="fa fa-envelope"></i>
+                    <span class="badge badge-pill badge-success notification">7</span>
+                </a>
+                <a href="#" title="Setting">
+                    <i class="fa fa-cog"></i>
+                    <span class="badge-sonar"></span>
+                </a> {% endcomment %}
+                <a href="{% url 'account_logout' %}" title="Sign Out">
+                    <i class="fa fa-power-off"></i>
+                </a>
+
+            </div>
+        </nav>
+        <!-- sidebar-wrapper  -->
+        <main class="page-content" id="dashboard">
+            <div class="container-fluid">
+                {% comment %}
+                <div class="wrapper" id="#wrapper"> {% endcomment %} {% block content %} {% endblock content %} {% comment %} </div> {% endcomment %}
+            </div>
+        </main>
+        <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+<!-- MDBootstrap Datatables  -->
+
+
+
+<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+
+<script type="text/javascript" src=" {% static 'js/jquery.js' %}"></script>
+
+</html>
