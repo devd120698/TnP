@@ -64,7 +64,7 @@
                     </form>
                 </div>
 
-                <div class="signup_wthree">
+                {% comment %} <div class="signup_wthree">
                     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
                         {% if redirect_field_value %}
@@ -95,7 +95,7 @@
                         </div>
                     </form>
 
-                </div>
+                </div> {% endcomment %}
 
             </div>
         </div>

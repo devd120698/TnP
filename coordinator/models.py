@@ -53,20 +53,20 @@ from student.models import *
 #         my_group.user_set.add(coordinator.user)
 
 class Companies(models.Model):
-    WAITING = 'Waiting'
-    DENIED = 'Denied'
-    ACCEPTED = 'Accepted'
+    
     COMPANY_STATUS = (
-        (WAITING, 'waiting'),
-        (DENIED, 'denied'),
-        (ACCEPTED, 'accepted'),
+        ('Yet to Fill CPNF', 'Yet to fill CPNF'),
+        ('CPNF received, unscheduled', 'CPNF received, unscheduled'),
+        ('OT scheduled', 'OT scheduled'),
+        ('Interview scheduled' , 'Interview scheduled'),
+        (' Results received' , ' Results received')
     )
     name = models.CharField(max_length = 120, primary_key=True)
     dateOfVisit = models.DateField(null = True)
     status = models.CharField(
         max_length=8,
         choices=COMPANY_STATUS,
-        default=WAITING,
+        default='Yet to Fill CPNF',
     )
     ALIVE = 'Alive'
     DEAD = 'Dead'

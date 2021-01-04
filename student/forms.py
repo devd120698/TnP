@@ -24,7 +24,7 @@ class RegisterForm(forms.ModelForm):
         ]
 
 class ViewCompaniesForm(forms.Form):
-    nameOfCompany = forms.CharField(widget = forms.HiddenInput(), required = False,max_length=100)
+    nameOfCompany = forms.CharField(max_length=100)
 
 class UploadResume(forms.ModelForm):
     class Meta:
@@ -74,11 +74,24 @@ class CompaniesForm(forms.ModelForm):
         self.fields['companyID'].required=False
 		
 class SearchCompany(forms.Form):
-    name = forms.CharField(max_length=100)
+    companies = Companies.objects.all()
+    company_list = []
+    company_list.append(('' , '--------'))
+    for company in companies :
+        company_list.append((company.name , company.name))
+    COMPANIES = tuple(company_list)
+    name = forms.ChoiceField(choices=COMPANIES)
+    
 
 class UpdatePlacementStatsForm(forms.Form):
-    company = forms.CharField(max_length=100)
-    students = forms.CharField(max_length=20000)
+    companies = Companies.objects.all()
+    company_list = []
+    company_list.append(('' , '--------'))
+    for company in companies :
+        company_list.append((company.name , company.name))
+    COMPANIES = tuple(company_list)
+    company = forms.ChoiceField(choices=COMPANIES)
+    student_roll = forms.CharField(max_length=10)
     APPLIED = 'A'
     INTERVIEW = 'I'
     PLACED = 'P'

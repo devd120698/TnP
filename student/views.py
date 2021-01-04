@@ -17,9 +17,8 @@ from django.contrib import messages
 
 noOfAnnouncements = 0
 student  = None
-@login_required
-def get_student_details(request):
-    user_id = request.user.id
+
+def get_student_details(user_id):
     student_data = StudentData.objects.get(userid = user_id)
     name = student_data.name
     reg_number = student_data.registration_number
@@ -29,26 +28,31 @@ def get_student_details(request):
     cgpa = 9
     address = student_data.address
     mob_number = student_data.mobile
+    course = student_data.course
     student = {
         'name' : name ,
         'admissionNumber' : reg_number,
         'branch' : branch,
+        'course' : course,
         'yearOfGraduation' : year_of_graduation,
         'rollNumber' : roll_number,
         'CGPA' : cgpa,
         'address' : address,
         'mobileNumber' : mob_number,
-        'user' : request.user
+        'profile_image' : student_data.profile_image,
+        
+        
     }
-    
     return student
 
 @login_required
 def studentDashboard(request):
     global noOfAnnouncements
     print(request.user)
+    print(request.user.id)
+    print("hi")
     getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
-    student = get_student_details(request)
+    student = get_student_details(request.user.id)
     listOfAnnouncements = []
     for announcement in getAnnouncements:
         if announcement.type_of_announcement == 'Broadcasting':
@@ -102,14 +106,14 @@ def registerStudent(request):
 @login_required
 def viewNewApplications(request):
     if request.method == 'GET':
-        student = get_student_details(request)
+        student = get_student_details(request.user.id)
         all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'])
         print(all_companies)
         ## check eligibility
         context = {'eligibleCompanies' : all_companies ,'student' : student}
         return render(request,'student/showCompanies.html',context)
     if request.method == 'POST': 
-        student = get_student_details(request)
+        student = get_student_details(request.user.id)
 
         user = request.user
         company = CompanyApplicants.objects.filter(student = user).filter(placementStatus = 'N')
@@ -140,14 +144,14 @@ def viewNewApplications(request):
 
 # login_required
 def viewStatusOfApplication(request):
-    student = get_student_details(request)
+    student = get_student_details(request.user.id)
     user = request.user
     company = CompanyApplicants.objects.filter(student = user).exclude(placementStatus = 'N').exclude(placementStatus = 'R')
     return render(request,'student/showApplied.html',{'eligibleCompanies':company, 'student':student})
 
 @login_required
 def viewProfile(request):
-    student = get_student_details(request)
+    student = get_student_details(request.user.id)
 
     resumeUploaded = False
     if Resume.objects.filter(user = request.user).exists():
@@ -186,7 +190,7 @@ def uploadResume(request):
     #     saveDetails.save()
     # return render(request,'student/dashboard/pages/resume-form.html',{'student':student})   
    
-    student = get_student_details(request)
+    student = get_student_details(request.user.id)
     form = UploadResume(request.POST or None ,request.FILES or None)
     form.user = request.user
     if form.is_valid():
@@ -206,7 +210,7 @@ def showCalendar(request):
 
 @login_required
 def contactTnp(request):
-    student = get_student_details(request)
+    student = get_student_details(request.user.id)
     form = ContactForm(request.POST or None)
     if form.is_valid():
         name = form.cleaned_data.get('name')
@@ -248,7 +252,7 @@ def coordinatorDashboard(request):
 
     listOfCoordinators = Coordinator.objects.all()
     print(listOfCoordinators)
-    curr_user_details = get_student_details(request)
+    curr_user_details = get_student_details(request.user.id)
     check  = Coordinator.objects.filter(registration_number=curr_user_details['admissionNumber'])
     print(check)
     if(len(check)>0):
@@ -267,7 +271,7 @@ def coordinatorDashboard(request):
 @login_required
 def registerCoordinator(request):
     listOfCoordinators = Coordinator.objects.all()
-    curr_user_details = get_student_details(request)
+    curr_user_details = get_student_details(request.user.id)
     check  = Coordinator.objects.filter(registration_number=curr_user_details['admissionNumber'])
     emails = User.objects.filter(is_active=True).values_list(
         'email', flat=True).filter(groups__name='Coordinator')
@@ -303,7 +307,7 @@ def addNewCompany(request):
         #return HttpResponse("successful")
         return HttpResponseRedirect('/student/coordinatorDashboard')
 
-    context = {'form': form, 'title': 'Add New Company' ,'options_html' : options_html}
+    context = {'form': form, 'title': 'Add/Update New Company' ,'options_html' : options_html}
     template = 'authentication/add_company_form.html'
     print("here")
     return render(request, template, context)
@@ -397,6 +401,7 @@ def sendCompanyDetails(request):
 
 @login_required
 def checkApplicantsOfCompany(request):
+
     form = SearchCompany(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
@@ -405,9 +410,17 @@ def checkApplicantsOfCompany(request):
             companyDetails = Companies.objects.get(name=companyName)
             listOfApplicants = CompanyApplicants.objects.filter(
                 placementStatus='A').filter(company=companyDetails)
-            print(listOfApplicants)
+            detailsOfApplicants = []
+            for student in listOfApplicants:
+                
+                studentDetails = get_student_details(student.student_id)
+                detailsOfApplicants.append(studentDetails)
+                
+            print(detailsOfApplicants)
             #messages.info(request,listOfApplicants)
-            return HttpResponse(listOfApplicants)
+            context ={'applicants' : detailsOfApplicants , 'company_name' : companyName}
+            template = 'coordinator/viewCompanyApplicants.html'
+            return render(request, template, context)
         else:
             #return HttpResponse("The company was not added before!")
             messages.error(request,"The company was not added before!")
@@ -439,23 +452,25 @@ def updateStudents(request):
     form = UpdatePlacementStatsForm(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('company')
+        print(companyName)
         status = form.cleaned_data.get('status')
-        if Companies.objects.filter(name=companyName).exists():
-            students = form.cleaned_data.get('students')
+        try :
+        
+            student_roll_number = form.cleaned_data.get('student_roll')
             companyDetails = Companies.objects.get(name=companyName)
+            print(student_roll_number)
+            student_id = StudentData.objects.get(roll_number=student_roll_number).userid
+            print(student_id)
+            applicantData = CompanyApplicants.objects.filter(student_id=student_id).get(company = companyName)
+            applicantData.placementStatus = status[0]
+            applicantData.save()
+            messages.success(request , 'successfully updated')
+            
+            
+        except :
+           messages.error(request , 'student did not apply for the company')
 
-            listOfQualifiers = students.split(',')
-            for qualifier in listOfQualifiers:
-                student = Student.objects.get(rollNumber=qualifier)
-
-                applicantData = CompanyApplicants.objects.get(student=student)
-                applicantData.placementStatus = status[0]
-                applicantData.save()
-
-        else:
-            HttpResponse("The company was not added before!")
-
-    context = {'form': form, 'title': 'Update Students'}
+    context = {'form': form, 'title': 'Update Students' }
     template = 'authentication/form.html'
     return render(request, template, context)
 
