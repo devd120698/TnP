@@ -256,7 +256,7 @@ def coordinatorDashboard(request):
     check  = Coordinator.objects.filter(registration_number=curr_user_details['admissionNumber'])
     print(check)
     if(len(check)>0):
-        context = {'listOfAnnouncements': listOfAnnouncements}
+        context = {'listOfAnnouncements': listOfAnnouncements , 'curr_user' : curr_user_details}
         template = 'coordinator/dashboard/pages/dash.html'
     
         return render(request, template, context)
