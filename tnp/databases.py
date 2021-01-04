@@ -9,6 +9,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
         'PASSWORD': '',
+        'OPTIONS': {
+         "init_command": "SET foreign_key_checks = 0;",
+    },
     },
     'wsdc_student': {
         'NAME': 'wsdc_student',
@@ -16,13 +19,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
         'PASSWORD': '',
+        'OPTIONS': {
+         "init_command": "SET foreign_key_checks = 0;",
+    },
     },
 
-    'coordinators': {
-        'NAME': 'coordinators',
-        'HOST': '127.0.0.1',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'root',
-        'PASSWORD': '',
-    }
+    
 }
