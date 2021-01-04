@@ -111,6 +111,30 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div
+                  class="card-header content-center"
+                  style="background-color: #313348;"
+                >
+                  <i class="icon text-white my-4 display-4"></i>
+                 <h3>
+                    <a
+                      href="{% url 'student:viewCompanyDetails' %}"
+                      class="text-light"
+                      style="text-decoration: none;"
+                      >View Company Details</a
+                    >
+                  </h3>
+                  <p>View the Details of the Companies </p>
+                </div>
+                <div class="card-body text-dark">
+                  {% for annoucement in listOfAnnouncements %}
+                  <li>{{annoucement.company.name}} - {{annoucement.text}}</li>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
             {% comment %} <div class="col-md-6">
               <div class="card">
                 <div
