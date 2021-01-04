@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^createAnnouncements',views.createAnnouncement,name='createAnnouncements'),
     url(r'^allCompanies', views.allCompanies, name='allCompanies'),
     url(r'^searchStudent', views.searchStudent, name = 'searchStudent'),
+    url(r'^viewCompanyDetails', views.viewCompanyDetails, name = 'viewCompanyDetails'),
     path('companyApplicants/<slug:companyId>', views.companyApplicants, name = 'companyApplicants'),
  ]

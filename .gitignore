@@ -7,4 +7,3 @@ media/*
 requirements1.txt
 *migrations*
 databases/
-generate_branch.py

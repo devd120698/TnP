@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^student/', include('student.urls', namespace="student")),
     url(r'^coordinator/', include('coordinator.urls', namespace="coordinator")),
     url(r'^administrator/', include('administrator.urls', namespace="administrator")),
-    url(r'^admin/', admin.site.urls),
+    url(r'^ccpd/admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^company/', include('company.urls', namespace="company")),
     path('password_reset/',

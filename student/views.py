@@ -40,7 +40,7 @@ def get_student_details(user_id):
         'address' : address,
         'mobileNumber' : mob_number,
         'profile_image' : student_data.profile_image,
-        
+
         
     }
     return student
@@ -435,10 +435,22 @@ def placedStudents(request):
     form = SearchCompany(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
+        print(companyName)
         if Companies.objects.filter(name=companyName).exists():
             companyDetails = Companies.objects.get(name=companyName)
             listOfPlaced = CompanyApplicants.objects.filter(
                 placementStatus='P').filter(company=companyDetails)
+            detailsOfApplicants = []
+            for student in listOfPlaced:
+                
+                studentDetails = get_student_details(student.student_id)
+                detailsOfApplicants.append(studentDetails)
+                
+           
+            #messages.info(request,listOfApplicants)
+            context ={'applicants' : detailsOfApplicants , 'company_name' : companyName}
+            template = 'coordinator/viewCompanyApplicants.html'
+            return render(request, template, context)
         else:
             HttpResponse("The company was not added before!")
 
@@ -575,3 +587,10 @@ def searchStudent(request):
         context['value'] = rollNumber
         return render(request,template, context)
     return render(request, template, context)
+
+
+@login_required
+def viewCompanyDetails(request):
+    companies = Details.objects.all()
+    print(companies)
+    return render(request , 'coordinator/viewCompanyDetails.html' , {'dict':companies})

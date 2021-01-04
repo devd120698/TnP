@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>T and P</title>
+    <title>Training & Placement NITW</title>
     <meta content="" name="descriptison">
     <meta content="" name="keywords">
 
@@ -193,19 +193,52 @@
         <!-- ======= Past Recruiters ======= -->
         <section id="clients" class="clients section-bg">
             <div class="container">
-
                 <div class="section-title">
                     <h2>Some of the past Recruiters</h2>
                 </div>
 
                 <div class="row no-gutters clients-wrap clearfix wow fadeInUp">
+                    {% comment %}
                     {% for recruiter in Recruiters%}
                     <div class="col-lg-2 col-md-4 col-6">
                         <div class="client-logo">
                             <img src="{{recruiter.photo.url}}" class="img-fluid" alt="" data-aos="flip-right">
                         </div>
                     </div>
-                    {% endfor %}
+                    {% endfor %} 
+                    {% endcomment %}
+
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="client-logo">
+                            <img src="{% static 'assets/img/comp1.png' %}" class="img-fluid" alt="" data-aos="flip-right">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="client-logo">
+                            <img src="{% static 'assets/img/comp2.png' %}" class="img-fluid" alt="" data-aos="flip-right">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="client-logo">
+                            <img src="{% static 'assets/img/comp3.png' %}" class="img-fluid" alt="" data-aos="flip-right">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="client-logo">
+                            <img src="{% static 'assets/img/comp4.png' %}" class="img-fluid" alt="" data-aos="flip-right">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="client-logo">
+                            <img src="{% static 'assets/img/comp5.png' %}" class="img-fluid" alt="" data-aos="flip-right">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="client-logo">
+                            <img src="{% static 'assets/img/comp6.png' %}" class="img-fluid" alt="" data-aos="flip-right">
+                        </div>
+                    </div>
+                    
 
                 </div>
 
@@ -280,6 +313,7 @@
 
 
                 <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+                    {% comment %}
                     {% for picture in CampusPictures%}
                     <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                         <div class="portfolio-wrap">
@@ -290,6 +324,38 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% endcomment %}
+
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="{% static 'assets/img/campus1.JPG' %}" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="{% static 'assets/img/campus2.JPG' %}" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="{% static 'assets/img/campus3.JPG' %}" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="{% static 'assets/img/campus4.JPG' %}" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="{% static 'assets/img/campus5.JPG' %}" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="{% static 'assets/img/campus6.JPG' %}" class="img-fluid" alt="">
+                        </div>
+                    </div>
 
                 </div>
 
