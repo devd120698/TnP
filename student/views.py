@@ -13,23 +13,28 @@ from administrator.models import Branch
 from datetime import datetime, timedelta
 from django.core.mail import send_mail
 from django.contrib import messages
-
+import sys
 
 noOfAnnouncements = 0
 student  = None
 
 def get_student_details(user_id):
+    student_user = StudentUser.objects.get(id = user_id)
+    print(student_user)
     student_data = StudentData.objects.get(userid = user_id)
     name = student_data.name
     reg_number = student_data.registration_number
+    student_mail_details = MailAll.objects.get(registration_number=reg_number)
     branch = student_data.branch
     year_of_graduation = (student_data.joining_year) 
     roll_number = student_data.roll_number
-    cgpa = 9
+    cgpa = student_user.CGPA
     address = student_data.address
     mob_number = student_data.mobile
     course = student_data.course
+    email = student_user.email
     student = {
+        'user_id' : user_id,
         'name' : name ,
         'admissionNumber' : reg_number,
         'branch' : branch,
@@ -40,9 +45,13 @@ def get_student_details(user_id):
         'address' : address,
         'mobileNumber' : mob_number,
         'profile_image' : student_data.profile_image,
+        'resume_url' : Resume.objects.get(user=student_user).resume,
+        'email' :email,
+        'student_email' : student_mail_details.email_id,
 
         
     }
+    print(student)
     return student
 
 @login_required
@@ -109,8 +118,19 @@ def viewNewApplications(request):
         student = get_student_details(request.user.id)
         all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'])
         print(all_companies)
+        final_companies= []
+        for company in all_companies:
+            branches = company.branchesAllowed
+            
+            if(branches == None ):
+                continue 
+            listOfBranches = branches.split(',')
+            if request.user.branch in listOfBranches:
+                final_companies.append(company)
+
+
         ## check eligibility
-        context = {'eligibleCompanies' : all_companies ,'student' : student}
+        context = {'eligibleCompanies' : final_companies ,'student' : student}
         return render(request,'student/showCompanies.html',context)
     if request.method == 'POST': 
         student = get_student_details(request.user.id)
@@ -124,24 +144,43 @@ def viewNewApplications(request):
         
         if companyName != None :
             companyDetails = Companies.objects.get(name = companyName)
-            applicantData = CompanyApplicants()
-            applicantData.student =user
-            print(user)
-            applicantData.company = companyDetails
-            applicantData.placementStatus = 'A'
-            applicantData.save()
-
-            text_to_be_sent = 'Dear ' + student['name'] + ',\n' + 'You have successfully applied to be a part of the placement drive for the company - ' +  companyName + '. We will be reaching out to you with further notifications about the process.\n' + 'Best Regards\n' + 'CCPD.'
-            send_mail(
-                'Application Confirmation',
-                text_to_be_sent,
-                'taps@nitw.ac.in',
-                [request.user.email],
-                fail_silently=True,
-            )
+            context = {'company_details' : companyDetails , 'student' : student , }
+            return render(request , 'student/company_application_form.html' , context)
+            
             
         return render(request,'student/showCompanies.html',context)
 
+@login_required
+def applyForCompany(request):
+    companyName = request.POST.get('company')
+    student_id = request.POST.get('student_id')
+    print(companyName)
+    print(student_id)
+    student_user = StudentUser.objects.get(id=student_id)
+    student = get_student_details(student_id)
+    if CompanyApplicants.objects.filter(company=companyName).filter(student=student_user).exists():
+        messages.error(request , "You have already Applied for this Company")
+        companyDetails = Companies.objects.get(name = companyName)
+        context = {'company_details' : companyDetails , 'student' : student , }
+        return render(request , 'student/company_application_form.html' , context)
+    else: 
+        companyDetails = Companies.objects.get(name = companyName)
+        applicantData = CompanyApplicants()
+        applicantData.student = StudentUser.objects.get(id=student_id)
+        applicantData.company = companyDetails
+        applicantData.placementStatus = 'A'
+        applicantData.save()
+
+        text_to_be_sent = 'Dear ' + student['name'] + ',\n' + 'You have successfully applied to be a part of the placement drive for the company - ' +  companyName + '. We will be reaching out to you with further notifications about the process.\n' + 'Best Regards\n' + 'CCPD.'
+        send_mail(
+            'Application Confirmation',
+            text_to_be_sent,
+            'taps@nitw.ac.in',
+            [request.user.email],
+            fail_silently=True,
+        )
+        
+        return redirect('/student/viewNewApplications')
 # login_required
 def viewStatusOfApplication(request):
     student = get_student_details(request.user.id)
@@ -154,9 +193,12 @@ def viewProfile(request):
     student = get_student_details(request.user.id)
 
     resumeUploaded = False
+    resume_url = ""
     if Resume.objects.filter(user = request.user).exists():
         resumeUploaded = True
-    return render(request,'student/dashboard/pages/profile.html',{'student':student, 'resumeUploaded': resumeUploaded})
+        resume_url = Resume.objects.get(user=request.user).resume
+    
+    return render(request,'student/dashboard/pages/profile.html',{'student':student, 'resumeUploaded': resumeUploaded, 'resume_url' :resume_url })
 
 @login_required
 def uploadResume(request):
@@ -189,17 +231,49 @@ def uploadResume(request):
     #     print(saveDetails)
     #     saveDetails.save()
     # return render(request,'student/dashboard/pages/resume-form.html',{'student':student})   
-   
-    student = get_student_details(request.user.id)
-    form = UploadResume(request.POST or None ,request.FILES or None)
-    form.user = request.user
-    if form.is_valid():
-        if Resume.objects.filter(user = request.user).exists():
-            Resume.objects.get(user = request.user).delete()
-        appl = form.save(commit = False)
-        appl.user = request.user
-        form.save()
-    return render(request,'student/dashboard/pages/resume.html', {'form':form, 'student':student})    
+    if(request.method == 'POST'):
+        try :
+
+            student = get_student_details(request.user.id)
+            resume_url  = request.POST.get('resume' , False)
+            print(resume_url)
+            if(Resume.objects.filter(user = request.user).exists()):
+                req_resume =Resume.objects.get(user=request.user)
+                req_resume.resume = resume_url
+                req_resume.save()
+            else :
+                saveResume = Resume(
+                    user=request.user ,
+                    resume=resume_url
+                )
+                saveResume.save()
+            
+            
+            messages.success(request , "Resume URL Updated Successfully")
+            return render(request,'student/dashboard/pages/resume.html')
+            
+        except :
+            print("Unexpected error:", sys.exc_info()[0])
+            messages.error(request , "Could Not Update Your Resume URL")
+            return render(request,'student/dashboard/pages/resume.html')
+    else :
+        return render(request,'student/dashboard/pages/resume.html')
+        
+@login_required
+def addCGPA(request):
+    if(request.method=='POST'):
+        student = get_student_details(request.user.id)
+        cgpa = request.POST.get('CGPA', False)
+        branch = request.POST.get('branches' , False)
+        student_user = StudentUser.objects.get(id=request.user.id)
+        student_user.CGPA = cgpa
+        student_user.branch = branch
+
+        student_user.save()
+        messages.success(request , "CGPA  and Branch Updated Successfully")
+        return render(request,'student/dashboard/pages/addCGPA.html')
+    else : 
+        return render(request,'student/dashboard/pages/addCgpa.html')
 
 # @login_required
 def showCalendar(request):

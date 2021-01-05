@@ -97,13 +97,13 @@ def companyForm(request):
         print(saveDetails)  
         saveDetails.save(using='default')
 
-        saveCompanyStatus = Companies(
-            companyID=saveDetails,
-            CGPA=cgpa,
-            branchesAllowed=branchesAllowed,
-            status='Accepted',
-            name=companyName
-        )
+        # saveCompanyStatus = Companies(
+        #     companyID=saveDetails,
+        #     CGPA=cgpa,
+        #     branchesAllowed=branchesAllowed,
+        #     status='Accepted',
+        #     name=companyName
+        # )
         
         saveCompanyStatus.save()
         return render(request , 'company/filling_thanks.html')

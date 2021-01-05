@@ -57,7 +57,8 @@ class CompaniesForm(forms.ModelForm):
             'status',
             'branchesAllowed',
             'CGPA',
-            'companyID'
+            'companyID',
+            'other_fields_url',
         ]
 #widgets
         widgets = {
@@ -120,7 +121,14 @@ class SearchAnnouncement(forms.Form):
     announcementid = forms.CharField(max_length=10)
 
 class UpdateAnnouncementForm(forms.Form):
-    announcementid = forms.CharField(max_length=10)
+    announcements = Announcement.objects.all()
+    announcement_list = []
+    announcement_list.append(('','--------'))
+    for a in announcements :
+        announcement_list.append((a.announcementid , a.announcementid))
+    ANNOUNCEMENTS = tuple(announcement_list)
+
+    announcementid = forms.ChoiceField(choices=ANNOUNCEMENTS)
     text = forms.CharField(max_length=20000)
     BROADCAST_ANNOUNCEMENT = 'Broadcasting'
     ELIGIBLE_ANNOUNCEMENT = 'Eligible'

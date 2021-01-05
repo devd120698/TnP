@@ -16,13 +16,13 @@ class WSDCStudentRouter(object):
 
     def db_for_read(self, model, **hints):
         """ reading SomeModel from otherdb """
-        if model == StudentUser or model == StudentData:
+        if model == StudentUser or model == StudentData or model == MailAll:
             return 'wsdc_student'
         return 'default'
 
     def db_for_write(self, model, **hints):
         """ writing SomeModel to otherdb """
-        if model == StudentUser or model == StudentData:
+        if model == StudentUser or model == StudentData or model == MailAll:
             return 'wsdc_student'
         return 'default'
 
@@ -61,7 +61,8 @@ class StudentUser(AbstractUser):
 	last_name = models.CharField(max_length=50, blank=True, null=True)
 	company = models.CharField(max_length=100, blank=True, null=True)
 	phone = models.CharField(max_length=20, blank=True, null=True)
-
+	CGPA = models.FloatField(blank=True,null=True)
+	branch = models.CharField(max_length= 50 , blank= True , null= True)
 	class Meta:
 		db_table = 'users'
 
@@ -78,6 +79,17 @@ class StudentUser(AbstractUser):
 			return img.url
 		else:
 			return "/static/assets/img/person.png"
+
+class MailAll(models.Model):
+	sno = models.AutoField(primary_key=True)
+	registration_number = models.CharField(max_length=10, blank=True, null=True)
+	email_id = models.CharField(max_length=100, blank=True, null=True)
+	password = models.CharField(max_length=20, blank=True, null=True)
+	created_time = models.CharField(max_length=50, null=True)
+
+	class Meta:
+		managed = False
+		db_table = 'mail_all'
 
 
 
@@ -200,7 +212,8 @@ class Resume(models.Model):
     # extraCurricular = models.TextField( null = True)
 
     user = models.ForeignKey(StudentUser, null = True, on_delete=models.CASCADE)
-    resume = models.FileField(null = True, upload_to="images/Resume",validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    resume = models.URLField(max_length=200)
+    
     def __str__(self):
         return str(self.user)
     

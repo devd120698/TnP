@@ -64,7 +64,7 @@ class Companies(models.Model):
     name = models.CharField(max_length = 120, primary_key=True)
     dateOfVisit = models.DateField(null = True)
     status = models.CharField(
-        max_length=8,
+        max_length=100,
         choices=COMPANY_STATUS,
         default='Yet to Fill CPNF',
     )
@@ -75,13 +75,13 @@ class Companies(models.Model):
         (DEAD, 'Dead'),
     )
     existing_status = models.CharField(
-        max_length=8,
+        max_length=100,
         choices=EXISTING_STATUS,
         default=ALIVE,
     )
     branchesAllowed = models.CharField(max_length=2000, blank=True, null=True,default='')
 
-
+    other_fields_url = models.URLField(max_length=200,default='',null=True,blank=True)
 
     CGPA = models.FloatField(null=False, default = 7.0)
     companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)

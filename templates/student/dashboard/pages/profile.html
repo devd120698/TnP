@@ -31,7 +31,7 @@
 
               <div class="profile-card-inf__item">
                 <div class="profile-card-inf__title">Email</div>
-                <div class="profile-card-inf__txt">{{student.user.email}}</div>
+                <div class="profile-card-inf__txt">{{student.email}}</div>
               </div>
 
               <div class="profile-card-inf__item">
@@ -39,16 +39,30 @@
                 <div class="profile-card-inf__txt">{{student.mobileNumber}}</div>
               </div>
 
+               <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">Institute Email</div>
+                <div class="profile-card-inf__txt">{{student.student_email}}</div>
+              </div>
+              
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">CGPA</div>
+                <div class="profile-card-inf__txt">{{student.CGPA}}</div>
+              </div>
+              <div class="profile-card-inf__item">
+                <div class="profile-card-inf__title">BRANCH</div>
+                <div class="profile-card-inf__txt">{{student.branch}}</div>
+              </div>
               <div class="profile-card-inf__item">
                 <div class="profile-card-inf__title">Address</div>
                 <div class="profile-card-inf__txt">{{student.address}}</div>
               </div>
 
               <div class="profile-card-inf__item">
-                <div class="profile-card-inf__title">Resumed Uploaded :
+                <div class="profile-card-inf__title">Resume Uploaded :
                 {% if resumeUploaded == False %}
                     <i class="fa fa-times text-danger"></i></div> <a href = "{% url 'student:uploadResume'%}"> upload </a>
                 {% elif resumeUploaded == True %} 
+                    <a href = {{resume_url}}>View Resume</a>
                     <i class="fa fa-check text-success"></i></div> <a href = "{% url 'student:uploadResume'%}"> upload new </a>
                 {% endif %}
                 <div class="profile-card-inf__txt"></div> 

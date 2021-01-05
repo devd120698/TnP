@@ -27,6 +27,8 @@ class CompaniesForm(forms.ModelForm):
             'status',
             'branchesAllowed',
             'CGPA',
+            'other_fields_url',
+            
             'companyID'
         ]
 #widgets

@@ -23,19 +23,25 @@ h4 {
     <thead class = "thead-dark">
     <tr >
         <th> Name </th>
+        <th> Registration Number </th>
         <th> Roll Number </th>
         <th> Branch </th>
         <th> Course </th>
+        <th> Email </th>
         <th> CGPA </th>
+        <th> RESUME </th>
     </tr>
     </thead>
     {% for a in applicants %}
     </tr>
         <td>{{a.name}}</td>
+        <td>{{a.admissionNumber}}</td>
         <td>{{a.rollNumber}}</td>
         <td>{{a.branch}}</td>
         <td>{{a.course}}</td>
+        <td>{{a.student_email}}</td>
         <td>{{a.CGPA}}</td>
+        <td><a href = {{a.resume_url}}>{{a.resume_url}}</a></td>
     </tr>
     {% endfor %}
 </table>

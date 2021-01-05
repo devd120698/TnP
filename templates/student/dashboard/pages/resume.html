@@ -2,52 +2,30 @@
 {% load static %}
 {% block content %}
 <style>
-form {
-    position: absolute;
-    top: 40%;
-    background: #ffffffbf;
-    left: 60%;
-    margin-top: -100px;
-    margin-left: -250px;
-    width: 500px;
-    height: 200px;
-    border: 4px dashed #000;
-    box-shadow: 3px 0px 3px 3px #ffffff52;
+/*fonts*/
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400italic);
+
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+
+
+.container{
+  position:relative;
+  top:100px;
 }
-form p{
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  line-height: 170px;
-  color: #000;
-  font-family: Arial;
+
+.container h1, .container span{
+  font-family:"Pt Sans", helvetica, sans-serif;
 }
-form input{
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  outline: none;
-  opacity: 0;
+
+.container h1{
+  text-align:center;
+  color:#fff;
+  font-weight:100;
+  font-size:2em; 
+  margin-bottom:10px;
 }
-form button{
-  margin: 0;
-  color: #fff;
-  background: #16a085;
-  border: none;
-  width: 508px;
-  height: 35px;
-  margin-top: -20px;
-  margin-left: -4px;
-  border-radius: 4px;
-  border-bottom: 4px solid #117A60;
-  transition: all .2s ease;
-  outline: none;
-}
-form button:hover{
-  background: #149174;
-	color: #0C5645;
+.container h2{
+  text-align:center;
 }
 label{
   display:none;
@@ -55,12 +33,15 @@ label{
 form button:active{
   border:0;
 }
-.page-wrapper {
-    background-image: linear-gradient(160deg, #f1f1f1 0%, #7e7979 100%);
-    height: 116vh;
-    top: 0px;
-    margin-top: -100px;
-    width:fir-content;
+.page-wrapper .page-content{
+  height : 100%;
+}
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
 }
 </style>
 <script>
@@ -69,17 +50,58 @@ function myfunc(){
   document.getElementsByTagName("p")[0].innerHTML = "file selected"
 }
 </script>
-
-<form method="POST" enctype="multipart/form-data" onchange = "myfunc()">
+{% comment %} <div class ="container mt-5">
+<form  method="POST" enctype="multipart/form-data" onchange = "myfunc()">
 
 <div class="form-group">
   {% csrf_token %}
-  {{form}}
-   <p>Drag your files here or click in this area.</p>
-  <button type="submit">Upload</button>
+  <input type="text" id="resume" name = "resume" ></input>
+  <ul>
+  <li>Enter your Resume URL</li>
+  <li>Make sure the Resume uploaded is puclicly accessible</li>
+  </ul>
+   
+   <button type="submit">Submit</button>
+  
 </div>
+ 
 </form>
 
+</div> {% endcomment %}
 
+
+<div class="container">
+  
+  
+  <div class = "centered">
+  <h2>Enter Your Resume URL</h2>
+  <h5 style = "color : blue;">Make sure the Resume uploaded is puclicly accessible<h5>
+  <form  method="POST" enctype="multipart/form-data" onchange = "myfunc()">
+
+<div class="form-group">
+  {% csrf_token %}
+  <input type="url" class = " form-control input-lg" placeholder = "Resume" id="resume" name = "resume" ></input>
+  </br>
+  
+  <button class ="btn btn-primary btn-lg btn-block "type="submit">Submit</button>
+  </br> 
+  
+   
+   
+  
+</div>
+</form>
+<!--message block-->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}
+                            </h5>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <!--message block-->
+</div>
+</div>
 {% endblock content %} 
         

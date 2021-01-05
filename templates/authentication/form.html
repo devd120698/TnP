@@ -11,6 +11,7 @@
         <div class="content-section">
             <form method="POST">
                 {% csrf_token %} {{ form|crispy }}
+                
                 <div class=" submit ">
                     <button type="submit " class="btn btn-info "> Submit </button>
                 </div>

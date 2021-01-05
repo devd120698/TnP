@@ -99,40 +99,46 @@ i{
 }
 
 </style>
-<div class="container-fluid">
+<div class="container-fluid" >
       
       <div class="card">
         <div class="card-header justify-content-center bg-dark">
           <h1 class="text-light">Status of Application</h1>
         </div>
-        <div class="card-body">
-          <div class="card mt-3" style="display: flex; flex-direction: row;">
+        <div class="card-body ">
+          <div class="card mt-3 " style="display: flex; ">
             {% for company in eligibleCompanies%}
               {% if company.placementStatus == 'A' %}
                 <div class="card-header bg-primary">
-                  <i class="fa fa-link fa-3x"></i>
+                  {% comment %} <i class="fa fa-link fa-3x"></i> {% endcomment %}
                    <section class="buttons">
-                    <a href="#" class="btn btn-2">Applied</a>     
+                        
                   </section>
                 </div>
                 <div class="card-body" style="background: rgba(0, 123, 255,0.4);">
-                  <h5>{{company.company.name}}</h5>
+                 <h3>Applied : {{company.company.name}}</h3>
+                  <h5></h5>
                   
                 </div>
+                
                
               {% elif company.placementStatus == 'I' %}
                 <div class="card-header bg-secondary">
                   
                 </div>
                 <div class="card-body" style="background: rgba(108, 117, 125,0.5);">
-                  <h3>Qualified For Interview</h3>
+                  
+                  <h3>Qualified For Interview : {{company.company.name}}</h3>
+                  <h5></h5>
                 </div>
               {% elif company.placementStatus == 'P' %}
                 <div class="card-header bg-success">
+                 
                   <i class="fa fa-star fa-3x text-light"></i>
                 </div>
                 <div class="card-body" style="background: rgba(40, 167, 69,0.5); ">
-                  <h3>Placed/Qualified</h3>
+                  <h3>Placed/Qualified : {{company.company.name}} </h3>
+                   <h5></h5>
                 </div>
               {% endif %} 
             {% endfor %}
