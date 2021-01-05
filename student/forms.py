@@ -73,7 +73,21 @@ class CompaniesForm(forms.ModelForm):
         super(CompaniesForm,self).__init__(*args,**kwargs)
         self.fields['dateOfVisit'].required=False
         self.fields['companyID'].required=False
-		
+
+        
+class PlacedStudent(forms.Form):
+    companies = Companies.objects.all()
+    company_list = []
+    company_list.append(('' , '--------'))
+    company_list.append(('All Companies','All Companies'))
+    for company in companies :
+        company_list.append((company.name , company.name))
+    COMPANIES = tuple(company_list)
+    name = forms.ChoiceField(choices=COMPANIES)
+
+
+
+
 class SearchCompany(forms.Form):
     companies = Companies.objects.all()
     company_list = []

@@ -506,11 +506,23 @@ def checkApplicantsOfCompany(request):
 
 @login_required
 def placedStudents(request):
-    form = SearchCompany(request.POST or None)
+    form = PlacedStudent(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
-        print(companyName)
-        if Companies.objects.filter(name=companyName).exists():
+        
+        if companyName == 'All Companies':
+            listOfPlaced = CompanyApplicants.objects.filter(
+                placementStatus='P')
+
+            detailsOfApplicants = []
+            for student in listOfPlaced: 
+                studentDetails = get_student_details(student.student_id)
+                studentDetails['company_placed'] = CompanyApplicants.objects.filter(student=StudentUser.objects.get(id=student.student_id)).get(placementStatus='P').company
+                detailsOfApplicants.append(studentDetails)
+                context ={'applicants' : detailsOfApplicants }
+                template = 'coordinator/viewAllCompanyApplicants.html'
+                return render(request, template, context)
+        elif Companies.objects.filter(name=companyName).exists():
             companyDetails = Companies.objects.get(name=companyName)
             listOfPlaced = CompanyApplicants.objects.filter(
                 placementStatus='P').filter(company=companyDetails)
