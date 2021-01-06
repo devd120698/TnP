@@ -4,7 +4,7 @@ DATABASES = {
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
     'default': {
-        'NAME': 'tnp_test',
+        'NAME': 'tnp',
         'HOST': '127.0.0.1',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
