@@ -61,8 +61,7 @@ class StudentUser(AbstractUser):
 	last_name = models.CharField(max_length=50, blank=True, null=True)
 	company = models.CharField(max_length=100, blank=True, null=True)
 	phone = models.CharField(max_length=20, blank=True, null=True)
-	CGPA = models.FloatField(blank=True,null=True)
-	branch = models.CharField(max_length= 50 , blank= True , null= True)
+	
 	class Meta:
 		db_table = 'users'
 
@@ -213,6 +212,11 @@ class Resume(models.Model):
 
     user = models.ForeignKey(StudentUser, null = True, on_delete=models.CASCADE)
     resume = models.URLField(max_length=200)
+    CGPA = models.FloatField(blank=True,null=True)
+    tenth_perc = models.FloatField(blank=True,null=True)
+    twelth_perc = models.FloatField(blank=True,null=True)
+    branch = models.CharField(max_length = 200, blank=True , null=True)
+
     
     def __str__(self):
         return str(self.user)

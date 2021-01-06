@@ -20,6 +20,8 @@ student  = None
 
 def get_student_details(user_id):
     student_user = StudentUser.objects.get(id = user_id)
+    resume_oject = Resume.objects.get(user = student_user)
+    
     print(student_user)
     student_data = StudentData.objects.get(userid = user_id)
     name = student_data.name
@@ -28,11 +30,14 @@ def get_student_details(user_id):
     branch = student_data.branch
     year_of_graduation = (student_data.joining_year) 
     roll_number = student_data.roll_number
-    cgpa = student_user.CGPA
+    cgpa = resume_oject.CGPA
+    resume_url = resume_oject.resume
     address = student_data.address
     mob_number = student_data.mobile
     course = student_data.course
     email = student_user.email
+    twelth_perc = resume_oject.twelth_perc
+    tenth_perc = resume_oject.tenth_perc
     student = {
         'user_id' : user_id,
         'name' : name ,
@@ -45,9 +50,11 @@ def get_student_details(user_id):
         'address' : address,
         'mobileNumber' : mob_number,
         'profile_image' : student_data.profile_image,
-        'resume_url' : Resume.objects.get(user=student_user).resume,
+        'resume_url' : resume_url,
         'email' :email,
         'student_email' : student_mail_details.email_id,
+        'twelth_perc' : twelth_perc,
+        'tenth_perc' : tenth_perc
 
         
     }
@@ -60,6 +67,11 @@ def studentDashboard(request):
     print(request.user)
     print(request.user.id)
     print("hi")
+    student_user = StudentUser.objects.get(id = request.user.id)
+    print(len(Resume.objects.filter(user=student_user)))
+    if(not len(Resume.objects.filter(user=student_user))):
+        return redirect('/student/addCGPA')
+       
     getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
     student = get_student_details(request.user.id)
     listOfAnnouncements = []
@@ -114,6 +126,10 @@ def registerStudent(request):
 
 @login_required
 def viewNewApplications(request):
+    student_user = StudentUser.objects.get(id = request.user.id)
+    print(len(Resume.objects.filter(user=student_user)))
+    if(not len(Resume.objects.filter(user=student_user))):
+        return redirect('/student/addCGPA')
     if request.method == 'GET':
         student = get_student_details(request.user.id)
         all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'])
@@ -125,7 +141,8 @@ def viewNewApplications(request):
             if(branches == None ):
                 continue 
             listOfBranches = branches.split(',')
-            if request.user.branch in listOfBranches:
+            resume_object = Resume.objects.get(user= request.user)
+            if resume_object.branch in listOfBranches:
                 final_companies.append(company)
 
 
@@ -152,6 +169,10 @@ def viewNewApplications(request):
 
 @login_required
 def applyForCompany(request):
+    student_user = StudentUser.objects.get(id = request.user.id)
+    print(len(Resume.objects.filter(user=student_user)))
+    if(not len(Resume.objects.filter(user=student_user))):
+        return redirect('/student/addCGPA')
     companyName = request.POST.get('company')
     student_id = request.POST.get('student_id')
     print(companyName)
@@ -183,6 +204,10 @@ def applyForCompany(request):
         return redirect('/student/viewNewApplications')
 # login_required
 def viewStatusOfApplication(request):
+    student_user = StudentUser.objects.get(id = request.user.id)
+    print(len(Resume.objects.filter(user=student_user)))
+    if(not len(Resume.objects.filter(user=student_user))):
+        return redirect('/student/addCGPA')
     student = get_student_details(request.user.id)
     user = request.user
     company = CompanyApplicants.objects.filter(student = user).exclude(placementStatus = 'N').exclude(placementStatus = 'R')
@@ -190,6 +215,10 @@ def viewStatusOfApplication(request):
 
 @login_required
 def viewProfile(request):
+    student_user = StudentUser.objects.get(id = request.user.id)
+    print(len(Resume.objects.filter(user=student_user)))
+    if(not len(Resume.objects.filter(user=student_user))):
+        return redirect('/student/addCGPA')
     student = get_student_details(request.user.id)
 
     resumeUploaded = False
@@ -262,15 +291,32 @@ def uploadResume(request):
 @login_required
 def addCGPA(request):
     if(request.method=='POST'):
-        student = get_student_details(request.user.id)
         cgpa = request.POST.get('CGPA', False)
+        twelth_perc = request.POST.get('twelth_perc', False)
+        tenth_perc = request.POST.get('tenth_perc', False)
         branch = request.POST.get('branches' , False)
-        student_user = StudentUser.objects.get(id=request.user.id)
-        student_user.CGPA = cgpa
-        student_user.branch = branch
+        resume_url  = request.POST.get('resume' , False)
+        if(Resume.objects.filter(user = request.user).exists()):
+            req_resume =Resume.objects.get(user=request.user)
+            req_resume.resume = resume_url
+            req_resume.CGPA=cgpa
+            req_resume.twelth_perc=twelth_perc
+            req_resume.branch = branch
+            req_resume.tenth_perc = tenth_perc
+        else :
+            
+            saveResume = Resume(
+                        user=request.user ,
+                        resume=resume_url,
+                        tenth_perc=tenth_perc,
+                        twelth_perc=twelth_perc,
+                        CGPA=cgpa,
+                        branch=branch
 
-        student_user.save()
-        messages.success(request , "CGPA  and Branch Updated Successfully")
+                    )
+            
+            saveResume.save()
+        messages.success(request , "Details Updated Successfully")
         return render(request,'student/dashboard/pages/addCGPA.html')
     else : 
         return render(request,'student/dashboard/pages/addCgpa.html')

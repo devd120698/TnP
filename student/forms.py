@@ -9,6 +9,7 @@ class DateInput(forms.DateInput):
 
 
 
+
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Student
@@ -49,6 +50,10 @@ class RegisterForm(forms.ModelForm):
 
 
 class CompaniesForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(CompaniesForm,self).__init__(*args,**kwargs)
+        self.fields['dateOfVisit'].required=False
+        self.fields['companyID'].required=False
     class Meta:
         model = Companies
         fields=[
@@ -69,43 +74,60 @@ class CompaniesForm(forms.ModelForm):
 
 
 
-    def __init__(self,*args,**kwargs):
-        super(CompaniesForm,self).__init__(*args,**kwargs)
-        self.fields['dateOfVisit'].required=False
-        self.fields['companyID'].required=False
+    
 
-        
-class PlacedStudent(forms.Form):
-    companies = Companies.objects.all()
-    company_list = []
-    company_list.append(('' , '--------'))
-    company_list.append(('All Companies','All Companies'))
-    for company in companies :
-        company_list.append((company.name , company.name))
-    COMPANIES = tuple(company_list)
-    name = forms.ChoiceField(choices=COMPANIES)
+    
 
+
+class PlacedCompany(forms.Form):
+    
+    
+    
+    def __init__(self, *args, **kwargs):
+        super(PlacedCompany, self).__init__(*args, **kwargs)
+        companies = Companies.objects.all()
+        company_list = []
+        company_list.append(('' , '--------'))
+        company_list.append(('All Companies','All Companies'))
+        for company in companies :
+            company_list.append((company.name , company.name))
+        COMPANIES = tuple(company_list)
+        self.fields['name'].choices = COMPANIES
+
+    name = forms.ChoiceField(choices=[])
 
 
 
 class SearchCompany(forms.Form):
-    companies = Companies.objects.all()
-    company_list = []
-    company_list.append(('' , '--------'))
-    for company in companies :
-        company_list.append((company.name , company.name))
-    COMPANIES = tuple(company_list)
-    name = forms.ChoiceField(choices=COMPANIES)
+    
+    
+    
+    def __init__(self, *args, **kwargs):
+        super(SearchCompany, self).__init__(*args, **kwargs)
+        companies = Companies.objects.all()
+        company_list = []
+        company_list.append(('' , '--------'))
+        for company in companies :
+            company_list.append((company.name , company.name))
+        COMPANIES = tuple(company_list)
+        self.fields['name'].choices = COMPANIES
+
+    name = forms.ChoiceField(choices=[])
+
     
 
 class UpdatePlacementStatsForm(forms.Form):
-    companies = Companies.objects.all()
-    company_list = []
-    company_list.append(('' , '--------'))
-    for company in companies :
-        company_list.append((company.name , company.name))
-    COMPANIES = tuple(company_list)
-    company = forms.ChoiceField(choices=COMPANIES)
+    def __init__(self, *args, **kwargs):
+        super(UpdatePlacementStatsForm, self).__init__(*args, **kwargs)
+        companies = Companies.objects.all()
+        company_list = []
+        company_list.append(('' , '--------'))
+        for company in companies :
+            company_list.append((company.name , company.name))
+        COMPANIES = tuple(company_list)
+        self.fields['company'].choices = COMPANIES
+
+    company = forms.ChoiceField(choices=[])
     student_roll = forms.CharField(max_length=10)
     APPLIED = 'A'
     INTERVIEW = 'I'
@@ -135,14 +157,20 @@ class SearchAnnouncement(forms.Form):
     announcementid = forms.CharField(max_length=10)
 
 class UpdateAnnouncementForm(forms.Form):
-    announcements = Announcement.objects.all()
-    announcement_list = []
-    announcement_list.append(('','--------'))
-    for a in announcements :
-        announcement_list.append((a.announcementid , a.announcementid))
-    ANNOUNCEMENTS = tuple(announcement_list)
+    def __init__(self, *args, **kwargs):
+        super(UpdateAnnouncementForm, self).__init__(*args, **kwargs)
+        announcements = Announcement.objects.all()
+        announcement_list = []
+        announcement_list.append(('','--------'))
+        for a in announcements :
+            announcement_list.append((a.announcementid , a.announcementid))
 
-    announcementid = forms.ChoiceField(choices=ANNOUNCEMENTS)
+
+        ANNOUNCEMENTS = tuple(announcement_list)
+        self.fields['announcementid'].choices = ANNOUNCEMENTS
+    
+
+    announcementid = forms.ChoiceField(choices=[])
     text = forms.CharField(max_length=20000)
     BROADCAST_ANNOUNCEMENT = 'Broadcasting'
     ELIGIBLE_ANNOUNCEMENT = 'Eligible'

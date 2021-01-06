@@ -105,7 +105,7 @@ def companyForm(request):
         #     name=companyName
         # )
         
-        saveCompanyStatus.save()
+        # saveCompanyStatus.save()
         return render(request , 'company/filling_thanks.html')
     return render(request, 'company/cpnf.html', {})
 

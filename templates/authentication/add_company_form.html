@@ -23,11 +23,27 @@
                     </ul>
                 {% endif %}
                 <!--message block-->
-                
+                <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+
+                    onClick="toggle(this)"
+                />
+                <label class="form-check-label" for="cse">
+                    Select All Branches and Courses </label
+                >
+                </br>
+                <label class="form-check-label" >
+                    ---------------------------------- OR ---------------------------------- </label
+                >
+                </br>
+            </div>
+
                 <div  id="newRow"></div>
 
                                                 
-                <button id="addRow" type="button" class="btn btn-primary  btn-lg btn-block">Add Branch</button><br>
+                <button id="addRow" type="button" class="btn btn-primary  btn-lg btn-block">Add Branch & Courses</button><br>
                 <br>
                 <div class=" submit ">
                     <button type="submit " class="btn btn-info submit"> Submit </button>
@@ -37,7 +53,10 @@
                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
                 <script type="text/javascript">
                     // add row
-                    
+                    function toggle(source){
+                        branch='cse,ece,civil,mech,meta,chem,eee,bio,mtech-cse-csis,mtech-cse-cse,c_est,c_wre,c_rsg,c_ctm,c_te,c_gte,c_ese,mtech-eee-pse,mtech-eee-ped,mtech-mech-te,mtech-mech-cim,mtech-mech-ae,mtech-mech-msed,mtech-mech-me,mtech-mech-md,mtech-mech-am,mtech-ece-ei,mtech-ece-acm,mtech-ece-vlsi,mtech-mme-im,mtech-mme-mt,mtech-che-ce,mtech-che-pc,mba-operations,mba-marketing,mba-hr,mba-finance,msct-p,msct-e,msct-i,mscm-am,mscm-msc,mscc-oc,mscc-mmc,phd-ce,phd-me,phd-ee,phd-ece,phd-mme,phd-cse,phd-bt,phd-maths,phd-phy,phd-che,phd-hss,phd-som,';
+                        
+                    }
                     $("#addRow").click(function () {
                         var html = '';
                         var options = '{{options_html | safe}}'
@@ -57,7 +76,6 @@
 
                 $(".submit").click(function(event){
                     event.preventDefault()
-                    branch = ""
                     list_branches =  $(".branch")
                     for (var i=0; i < list_branches.length ; i++){
                         if(i!=0)

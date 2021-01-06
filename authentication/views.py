@@ -83,6 +83,7 @@ def get_student_data(username, password):
     # Checking is student or not
     user = StudentUser.objects.filter(Q(username=username) | Q(email=username))
     # print(user)
+    print(user)
     if len(user) == 0:
         stud_data = StudentData.objects.filter(registration_number=username).first()
         # print(stud_data)

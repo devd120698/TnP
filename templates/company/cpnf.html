@@ -638,16 +638,34 @@
 							</div>
 							<div class="card-body">
 								<div class="card">
+									
 									<div class="card-header">
-										B. Tech Programs
-									</div>
-									<div class="card-body">
+										B. Tech Programs           
 										
+									</div>
+									
+									<div class="card-body">
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
 															class="form-check-input"
+															type="checkbox"
+								
+															onClick="toggle(this)"
+														/>
+														<label class="form-check-label" for="cse">
+															Select All </label
+														>
+													</div>
+												</div>
+											</div>
+											</br>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-check">
+														<input
+															class="form-check-input b-tech"
 															type="checkbox"
 															name="branchAllowed"
 															value="cse"
@@ -660,7 +678,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															name="branchAllowed"
 															value="ece"
@@ -675,7 +693,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															name="branchAllowed"
 															value="civil"
@@ -688,7 +706,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															name="branchAllowed"
 															value="mech"
@@ -704,7 +722,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															name="branchAllowed"
 															value="meta"
@@ -717,7 +735,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															name="branchAllowed"
 															value="chem"
@@ -733,7 +751,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															value="eee"
 															name="branchAllowed"
@@ -746,7 +764,7 @@
 												<div class="col-md-6">
 													<div class="form-check">
 														<input
-															class="form-check-input"
+															class="form-check-input b-tech"
 															type="checkbox"
 															value="bio"
 															name="branchAllowed"
@@ -768,14 +786,30 @@
 												M. Tech Programs
 											</div>
 											<div class="card-body">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-check">
+														<input
+															class="form-check-input"
+															type="checkbox"
+								
+															onClick="toggle_mtech(this)"
+														/>
+														<label class="form-check-label" for="cse">
+															Select All </label
+														>
+													</div>
+												</div>
+											</div>
 												<div class="card-columns">
 													<div class="card">
+													
 														<div class="card-header">CSE</div>
 														<div class="card-body">
 															
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-cse-csis"
 																		name="branchAllowed"
@@ -790,7 +824,7 @@
 
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech "
 																		type="checkbox"
 																		value="mtech-cse-cse"
 																		name="branchAllowed"
@@ -811,7 +845,7 @@
 															
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_est"
 																		name="branchAllowed"
@@ -822,7 +856,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_wre"
 																		name="branchAllowed"
@@ -833,7 +867,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_rsg"
 																		name="branchAllowed"
@@ -844,7 +878,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_ctm"
 																		name="branchAllowed"
@@ -855,7 +889,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_te"
 																		name="branchAllowed"
@@ -866,7 +900,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_gte"
 																		name="branchAllowed"
@@ -877,7 +911,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="c_ese"
 																		name="branchAllowed"
@@ -893,9 +927,9 @@
 														<div class="card-header">EEE</div>
 														<div class="card-body">
 															
-																<div class="form-check">
+																<div class="form-check ">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-eee-pse"
 																		name="branchAllowed"
@@ -909,7 +943,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-eee-ped"
 																		name="branchAllowed"
@@ -930,7 +964,7 @@
 															
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-te"
 																		name="branchAllowed"
@@ -944,7 +978,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-cim"
 																		name="branchAllowed"
@@ -958,7 +992,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-ae"
 																		name="branchAllowed"
@@ -972,7 +1006,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-msed"
 																		name="branchAllowed"
@@ -986,7 +1020,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-me"
 																		name="branchAllowed"
@@ -1000,7 +1034,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-md"
 																		name="branchAllowed"
@@ -1014,7 +1048,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mech-am"
 																		name="branchAllowed"
@@ -1035,7 +1069,7 @@
 															
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-ece-ei"
 																		name="branchAllowed"
@@ -1049,7 +1083,7 @@
 																</div>
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-ece-acm"
 																		name="branchAllowed"
@@ -1064,7 +1098,7 @@
 
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-ece-vlsi"
 																		name="branchAllowed"
@@ -1085,7 +1119,7 @@
 															
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mme-im"
 																		name="branchAllowed"
@@ -1100,7 +1134,7 @@
 
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-mme-mt"
 																		name="branchAllowed"
@@ -1121,7 +1155,7 @@
 															
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-che-ce"
 																		name="branchAllowed"
@@ -1136,7 +1170,7 @@
 
 																<div class="form-check">
 																	<input
-																		class="form-check-input"
+																		class="form-check-input m-tech"
 																		type="checkbox"
 																		value="mtech-che-pc"
 																		name="branchAllowed"
@@ -2075,6 +2109,21 @@
 		</div>
 
 		<!-- Optional JavaScript -->
+					<script language="JavaScript">
+			function toggle(source) {
+			checkboxes = document.getElementsByClassName('b-tech');
+			for(var i=0, n=checkboxes.length;i<n;i++) {
+				checkboxes[i].checked = source.checked;
+			}
+			}
+
+			function toggle_mtech(source) {
+			checkboxes = document.getElementsByClassName('m-tech');
+			for(var i=0, n=checkboxes.length;i<n;i++) {
+				checkboxes[i].checked = source.checked;
+			}
+			}
+			</script>
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
