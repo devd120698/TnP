@@ -117,7 +117,7 @@ def sign_in(request):
                         print(student)
                     except StudentData.DoesNotExist:
                         return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
-                return redirect('/student/studentDashboard/')
+                return redirect('/ccpd/student/studentDashboard/')
             
             # Code comes here if student_user is not found.
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -128,7 +128,7 @@ def sign_in(request):
                 return redirect('administrator/')
                 
             elif is_superuser(request.user):
-                return redirect('/admin')
+                return redirect('/ccpd/admin')
                     
             # except:
             #     return render(request, 'student/dashboard/pages/dashboard.html', {'error': 'Invalid username or password'})

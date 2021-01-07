@@ -70,7 +70,7 @@ def studentDashboard(request):
     student_user = StudentUser.objects.get(id = request.user.id)
     print(len(Resume.objects.filter(user=student_user)))
     if(not len(Resume.objects.filter(user=student_user))):
-        return redirect('/student/addCGPA')
+        return redirect('/ccpd/student/addCGPA')
        
     getAnnouncements = Announcement.objects.filter(datePublished__gte = datetime.now() - timedelta(1), datePublished__lte = datetime.now())
     student = get_student_details(request.user.id)
@@ -99,7 +99,7 @@ def registerStudent(request):
     branches = Branch.objects.all()
     if Student.objects.filter(user = user).exists() :
         
-        return HttpResponseRedirect('/student/studentDashboard')
+        return HttpResponseRedirect('/ccpd/student/studentDashboard')
 
     rollNumber = request.POST.get('rollNumber')
 
@@ -129,7 +129,7 @@ def viewNewApplications(request):
     student_user = StudentUser.objects.get(id = request.user.id)
     print(len(Resume.objects.filter(user=student_user)))
     if(not len(Resume.objects.filter(user=student_user))):
-        return redirect('/student/addCGPA')
+        return redirect('/ccpd/student/addCGPA')
     if request.method == 'GET':
         student = get_student_details(request.user.id)
         all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'])
@@ -172,7 +172,7 @@ def applyForCompany(request):
     student_user = StudentUser.objects.get(id = request.user.id)
     print(len(Resume.objects.filter(user=student_user)))
     if(not len(Resume.objects.filter(user=student_user))):
-        return redirect('/student/addCGPA')
+        return redirect('/ccpd/student/addCGPA')
     companyName = request.POST.get('company')
     student_id = request.POST.get('student_id')
     print(companyName)
@@ -201,13 +201,13 @@ def applyForCompany(request):
             fail_silently=True,
         )
         
-        return redirect('/student/viewNewApplications')
+        return redirect('/ccpd/student/viewNewApplications')
 # login_required
 def viewStatusOfApplication(request):
     student_user = StudentUser.objects.get(id = request.user.id)
     print(len(Resume.objects.filter(user=student_user)))
     if(not len(Resume.objects.filter(user=student_user))):
-        return redirect('/student/addCGPA')
+        return redirect('/ccpd/student/addCGPA')
     student = get_student_details(request.user.id)
     user = request.user
     company = CompanyApplicants.objects.filter(student = user).exclude(placementStatus = 'N').exclude(placementStatus = 'R')
@@ -218,7 +218,7 @@ def viewProfile(request):
     student_user = StudentUser.objects.get(id = request.user.id)
     print(len(Resume.objects.filter(user=student_user)))
     if(not len(Resume.objects.filter(user=student_user))):
-        return redirect('/student/addCGPA')
+        return redirect('/ccpd/student/addCGPA')
     student = get_student_details(request.user.id)
 
     resumeUploaded = False
@@ -396,7 +396,7 @@ def registerCoordinator(request):
     emails = User.objects.filter(is_active=True).values_list(
         'email', flat=True).filter(groups__name='Coordinator')
     if emails.filter(email=request.user.email).exists():
-        return HttpResponseRedirect('/coordinator/coordinatorDashboard')
+        return HttpResponseRedirect('/ccpd/coordinator/coordinatorDashboard')
 
     else:
         return HttpResponse("unauthorized")
@@ -425,7 +425,7 @@ def addNewCompany(request):
         appl.save()
         print("save")
         #return HttpResponse("successful")
-        return HttpResponseRedirect('/student/coordinatorDashboard')
+        return HttpResponseRedirect('/ccpd/student/coordinatorDashboard')
 
     context = {'form': form, 'title': 'Add/Update New Company' ,'options_html' : options_html}
     template = 'authentication/add_company_form.html'
