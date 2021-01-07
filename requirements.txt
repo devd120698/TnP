@@ -1,6 +1,0 @@
-pillow 
-django_currentuser
-django_extensions
-django-allauth
-django-crispy-forms
-django-import-export

@@ -1,8 +1,0 @@
-{% extends 'student/dashboard/index.html' %}
-{% block content %}
-{% for annoucement in announcements %}
-    <p> {{annoucement.announcementid}}</p>
-    <p> {{annoucement.text}}</p>
-    <p> {{annoucement.company.name}}</p>
-{% endfor %}
-{% endblock content%}
