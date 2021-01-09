@@ -105,7 +105,7 @@ class Announcement(models.Model):
     user = models.IntegerField( null =False)
     datePublished = models.DateField(default=timezone.now)
     text = models.TextField(max_length=500)
-    company = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
+    company = models.ForeignKey(Companies,on_delete = models.CASCADE, null = True)
 
     def __str__(self) :
         return str(self.announcementid)

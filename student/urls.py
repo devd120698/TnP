@@ -33,5 +33,6 @@ urlpatterns = [
     url(r'^searchStudent', views.searchStudent, name = 'searchStudent'),
     url(r'^viewCompanyDetails', views.viewCompanyDetails, name = 'viewCompanyDetails'),
     url(r'^applyForCompany', views.applyForCompany, name = 'applyForCompany'),
+    url(r'^merge2Csv', views.merge2csv, name = 'merge2csv'),
     path('companyApplicants/<slug:companyId>', views.companyApplicants, name = 'companyApplicants'),
  ]

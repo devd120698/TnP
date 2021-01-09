@@ -6,7 +6,7 @@ from .forms import StudentRegisterForm
 from home.models import *
 from company.forms import ContactForm
 from django.core.mail import send_mail
-
+from student.models import *
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -15,7 +15,10 @@ from student.models import *
 from django.core.mail import send_mail
 from django.http import HttpResponse
 import bcrypt
+from django.contrib import messages
 
+##### VALIDATION FOR FINAL YEARS #####
+### ENTER the
 #Group checking functions
 def is_student(user):
 	return user.groups.filter(name='Student').exists()
@@ -81,7 +84,7 @@ def index(request):
 
 def get_student_data(username, password):
     # Checking is student or not
-    user = StudentUser.objects.filter(Q(username=username) | Q(email=username))
+    user = StudentUser.objects.filter(Q(username=username) | Q(email=username) )
     # print(user)
     print(user)
     if len(user) == 0:
@@ -89,7 +92,7 @@ def get_student_data(username, password):
         # print(stud_data)
         if stud_data is not None:
             user = StudentUser.objects.filter(id=stud_data.userid)
-    
+
     if len(user) != 0:
         return user.get()
     else:
@@ -97,42 +100,53 @@ def get_student_data(username, password):
 
 def sign_in(request):
     if request.method == "POST":
-        print(request.POST)
+        # print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
 
         student_user = get_student_data(username, password)
         user =None
         if user is None and student_user is None:
-            return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
+            messages.error(request , 'Invalid Username / Password')
+            return render(request, 'authentication/log_in.html', {})
         else:
             if student_user is not None:
+                print(student_user.id)
+                student = StudentData.objects.get(userid = student_user.id)
+                if not ((student.registration_number[2:4]=='17' and student.course == 'B Tech') or (student.registration_number[2:4]=='18' and student.course in ['MCA' , 'Msc','Msc. Tech']) or (student.registration_number[2:4]=='19' and student.course in ['M Tech'])) :
+                    messages.error(request , 'Not Authorized')
+                    return render(request, 'authentication/log_in.html')
+
                 if bcrypt.checkpw(password.encode('utf-8'), student_user.password.encode('utf-8')):
+                    
                     login(request, student_user,'django.contrib.auth.backends.ModelBackend')
                     print('student_user',student_user)
                     print('in auth',request.user)
                     request.session['user'] = 'hello'
-                    try:
-                        student = StudentData.objects.get(userid=request.user.id)
-                        print(student)
-                    except StudentData.DoesNotExist:
-                        return render(request, 'authentication/log_in.html', {'error': 'Invalid username or password'})
-                return redirect('/ccpd/student/studentDashboard/')
-            
+                    return redirect('/ccpd/student/studentDashboard/')
+                    # try:
+                    #     student = StudentData.objects.get(userid=request.user.id)
+                    #     print(student)
+                    # except StudentData.DoesNotExist:
+                else : 
+                    messages.error(request , 'Invalid xvvxcv / Password')
+                    return render(request, 'authentication/log_in.html', )
+
+
             # Code comes here if student_user is not found.
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             if is_coordinator(request.user):
                 return redirect('coordinator/')
-                
+
             elif is_administrator(request.user):
                 return redirect('administrator/')
-                
+
             elif is_superuser(request.user):
                 return redirect('/ccpd/admin')
-                    
+
             # except:
             #     return render(request, 'student/dashboard/pages/dashboard.html', {'error': 'Invalid username or password'})
-                
+
     else:
         form = StudentRegisterForm()
     return render(request, 'authentication/log_in.html', {'form':form})

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .forms import *
 from .models import Student
 from django.shortcuts import redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect , StreamingHttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 from coordinator.models import *
@@ -14,6 +14,8 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 from django.contrib import messages
 import sys
+import pandas as pd
+import dask.dataframe as dd
 
 noOfAnnouncements = 0
 student  = None
@@ -54,11 +56,11 @@ def get_student_details(user_id):
         'email' :email,
         'student_email' : student_mail_details.email_id,
         'twelth_perc' : twelth_perc,
-        'tenth_perc' : tenth_perc
-
+        'tenth_perc' : tenth_perc,
+        'company_placed' : ''
         
     }
-    print(student)
+    # print(student)
     return student
 
 @login_required
@@ -79,9 +81,8 @@ def studentDashboard(request):
         if announcement.type_of_announcement == 'Broadcasting':
             listOfAnnouncements.append(announcement)
         else:
-            companyName = Announcement.getCompanyName(announcement)
-            print(companyName)
-            company = Companies.objects.get(name = companyName)
+            company = Announcement.getCompanyName(announcement)
+            
             if CompanyApplicants.objects.filter(student = request.user).filter(company = company).exists():
                 listOfAnnouncements.append(announcement)
         
@@ -303,6 +304,7 @@ def addCGPA(request):
             req_resume.twelth_perc=twelth_perc
             req_resume.branch = branch
             req_resume.tenth_perc = tenth_perc
+            req_resume.save()
         else :
             
             saveResume = Resume(
@@ -353,7 +355,9 @@ def contactTnp(request):
     return render(request,'student/Resume.html',{'form':form, 'student':student})  
 
 ###### Views related to coo-rdinator ###### 
-
+def check_coordinator(user):
+    curr_user_details = get_student_details(user.id)
+    return  len(Coordinator.objects.filter(registration_number=curr_user_details['admissionNumber'])) > 0
 
 @login_required
 def coordinatorDashboard(request):
@@ -365,8 +369,8 @@ def coordinatorDashboard(request):
         if announcement.type_of_announcement == 'Broadcasting':
             listOfAnnouncements.append(announcement)
         else:
-            companyName = Announcement.getCompanyName(announcement)
-            company = Companies.objects.get(name=companyName)
+            company = Announcement.getCompanyName(announcement)
+            
             if CompanyApplicants.objects.filter(student=student).filter(company=company).exists():
                 listOfAnnouncements.append(announcement)
 
@@ -375,7 +379,7 @@ def coordinatorDashboard(request):
     curr_user_details = get_student_details(request.user.id)
     check  = Coordinator.objects.filter(registration_number=curr_user_details['admissionNumber'])
     print(check)
-    if(len(check)>0):
+    if(check_coordinator(request.user)):
         context = {'listOfAnnouncements': listOfAnnouncements , 'curr_user' : curr_user_details}
         template = 'coordinator/dashboard/pages/dash.html'
     
@@ -385,7 +389,7 @@ def coordinatorDashboard(request):
         return HttpResponse("unauthorized")
     
 
-   
+
 
 
 @login_required
@@ -404,6 +408,8 @@ def registerCoordinator(request):
 
 @login_required
 def addNewCompany(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     instance = None
     context = {}
     if request.POST:
@@ -435,6 +441,8 @@ def addNewCompany(request):
 
 @login_required
 def updateCompanyStatus(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = SearchCompany(request.POST or None)
     if form.is_valid():
         global flagDeleted
@@ -463,6 +471,8 @@ def updateCompanyStatus(request):
 
 @login_required
 def getCompanyStatus(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = SearchCompany(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
@@ -485,6 +495,8 @@ def getCompanyStatus(request):
 
 @login_required
 def sendCompanyDetails(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = SearchCompany(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
@@ -521,6 +533,8 @@ def sendCompanyDetails(request):
 
 @login_required
 def checkApplicantsOfCompany(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
 
     form = SearchCompany(request.POST or None)
     if form.is_valid():
@@ -552,6 +566,8 @@ def checkApplicantsOfCompany(request):
 
 @login_required
 def placedStudents(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = PlacedCompany(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('name')
@@ -563,7 +579,10 @@ def placedStudents(request):
             detailsOfApplicants = []
             for student in listOfPlaced: 
                 studentDetails = get_student_details(student.student_id)
-                studentDetails['company_placed'] = CompanyApplicants.objects.filter(student=StudentUser.objects.get(id=student.student_id)).get(placementStatus='P').company
+                placed_applicants = CompanyApplicants.objects.filter(student=StudentUser.objects.get(id=student.student_id) , placementStatus='P')
+                for s in placed_applicants :
+                    studentDetails['company_placed']+=' , '+s.company.name
+    
                 detailsOfApplicants.append(studentDetails)
                 context ={'applicants' : detailsOfApplicants }
                 template = 'coordinator/viewAllCompanyApplicants.html'
@@ -593,6 +612,8 @@ def placedStudents(request):
 
 @login_required
 def updateStudents(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = UpdatePlacementStatsForm(request.POST or None)
     if form.is_valid():
         companyName = form.cleaned_data.get('company')
@@ -621,6 +642,8 @@ def updateStudents(request):
 
 @login_required
 def createAnnouncement(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = AnnouncementForm(request.POST or None)
     if form.is_valid():
         announcement_id = form.cleaned_data.get('announcementid')
@@ -645,6 +668,8 @@ def createAnnouncement(request):
 
 @login_required
 def updateAnnouncement(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     form = UpdateAnnouncementForm(request.POST or None)
     if form.is_valid():
         announcement_id = form.cleaned_data.get('announcementid')
@@ -668,6 +693,8 @@ def updateAnnouncement(request):
 
 @login_required
 def allCompanies(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     companies = Companies.objects.all()
     companyName = ''
     if request.method == 'POST':
@@ -683,6 +710,8 @@ def allCompanies(request):
 
 @login_required
 def companyApplicants(request,companyId):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     print(companyId)
     company = Companies.objects.filter(companyID = companyId).first()
     status = company.status
@@ -702,6 +731,8 @@ def companyApplicants(request,companyId):
 
 @login_required
 def searchStudent(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     context = {}
     template = 'coordinator/dashboard/pages/searchStudents.html'
     if request.method == 'POST':
@@ -723,6 +754,25 @@ def searchStudent(request):
 
 @login_required
 def viewCompanyDetails(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
     companies = Details.objects.all()
     print(companies)
     return render(request , 'coordinator/viewCompanyDetails.html' , {'dict':companies})
+
+
+@login_required
+def merge2csv(request):
+    if ( not check_coordinator(request.user)):
+        return HttpResponse("unauthorized")
+    if(request.method == "POST"):
+        df1 =  pd.read_csv(request.FILES['file1'].temporary_file_path())
+        df2 =  pd.read_csv(request.FILES['file2'].temporary_file_path())
+        
+        df3 = pd.merge(df1, df2, on = 'Email')
+        df3.to_csv('my_file.csv')
+        print(df3)
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="csv_database_write.csv"'
+        return render(request , 'coordinator/merge2csv.html' , {'converted_file' : df3})
+    return render(request , 'coordinator/merge2csv.html' )

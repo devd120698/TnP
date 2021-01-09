@@ -61,6 +61,18 @@
 
                            <h2><a href="{% url 'password_reset' %}">Forgot Password?</a></h2>
                         </div>
+                        </br>
+                        </br>
+                         <!--message block-->
+                        {% if messages %}
+                            <ul class="messages center">
+                                {% for message in messages %}
+                                    <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}
+                                    </h5>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                <!--message block-->
                     </form>
                 </div>
 

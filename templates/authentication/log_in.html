@@ -7,6 +7,7 @@
 
 {% block form %}
 <div class="signin_wthree">
+                    
                     <form method="post" action="{% url 'account_login' %}">
                         {% csrf_token %}
                         {% if redirect_field_value %}
@@ -29,10 +30,9 @@
                             <button class="button" type="submit">{% trans "Sign In" %}</button>
                         </div>
                         <div class="hr"></div>
-                        <div class="foot-lnk">
-                            {#<h2><a href="{% url 'account_reset_password' %}">Forgot Password?</a></h2> #}
-                        </div>
+                        
                     </form>
+                   
                 </div>
 
 {% comment %} <div class="container">

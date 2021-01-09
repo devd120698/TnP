@@ -1,0 +1,96 @@
+{% extends 'coordinator/dashboard/index.html' %}
+{% load static %}
+{% block content %}
+<style>
+/*fonts*/
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400italic);
+
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+
+
+.container{
+  position:relative;
+  top:100px;
+}
+
+.container h1, .container span{
+  font-family:"Pt Sans", helvetica, sans-serif;
+}
+
+.container h1{
+  text-align:center;
+  color:#fff;
+  font-weight:100;
+  font-size:2em; 
+  margin-bottom:10px;
+}
+.container h2{
+  text-align:center;
+}
+label{
+  display:none;
+}
+form button:active{
+  border:0;
+}
+.page-wrapper .page-content{
+  height : 100%;
+}
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+</style>
+<script>
+function myfunc(){
+  console.log("hello")
+  document.getElementsByTagName("p")[0].innerHTML = "file selected"
+}
+</script>
+
+
+
+<div class="container">
+  
+  
+  <div class = "centered">
+  <h2>Enter Your Details </h2>
+  <form  method="POST" enctype="multipart/form-data" onchange = "myfunc()">
+
+<div class="form-group">
+  {% csrf_token %}
+    <label for="myfile">1st file</label>
+    <input type="file" id="myfile" name="file1">
+    <label for="myfile">2nd file</label>
+    <input type="file" id="myfile" name="file2">
+    
+
+  
+  </br>
+  <label for="myfile">Converted File : {{converted_file}}</label>
+  
+  </br>
+  <button class ="btn btn-primary btn-lg btn-block "type="submit">Submit</button>
+  </br> 
+   
+   
+  
+</div>
+</form>
+<!--message block-->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <h5{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}
+                            </h5>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <!--message block-->
+</div>
+</div>
+{% endblock content %} 
+        

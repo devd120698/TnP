@@ -127,7 +127,7 @@ class Student(models.Model):
 '''
 class Coordinator(models.Model):
     name =  models.CharField(max_length = 120,null=True)
-    registration_number = models.IntegerField(primary_key=True)
+    registration_number = models.CharField(max_length = 10 , primary_key=True)
 
     class Meta:
         db_table = 'coordinators'
