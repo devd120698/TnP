@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 from django.core.mail import send_mail
 from django.contrib import messages
 import sys
+import csv
 import pandas as pd
 import dask.dataframe as dd
 
@@ -133,7 +134,7 @@ def viewNewApplications(request):
         return redirect('/ccpd/student/addCGPA')
     if request.method == 'GET':
         student = get_student_details(request.user.id)
-        all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'])
+        all_companies = Companies.objects.filter(CGPA__lte = student['CGPA'] , existing_status='Alive')
         print(all_companies)
         final_companies= []
         for company in all_companies:
@@ -440,26 +441,17 @@ def addNewCompany(request):
 
 
 @login_required
-def updateCompanyStatus(request):
+def deleteCompany(request):
     if ( not check_coordinator(request.user)):
         return HttpResponse("unauthorized")
     form = SearchCompany(request.POST or None)
     if form.is_valid():
-        global flagDeleted
         companyName = form.cleaned_data.get('name')
         if Companies.objects.filter(name=companyName).exists():
-            Companies.objects.get(pk=companyName).delete()
-            flagDeleted = 1
-        elif flagDeleted == 1:
-            form = CompaniesForm(request.POST or None,
-                                 initial={'name': companyName})
-            if form.is_valid():
-                print("hello")
-                appl = form.save(commit=False)
-                appl.user = request.user
-                appl.save()
-                #return HttpResponse("successful")
-                messages.success(request, "successful")
+            company_object = Companies.objects.get(name=companyName)
+            company_object.existing_status = 'Dead'
+            company_object.save()
+            messages.success(request,"The company is deleted")
         else:
             #print("The company was not added before!")
             messages.error(request,"The company was not added before!")
@@ -770,9 +762,30 @@ def merge2csv(request):
         df2 =  pd.read_csv(request.FILES['file2'].temporary_file_path())
         
         df3 = pd.merge(df1, df2, on = 'Email')
-        df3.to_csv('my_file.csv')
+        merged_file= df3.to_html().replace('<table','<table class="table" id="merged"')
+        print(merged_file   )
+        return render(request , 'coordinator/dashboard/mergedCsv.html', {'merged_file' : merged_file})
+        return HttpResponse(merged_file)
         print(df3)
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="csv_database_write.csv"'
-        return render(request , 'coordinator/merge2csv.html' , {'converted_file' : df3})
+        # response = HttpResponse(content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename="merged_file.csv"'
+        # csv_writer = csv.DictWriter(
+        #     response,
+
+        #     extrasaction='ignore'
+        # )
+        # csv_writer.writeheader()
+        # total_rows=len(df3.axes[0])
+
+        # for i in range(0,total_rows):
+        #     print(df3.loc[[i]])
+        #     csv_writer.writerow(df3.loc[[i]])
+
+    
+        # return response
+
+        # print(df3)
+        # response = HttpResponse(content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename="csv_database_write.csv"'
+        # return render(request , 'coordinator/merge2csv.html' , {'converted_file' : df3})
     return render(request , 'coordinator/merge2csv.html' )
