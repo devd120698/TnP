@@ -10,9 +10,12 @@
 		</style>
 
 		<script type="text/javascript">
-			console.log("gere")
 			function dynInput(cbox, id) {
-				if (cbox.checked) {
+				var checkboxes = document.getElementsByName(cbox.name)
+				checkboxes.forEach((item) => {
+						if (item !== cbox) item.checked = false
+				})
+				if (cbox.checked & cbox.value =='yes') {
 					var input = document.createElement("input");
 					input.type = "text";
 					input.name = cbox.name + "-text-input";
@@ -1792,6 +1795,7 @@
 														type="checkbox"
 														value="no"
 														name="training-period"
+														onclick="dynInput(this, 'training-period-inp');"
 													/>
 													<label for="training-period"> No</label>
 													<div id="training-period-inp"></div>
@@ -1822,6 +1826,7 @@
 														name="service-agreement"
 														id="service-agreement-no"
 														value="no"
+														onclick="dynInput(this, 'service-agreement-inp');"
 													/>
 													<label for="service-agreement"> No</label>
 													<div id="service-agreement-inp"></div>
@@ -1993,33 +1998,20 @@
 									<div class="col-md-6">
 										<div class="card">
 											<div class="card-header">
-												<strong>Dr. Ch. Venkaiah</strong>
+												<strong>Dr. K. Kiran Kumar</strong>
 											</div>
 											<div class="card-body">
 												<h6>
-													Faculty In-Charge <br />
-													Training and Placement Section <br />
+													Head <br />
+													Centre for Career Planning and Development (CCPD) <br />
 													NIT Warangal 506004 <br />
-													Mobile No. +91-9490165357
+													Mobile No. +91-9490165357<br/>
+													Email : ccpd_hod@nitw.ac.in
 												</h6>
 											</div>
 										</div>
 									</div>
-									<div class="col-md-6">
-										<div class="card">
-											<div class="card-header">
-												<strong>Dr. S Vidyasagar</strong>
-											</div>
-											<div class="card-body">
-												<h6>
-													Faculty Coordinator <br />
-													Training and Placement Section <br />
-													NIT Warangal 506004 <br />
-													Mobile No. +91-9490164796
-												</h6>
-											</div>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -2140,6 +2132,23 @@
 			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
 			crossorigin="anonymous"
 		></script>
-
+		<script>
+			$(".my_class").on('click', function() {
+			// in the handler, 'this' refers to the box clicked on
+			var $box = $(this);
+			if ($box.is(":checked")) {
+				console.log("this was printed")
+				// the name of the box is retrieved using the .attr() method
+				// as it is assumed and expected to be immutable
+				var group = "input:checkbox[name='" + $box.attr("name") + "']";
+				// the checked state of the group/box on the other hand will change
+				// and the current value is retrieved using .prop() method
+				$(group).prop("checked", false);
+				$box.prop("checked", true);
+			} else {
+				$box.prop("checked", false);
+			}
+			});
+		</script>
 	{% endblock  %}
 	
