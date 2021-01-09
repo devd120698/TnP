@@ -84,7 +84,7 @@ class Companies(models.Model):
     other_fields_url = models.URLField(max_length=200,default='',null=True,blank=True)
 
     CGPA = models.FloatField(null=False, default = 7.0)
-    companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = True)
+    companyID = models.ForeignKey(Details,on_delete = models.CASCADE, null = False)
 
     def __str__(self) :
         return str(self.name)

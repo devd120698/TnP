@@ -113,7 +113,8 @@ def sign_in(request):
             if student_user is not None:
                 print(student_user.id)
                 student = StudentData.objects.get(userid = student_user.id)
-                if not ((student.registration_number[2:4]=='17' and student.course == 'B Tech') or (student.registration_number[2:4]=='18' and student.course in ['MCA' , 'Msc','Msc. Tech']) or (student.registration_number[2:4]=='19' and student.course in ['M Tech'])) :
+                print(student.course)
+                if not ((student.registration_number[2:4]=='17' and student.course in ['B Tech' ,'btech']) or (student.registration_number[2:4]=='18' and student.course in ['MCA' , 'Msc','Msc. Tech']) or (student.registration_number[2:4]=='19' and student.course in ['M Tech','mtech'])) :
                     messages.error(request , 'Not Authorized')
                     return render(request, 'authentication/log_in.html')
 
